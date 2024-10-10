@@ -1,11 +1,53 @@
 import React, { useState } from "react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import axios from 'axios'; // Import axios
 import Registration from "./Registration"; // Import the Registration component
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate(); // Initialize navigate for routing
   const [showPassword, setShowPassword] = useState(false);
   const [registration, setRegistration] = useState(true); // Control login/registration views
+
+  // Function to call the login API
+  const loginUser = async (email, password) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/api/v1/login',
+        { email, password },
+        { withCredentials: true }
+      );
+
+      if (response.status === 200 && response.data.success) {
+        const user = response.data.user;
+
+        // Store user data
+        localStorage.setItem('user', JSON.stringify(user));
+
+        // Redirect to dashboard based on role
+        if (user.role === 'admin') {
+          navigate('/admin-dashboard'); // Redirect to admin dashboard
+        } else {
+          navigate('/user-dashboard'); // Redirect to user dashboard
+        }
+      } else {
+        setError(response.data.message || 'Invalid credentials');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'An error occurred. Please try again later.');
+    }
+  };
+
+  // Function to handle login
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setError('');
+    loginUser(email, password);
+  };
 
   return (
     <div className={`min-h-screen flex items-center justify-center ${!registration ? "bg-gray-900 backdrop-blur-sm" : "bg-gray-900"}`}>
@@ -16,8 +58,8 @@ const Login = () => {
             <h2 className="text-2xl font-semibold text-white text-center">
               Login with ELearning
             </h2>
-
-            <form className="mt-8 space-y-6">
+            {error && <div className="error-message text-red-500">{error}</div>}
+            <form className="mt-8 space-y-6" onSubmit={handleLogin}>
               {/* Email Input */}
               <div className="relative">
                 <label className="block text-gray-400 mb-2">
@@ -27,6 +69,8 @@ const Login = () => {
                   type="email"
                   placeholder="loginmail@gmail.com"
                   className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white outline-none border border-gray-600 focus:border-blue-400"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
 
@@ -40,6 +84,8 @@ const Login = () => {
                     type={showPassword ? "text" : "password"}
                     placeholder="password!@%"
                     className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white outline-none border border-gray-600 focus:border-blue-400"
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
                   <button
                     type="button"
@@ -81,11 +127,11 @@ const Login = () => {
             </div>
           </>
         ) : (
-          <div className="fixed inset-0 flex items-center justify-center w-full backdrop-blur-sm bg-gray-900 bg-opacity-70 z-10 ">
-          <div className=" rounded-lg shadow-lg w-full z-20">
-            <Registration/>
+          <div className="fixed inset-0 flex items-center justify-center w-full backdrop-blur-sm bg-gray-900 bg-opacity-70 z-10">
+            <div className="rounded-lg shadow-lg w-full z-20">
+              <Registration />
+            </div>
           </div>
-        </div>
         )}
       </div>
     </div>
