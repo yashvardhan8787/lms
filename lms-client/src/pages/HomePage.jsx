@@ -1,9 +1,12 @@
 import React from "react";
-import Heroimg from "../assets/images/Heroimg.png";
+import Heroimg from "../../public/assets/images/Heroimg.png";
 import { FaSearch } from "react-icons/fa";
+import NavBar from "../components/NavBar";
 
 const HomePage = () => {
   return (
+  <>
+    <NavBar></NavBar>
     <div className="min-h-screen bg-gray-900 flex justify-center items-center">
       {/* Main Container */}
       <div className="flex items-center space-x-10 px-10 py-20">
@@ -58,6 +61,7 @@ const HomePage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

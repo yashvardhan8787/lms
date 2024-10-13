@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useState ,useContext } from "react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import axios from 'axios'; // Import axios
-import Registration from "./Registration"; // Import the Registration component
+import Registration from "./RegistrationForm"; // Import the Registration component
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
-
-const Login = () => {
+import {AuthContext} from "../contexts/AuthContext"
+const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Initialize navigate for routing
   const [showPassword, setShowPassword] = useState(false);
   const [registration, setRegistration] = useState(true); // Control login/registration views
-
+  const { login } = useContext(AuthContext);
   // Function to call the login API
   const loginUser = async (email, password) => {
     try {
@@ -22,18 +22,14 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      if (response.status === 200 && response.data.success) {
+      if (response?.status === 200 && response?.data?.success) {
         const user = response.data.user;
-
+        
         // Store user data
-        localStorage.setItem('user', JSON.stringify(user));
-
-        // Redirect to dashboard based on role
-        if (user.role === 'admin') {
-          navigate('/admin-dashboard'); // Redirect to admin dashboard
-        } else {
-          navigate('/user-dashboard'); // Redirect to user dashboard
-        }
+        login(JSON.stringify(user));
+        
+        // Redirect to dashboard 
+        navigate("/Dashboard")
       } else {
         setError(response.data.message || 'Invalid credentials');
       }
@@ -114,7 +110,16 @@ const Login = () => {
               <FaGoogle className="w-8 h-8 cursor-pointer" />
               <FaGithub className="w-8 h-8 cursor-pointer" />
             </div>
-
+            <div className="text-center text-gray-400">
+            if forgot your password ? 
+             <button
+                 onClick={() => navigate("/forgot-password")}
+                className="text-blue-400 font-semibold hover:underline"
+              >
+                click here 
+              </button>
+              <h6>or</h6>
+            </div>
             {/* Sign up Link */}
             <div className="text-center text-gray-400">
               Not have any account?{" "}
@@ -138,4 +143,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;
