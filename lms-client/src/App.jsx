@@ -11,7 +11,7 @@ import NotFoundErrorPage from "./components/NotFoundErrorPage";
 import UserDashboard from "./pages/userDashboard/UserDashboard";
 
 function App() {
-
+  
   return (
 
     
@@ -23,8 +23,10 @@ function App() {
         <Route path="/confirm-email" element={<EmailConfirmationForm/>} />
         <Route path="/forgot-password" element={<ForgetPasswordForm/>} />
         <Route path="/reset-password" element={<ResetPasswordForm/>} />
+
+        
         <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/*" element={<UserDashboard />} />
+        <Route path="/*" element={<UserDashboard  />} />
 
 
         <Route path="*" element={<NotFoundErrorPage />} />  {/* Wildcard route for 404 */}

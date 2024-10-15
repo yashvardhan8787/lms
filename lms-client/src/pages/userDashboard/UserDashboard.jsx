@@ -6,9 +6,10 @@ import AllCourses from './AllCourses';
 import MyCourses from './MyCourses';
 import NotificationPage from '../../components/NotificationPage';
 import UserProfile from '../../components/UserProfile';
+import CourseDetail from './CourseDetail';
 
 const UserDashboard = ({ user, onLogout }) => {
-  const navigate = useNavigate();
+ 
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -26,12 +27,12 @@ const UserDashboard = ({ user, onLogout }) => {
               </Link>
             </li>
             <li className="p-3 hover:bg-gray-700 rounded-lg">
-              <Link to="/all-courses" className="flex items-center space-x-2">
+              <Link to="/UserDashboard/all-courses" className="flex items-center space-x-2">
                 <FaBook /> <span>All Courses</span>
               </Link>
             </li>
             <li className="p-3 hover:bg-gray-700 rounded-lg">
-              <Link to="/my-courses" className="flex items-center space-x-2">
+              <Link to="/UserDashboard/my-courses" className="flex items-center space-x-2">
                 <FaBook /> <span>My Courses</span>
               </Link>
             </li>
@@ -47,19 +48,19 @@ const UserDashboard = ({ user, onLogout }) => {
           <div className="flex items-center space-x-4">
             {/* Notification Button */}
             <button className="relative">
-              <Link to="/user/notification">
+              <Link to="/UserDashboard/notification">
                 <FaBell className="text-gray-600 text-2xl" />
               </Link>
             </button>
             {/* User Profile */}
-            <Link to="/user/profile" className="flex items-center space-x-2">
+            <Link to="/UserDashboard/profile" className="flex items-center space-x-2">
               <FaUserCircle className="text-gray-600 text-2xl" />
               <span className="text-gray-600 font-medium">{user?.name}</span>
             </Link>
             {/* Logout Button */}
             <button
               className="flex items-center space-x-2 text-red-600 hover:text-red-800"
-              onClick={onLogout}
+              onClick={  onLogout }
             >
               <FaSignOutAlt className="text-xl" />
               <span>Logout</span>
@@ -71,10 +72,11 @@ const UserDashboard = ({ user, onLogout }) => {
         <div className="p-6">
           <Routes>
             <Route path="/UserDashboard/home" element={<Home />} />
-            <Route path="/all-courses" element={<AllCourses />} />
-            <Route path="/my-courses" element={<MyCourses />} />
-            <Route path="/user/notification" element={<NotificationPage />} />
-            <Route path="/user/profile" element={<UserProfile />} />
+            <Route path="/UserDashboard/all-courses" element={<AllCourses />} />
+            <Route path="/UserDashboard/my-courses" element={<MyCourses />} />
+            <Route path="/UserDashboard/notification" element={<NotificationPage />} />
+            <Route path="/UserDashboard/profile" element={<UserProfile />} />
+            <Route path="/courses/:courseId" element={<CourseDetail />} />
           </Routes>
         </div>
       </div>
