@@ -1,16 +1,8 @@
-import React, { useEffect } from 'react';
-import { Link, Route, Routes, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import { FaBell, FaUserCircle, FaHome, FaBook, FaSignOutAlt } from 'react-icons/fa'; // Importing icons from react-icons
-import Home from './Home';
-import AllCourses from './AllCourses';
-import MyCourses from './MyCourses';
-import NotificationPage from '../../components/NotificationPage';
-import UserProfile from '../../components/UserProfile';
-import CourseDetail from './CourseDetail';
 
 const UserDashboard = ({ user, onLogout }) => {
- 
-
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Side Navigation Bar */}
@@ -22,17 +14,17 @@ const UserDashboard = ({ user, onLogout }) => {
         <nav className="mt-10">
           <ul>
             <li className="p-3 hover:bg-gray-700 rounded-lg">
-              <Link to="/UserDashboard/home" className="flex items-center space-x-2">
+              <Link to="home" className="flex items-center space-x-2">
                 <FaHome /> <span>Home</span>
               </Link>
             </li>
             <li className="p-3 hover:bg-gray-700 rounded-lg">
-              <Link to="/UserDashboard/all-courses" className="flex items-center space-x-2">
+              <Link to="all-courses" className="flex items-center space-x-2">
                 <FaBook /> <span>All Courses</span>
               </Link>
             </li>
             <li className="p-3 hover:bg-gray-700 rounded-lg">
-              <Link to="/UserDashboard/my-courses" className="flex items-center space-x-2">
+              <Link to="my-courses" className="flex items-center space-x-2">
                 <FaBook /> <span>My Courses</span>
               </Link>
             </li>
@@ -48,19 +40,19 @@ const UserDashboard = ({ user, onLogout }) => {
           <div className="flex items-center space-x-4">
             {/* Notification Button */}
             <button className="relative">
-              <Link to="/UserDashboard/notification">
+              <Link to="notification">
                 <FaBell className="text-gray-600 text-2xl" />
               </Link>
             </button>
             {/* User Profile */}
-            <Link to="/UserDashboard/profile" className="flex items-center space-x-2">
+            <Link to="profile" className="flex items-center space-x-2">
               <FaUserCircle className="text-gray-600 text-2xl" />
               <span className="text-gray-600 font-medium">{user?.name}</span>
             </Link>
             {/* Logout Button */}
             <button
               className="flex items-center space-x-2 text-red-600 hover:text-red-800"
-              onClick={  onLogout }
+              onClick={onLogout}
             >
               <FaSignOutAlt className="text-xl" />
               <span>Logout</span>
@@ -68,16 +60,9 @@ const UserDashboard = ({ user, onLogout }) => {
           </div>
         </div>
 
-        {/* Content Area */}
+        {/* Content Area for Nested Routes */}
         <div className="p-6">
-          <Routes>
-            <Route path="/UserDashboard/home" element={<Home />} />
-            <Route path="/UserDashboard/all-courses" element={<AllCourses />} />
-            <Route path="/UserDashboard/my-courses" element={<MyCourses />} />
-            <Route path="/UserDashboard/notification" element={<NotificationPage />} />
-            <Route path="/UserDashboard/profile" element={<UserProfile />} />
-            <Route path="/courses/:courseId" element={<CourseDetail />} />
-          </Routes>
+          <Outlet /> {/* This will render the nested route components */}
         </div>
       </div>
     </div>
