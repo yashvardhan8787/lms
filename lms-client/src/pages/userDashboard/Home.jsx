@@ -2,57 +2,63 @@ import { useContext, useState } from "react";
 import { CourseContext } from "../../contexts/CourseContext";
 import CourseCard from "../../components/CourseCard";
 import { FaSearch } from "react-icons/fa";
+import { AiOutlineTrophy } from 'react-icons/ai'; // Leaderboard icon
+import Leaderboard from '../../components/Leaderboard';
 
 const Home = () => {
-  const { courses, loading } = useContext(CourseContext);
-  
-  // State to manage the search input
-  const [searchTerm, setSearchTerm] = useState('');
+  // Sample user data and courses from your provided data
+const user = {
+  success: true,
+  user: {
+    _id: "670239447d0ef19300c5fe3d",
+    name: "jay",
+    title: "Newbie",
+    about: "Hey there! I am a lifelong learner.",
+    streaks: 5,
+  },
+};
 
-  // Filter courses based on the search term
-  const filteredCourses = searchTerm === ''
-    ? courses // Show all courses if searchTerm is empty
-    : courses.filter((course) => {
-        return course?.name?.toLowerCase().includes(searchTerm.toLowerCase().trim());
-      });
-
-  if (loading) return <p className="text-center text-xl">Loading courses...</p>;
-
-  // Check if courses is an array
-  if (!Array.isArray(courses)) {
-    return <p className="text-center text-xl">No courses available</p>;
-  }
-
+const courses = [
+  {
+    _id: "67054fc6dc0ae74d8ec353a2",
+    name: "React for Beginners",
+    description: "Learn the basics of React.js and build dynamic web applications.",
+    price: 49.99,
+    thumbnailUrl: "https://example.com/react-image.jpg",
+  },
+  {
+    _id: "67055129dc0ae74d8ec353a4",
+    name: "Python for Beginners",
+    description: "Get started with Python and develop a strong foundation in programming.",
+    price: 59.99,
+    thumbnailUrl: "https://example.com/python-image.jpg",
+  },
+];
   return (
-    <div className="container mx-auto mt-6 px-4">
-     
+    <div className="p-6 bg-gray-100 min-h-screen">
+      {/* Welcome Section */}
+      <section className="text-center mb-8">
+        <h1 className="text-3xl font-semibold">Welcome, {user.name}!</h1>
+        <p className="text-gray-600">Title: {user.title} | About: {user.about}</p>
+      </section>
 
-      {/* Search Bar */}
-      <div className="flex items-center mb-6">
-        <div className="relative w-full ">
-          <input
-            type="text"
-            placeholder="            Search courses..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)} // Update search term state
-            className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-          />
-          <span className="absolute left-3 top-1/2 transform -translate-y-1/2  text-gray-500">
-            <FaSearch />
-          </span>
+      {/* Leaderboard Section */}
+      <section className="my-8">
+        <h2 className="text-2xl font-bold flex items-center justify-center">
+          <AiOutlineTrophy className="mr-2" /> Leaderboard
+        </h2>
+        <Leaderboard user={user} />
+      </section>
+
+      {/* Courses Section */}
+      <section className="my-8">
+        <h2 className="text-2xl font-bold text-center mb-4">Available Courses</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {courses.map(course => (
+            <CourseCard key={course._id} course={course} />
+          ))}
         </div>
-      </div>
-
-      {/* Courses Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCourses.length > 0 ? (
-          filteredCourses.map((course, index) => (
-            <CourseCard key={index} course={course} />
-          ))
-        ) : (
-          <p className="text-center text-xl">No courses found matching "{searchTerm}"</p>
-        )}
-      </div>
+      </section>
     </div>
   );
 };

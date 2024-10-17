@@ -13,6 +13,31 @@ const FAQ = () => {
       question: "Are the courses live?",
       answer: "No, the courses are pre-recorded and you can access them at any time.",
     },
+
+    {
+      question: "For how many months can I access my purchased course?",
+      answer: "For 12 months",
+    },
+    {
+      question: "Are the courses live?",
+      answer: "No, the courses are pre-recorded and you can access them at any time.",
+    },
+    {
+      question: "For how many months can I access my purchased course?",
+      answer: "For 12 months",
+    },
+    {
+      question: "Are the courses live?",
+      answer: "No, the courses are pre-recorded and you can access them at any time.",
+    },
+    {
+      question: "For how many months can I access my purchased course?",
+      answer: "For 12 months",
+    },
+    {
+      question: "Are the courses live?",
+      answer: "No, the courses are pre-recorded and you can access them at any time.",
+    },
     // Add more questions as needed
   ];
 

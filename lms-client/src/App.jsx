@@ -20,7 +20,7 @@ import Footer from "./components/Footer";
 import Courses from "./pages/Courses";
 import About from "./pages/About";
 import Policy from "./pages/Policy";
-import FAQ from "./pages/Faq";
+import FAQ from "./pages/FAQ";
 
 function App() {
   return (
@@ -40,16 +40,15 @@ function App() {
           <Route path="/confirm-email" element={<EmailConfirmationForm />} />
           <Route path="/forgot-password" element={<ForgetPasswordForm />} />
           <Route path="/reset-password" element={<ResetPasswordForm />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          {/* Nested routes under UserDashboard */}
-          <Route path="/userdasboard" element={<UserDashboard />}>
+          <Route path="/dashboard" element={<Dashboard />} >
             <Route path="home" element={<Home />} />
             <Route path="all-courses" element={<AllCourses />} />
             <Route path="my-courses" element={<MyCourses />} />
             <Route path="notification" element={<NotificationPage />} />
             <Route path="profile" element={<UserProfile />} />
-            <Route path=":courseId" element={<CourseDetail />} />
           </Route>
+          <Route path="courses/:courseId" element={<CourseDetail />} />
+          {/* Nested routes under UserDashboard */}
           <Route path="*" element={<NotFoundErrorPage />} />{" "}
           {/* Wildcard route for 404 */}
         </Routes>

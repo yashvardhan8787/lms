@@ -52,9 +52,11 @@ const NavBar = () => {
         ) : (
           <button
             className="focus:outline-none"
-            onClick={() => setLoginPopUp(!loginPopUp)}
+     //onclick function          onClick={}
           >
-            Login
+             <Link to="/login" className="text-teal-400 hover:underline">
+           Login
+          </Link>
           </button>
         )}
       </div>
