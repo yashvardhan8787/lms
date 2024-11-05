@@ -2,10 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import ErrorHandler from "../utils/ErrorHandler";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
 import { generateLast12MothsData } from "../utils/analytics.generator";
-import userModel from "../models/user.model";
-import CourseModel from "../models/course.model";
 import OrderModel from "../models/order.Model";
-
+import { Course } from "../models/course.model";
+import userModel from "../models/user.model";
 // get users analytics --- only for admin
 export const getUsersAnalytics = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -26,7 +25,7 @@ export const getUsersAnalytics = CatchAsyncError(
 export const getCoursesAnalytics = CatchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const courses = await generateLast12MothsData(CourseModel);
+        const courses = await generateLast12MothsData(userModel);
   
         res.status(200).json({
           success: true,

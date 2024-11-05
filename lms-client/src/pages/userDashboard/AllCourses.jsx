@@ -7,6 +7,7 @@ import React from 'react';
 
 const AllCourses = () => {
   const { courses, loading } = useContext(CourseContext);
+  console.log(courses);
   
   // State to manage the search input
   const [searchTerm, setSearchTerm] = useState('');

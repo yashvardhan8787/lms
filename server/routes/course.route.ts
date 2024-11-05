@@ -83,6 +83,7 @@ import {
   getQuizById,
   deleteQuiz,
   evaluateQuiz,
+  getAllReviews,
   createReview,
   replyToReview,
   deleteReview
@@ -114,9 +115,11 @@ router.delete('/quiz/:id', isAutheticated, deleteQuiz);               // Delete 
 router.post('/quiz/evaluate',isAutheticated, evaluateQuiz);          // Evaluate a quiz
 
 // Review Routes
-router.post('/review/create',isAutheticated, createReview);          // Create a review
-router.post('/review/reply',isAutheticated, replyToReview);          // Reply to a review
-router.delete('/review/:id',isAutheticated, deleteReview);           // Delete a review
+router.post('/review/create', createReview);          // Create a review
+router.post('/review/reply', replyToReview);          // Reply to a review
+router.delete('/review/:id', deleteReview);           // Delete a review
+router.get('/courses/:courseId/reviews', getAllReviews);   // For course reviews
+router.get('/lectures/:lectureId/reviews', getAllReviews); // For lecture reviews
 
 export default router;
 

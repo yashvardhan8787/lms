@@ -5,7 +5,7 @@ import { Quiz } from '../models/course.model';
 import { Review } from '../models/course.model';
 import { IUser } from '../models/user.model';
 import { UserProgress } from '../models/course.model';
-
+import mongoose from 'mongoose';
 // Create a new course
 export const createCourse = async (req: Request, res: Response) => {
   try {
@@ -243,75 +243,32 @@ export const evaluateQuiz = async (req: Request, res: Response) => {
 };
 
 
-// Create a review for a course or lecture
-export const createReview = async (req: Request, res: Response) => {
-  try {
-    const { userId, comment, rating } = req.body;
-    const review = new Review({
-      user: userId,
-      comment,
-      rating,
-    });
-    
-    await review.save();
-    res.status(201).json({ success: true, message: 'Review created successfully', review });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Failed to create review', error });
-  }
-};
-
-// Reply to a review
-export const replyToReview = async (req: Request, res: Response) => {
-  try {
-    const { reviewId, comment } = req.body;
-
-    const review = await Review.findById(reviewId);
-    if (!review) {
-      return res.status(404).json({ success: false, message: 'Review not found' });
-    }
-
-    const commentReplies = review.commentReplies;
-    commentReplies?.push(comment);
-    await review.save();
-
-    res.status(200).json({ success: true, message: 'Replied to review successfully', review });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Failed to reply to review', error });
-  }
-};
-
-// Delete a review
-export const deleteReview = async (req: Request, res: Response) => {
-  try {
-    const reviewId = req.params.id;
-    await Review.findByIdAndDelete(reviewId);
-    res.status(200).json({ success: true, message: 'Review deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Failed to delete review', error });
-  }
-};
-
-
-
-
 
 
 export const updateCourse = async (req: Request, res: Response) => {
   try {
-    const { courseId } = req.params;
+    // Assuming your route is /api/courses/:id
+    const { id } = req.params; // Use 'id' if route uses ':id'
+
+    // Validate if the courseId (id) is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid course ID' });
+    }
+
+    // Find the course by its ID
+    const course = await Course.findById(id); // Use 'id' here as well
+    if (!course) {
+      return res.status(404).json({ success: false, message: 'Course not found' });
+    }
+
+    // Proceed with updating the course (rest of the update logic)
     const {
       name, description, categories, price, thumbnailUrl, tags, level,
       benefits, prerequisites, lectures, badges, totalQuizzes,
       totalLectures, totalDuration
     } = req.body;
 
-    // Find the course by its ID
-    const course = await Course.findById(courseId);
-    if (!course) {
-      return res.status(404).json({ success: false, message: 'Course not found' });
-    }
-
-    // Update all course fields if they exist in the request body
+    // Update course fields
     if (name) course.name = name;
     if (description) course.description = description;
     if (categories) course.categories = categories;
@@ -333,5 +290,112 @@ export const updateCourse = async (req: Request, res: Response) => {
     return res.status(200).json({ success: true, message: 'Course updated successfully', course });
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Failed to update course', error });
+  }
+};
+
+
+
+
+// Create a review for a course or lecture
+export const createReview = async (req: Request, res: Response) => {
+  try {
+    const { userId, comment, rating, courseId, lectureId } = req.body; // Include courseId or lectureId
+    if (!courseId && !lectureId) {
+      return res.status(400).json({ success: false, message: 'Either courseId or lectureId must be provided' });
+    }
+
+    const review = new Review({
+      user: userId,
+      comment,
+      rating,
+    });
+    
+    await review.save();
+
+    // Associate review with course or lecture
+    if (courseId) {
+      await Course.findByIdAndUpdate(courseId, { $push: { reviews: review._id } });
+    } else if (lectureId) {
+      await Lecture.findByIdAndUpdate(lectureId, { $push: { reviews: review._id } });
+    }
+
+    res.status(201).json({ success: true, message: 'Review created successfully', review });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to create review', error });
+  }
+};
+
+
+// Reply to a review
+export const replyToReview = async (req: Request, res: Response) => {
+  try {
+    const { reviewId, comment , user } = req.body;
+
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      return res.status(404).json({ success: false, message: 'Review not found' });
+    }
+
+ // Create a new reply review document
+ const reply = new Review({
+  user: user,
+  comment,
+  commentReplies: [], // Empty array for replies to this reply if any
+  createdAt: new Date(),
+  updatedAt: new Date()
+});
+
+// Save the reply
+await reply.save();
+
+// Add the reply ID to the commentReplies array of the parent review
+review.commentReplies?.push(reply._id);
+await review.save();
+
+res.status(200).json({ success: true, message: 'Replied to review successfully', reply });
+} catch (error) {
+res.status(500).json({ success: false, message: 'Failed to reply to review', error });
+}
+};
+
+// Delete a review
+export const deleteReview = async (req: Request, res: Response) => {
+  try {
+    const reviewId = req.params.id;
+    await Review.findByIdAndDelete(reviewId);
+    res.status(200).json({ success: true, message: 'Review deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to delete review', error });
+  }
+};
+
+
+// Get all reviews for a specific course or lecture
+export const getAllReviews = async (req: Request, res: Response) => {
+  try {
+    const { courseId, lectureId } = req.params;
+
+    let reviews;
+    if (courseId) {
+      // Find reviews related to the specified course
+      const course = await Course.findById(courseId).populate('reviews');
+      if (!course) {
+        return res.status(404).json({ success: false, message: 'Course not found' });
+      }
+      reviews = course.reviews;
+    } else if (lectureId) {
+      // Find reviews related to the specified lecture
+      const lecture = await Lecture.findById(lectureId).populate('reviews');
+      if (!lecture) {
+        return res.status(404).json({ success: false, message: 'Lecture not found' });
+      }
+      reviews = lecture.reviews;
+    } else {
+      return res.status(400).json({ success: false, message: 'Either courseId or lectureId must be provided' });
+    }
+
+    res.status(200).json({ success: true, reviews });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to fetch reviews', error });
   }
 };

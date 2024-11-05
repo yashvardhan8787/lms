@@ -7,9 +7,6 @@ import LoginForm from "./LoginForm";
 const NavBar = () => {
   const [login, setLogin] = useState(false);
   const [loginPopUp, setLoginPopUp] = useState(false);
-
-  console.log(loginPopUp);
-
   return (
     <nav className="bg-gray-900 text-white p-4 flex justify-between items-center">
       <div className="text-2xl font-bold">ELearning</div>

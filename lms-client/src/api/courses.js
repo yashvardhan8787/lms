@@ -32,10 +32,6 @@ export const deleteCourse = async (courseId) => {
   return await API.delete(`/${courseId}`);
 };
 
-// Add a lecture to a course (for Admin)
-export const addLecture = async (courseId, lectureData) => {
-  return await API.post(`/${courseId}/lectures`, lectureData);
-};
 
 // Fetch all lectures for a course
 export const getLecturesForCourse = async (courseId) => {

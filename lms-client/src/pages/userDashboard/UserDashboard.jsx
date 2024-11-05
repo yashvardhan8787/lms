@@ -38,12 +38,6 @@ const UserDashboard = ({ user, onLogout }) => {
         <div className="bg-white shadow-md p-4 flex justify-between items-center">
           <div className="text-xl font-semibold">E-learning</div>
           <div className="flex items-center space-x-4">
-            {/* Notification Button */}
-            <button className="relative">
-              <Link to="notification">
-                <FaBell className="text-gray-600 text-2xl" />
-              </Link>
-            </button>
             {/* User Profile */}
             <Link to="profile" className="flex items-center space-x-2">
               <FaUserCircle className="text-gray-600 text-2xl" />

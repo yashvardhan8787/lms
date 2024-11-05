@@ -1,6 +1,5 @@
-// CourseContext.js
-import React, { createContext, useState, useEffect } from 'react';
-import { getAllCourses } from '../api/courses'; // Import the API call
+import React, { createContext, useState, useEffect, useCallback } from 'react';
+import { getAllCourses, getLecturesForCourse } from '../api/courses'; // Import the API call
 
 // Create the CourseContext
 export const CourseContext = createContext();
@@ -8,27 +7,43 @@ export const CourseContext = createContext();
 // CourseContext Provider Component
 export const CourseProvider = ({ children }) => {
   const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [lectures, setLectures] = useState([]);
+  const [loadingCourses, setLoadingCourses] = useState(true);
+  const [loadingLectures, setLoadingLectures] = useState(false); // Separate loading state for lectures
+  const [error, setError] = useState(null);
 
   // Fetch courses when the component mounts
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await getAllCourses(); // API call
-        console.log(response.data); // Log the response
+        const response = await getAllCourses(); // API call 
         setCourses(response.data.courses); // Assuming response.data is an array of courses
       } catch (error) {
-        console.error("Error fetching courses:", error);
+        setError("Error fetching courses:", error);
       } finally {
-     setLoading(false);
+        setLoadingCourses(false);
       }
     };
 
     fetchCourses();
   }, []);
 
+  // Fetch lectures for a specific course
+  const fetchLectures = useCallback(async (courseId) => {
+    setLoadingLectures(true);
+    setError(null);
+    try {
+      const response = await getLecturesForCourse(courseId); 
+      setLectures(response.data); // Assuming response.data contains lectures
+    } catch (error) {
+      setError('Error fetching lectures');
+    } finally {
+      setLoadingLectures(false);
+    }
+  }, []);
+
   return (
-    <CourseContext.Provider value={{ courses, loading }}>
+    <CourseContext.Provider value={{ courses, lectures, fetchLectures, loadingCourses, loadingLectures, error }}>
       {children}
     </CourseContext.Provider>
   );

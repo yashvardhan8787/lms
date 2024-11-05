@@ -26,7 +26,7 @@ const LoginForm = () => {
         const user = response.data.user;
         
         // Store user data
-        login(JSON.stringify(user));
+        login(JSON.stringify(user),response?.data?.accessToken);
         
         // Redirect to dashboard 
         navigate("/Dashboard")

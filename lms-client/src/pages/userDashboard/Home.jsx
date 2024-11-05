@@ -6,6 +6,7 @@ import { AiOutlineTrophy } from 'react-icons/ai'; // Leaderboard icon
 import Leaderboard from '../../components/Leaderboard';
 
 const Home = () => {
+  const { courses} = useContext(CourseContext);
   // Sample user data and courses from your provided data
 const user = {
   success: true,
@@ -18,22 +19,6 @@ const user = {
   },
 };
 
-const courses = [
-  {
-    _id: "67054fc6dc0ae74d8ec353a2",
-    name: "React for Beginners",
-    description: "Learn the basics of React.js and build dynamic web applications.",
-    price: 49.99,
-    thumbnailUrl: "https://example.com/react-image.jpg",
-  },
-  {
-    _id: "67055129dc0ae74d8ec353a4",
-    name: "Python for Beginners",
-    description: "Get started with Python and develop a strong foundation in programming.",
-    price: 59.99,
-    thumbnailUrl: "https://example.com/python-image.jpg",
-  },
-];
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       {/* Welcome Section */}

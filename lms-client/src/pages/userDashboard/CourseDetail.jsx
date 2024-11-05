@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { CourseContext } from '../../contexts/CourseContext';
+import ReviewSection from '../../components/ReviewSection';
+
 
 const CourseDetail = () => {
     const { courseId } = useParams(); // Get the course ID from the URL
     const { courses } = useContext(CourseContext);
     const [course, setCourse] = useState(null);
+   
 
     useEffect(() => {
         // Find the course by ID
@@ -24,7 +27,7 @@ const CourseDetail = () => {
                     <img
                         src={course.thumbnailUrl}
                         alt={course.name}
-                        className="w-full h-64 object-cover rounded-lg shadow-lg"
+                        className="w-full h-96 object-cover rounded-lg shadow-lg"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                         <h1 className="text-4xl font-bold text-white">{course.name}</h1>
@@ -73,14 +76,16 @@ const CourseDetail = () => {
 
             {/* Roadmap Section */}
             {course.roadmapPicUrl && (
+                <a href={course.roadmapPicUrl}>
                 <div className="mt-6">
                     <h2 className="text-xl font-semibold mb-4">Course Roadmap</h2>
                     <img
                         src={course.roadmapPicUrl}
-                        alt="Course Roadmap"
-                        className="w-full h-auto rounded-lg shadow-lg"
+                        alt="Course Roadmap isn't avialable"
+                        className="will-change-auto h-96 rounded-lg shadow-lg"
                     />
                 </div>
+                </a>
             )}
 
             {/* Lectures Section */}
@@ -102,14 +107,9 @@ const CourseDetail = () => {
                                 <p className="text-gray-600">{lecture.description}</p>
                                 <p className="text-sm text-gray-500">Duration: {lecture.duration} mins</p>
                                 {lecture.isVideoLecture ? (
-                                    <a
-                                        href={lecture.videoUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-blue-500 hover:underline"
-                                    >
-                                        Watch Video
-                                    </a>
+                                    <Link  to={`/course/${courseId}/lecture/${lecture._id}`}>
+                                        Watch Lecture
+                                    </Link>
                                 ) : lecture.isQuiz ? (
                                     <p className="text-blue-500">Quiz</p>
                                 ) : null}
@@ -118,6 +118,11 @@ const CourseDetail = () => {
                     ))}
                 </div>
             </div>
+
+                {/* Reviews Section */}
+                <ReviewSection
+                 courseId = {course._id}
+                ></ReviewSection>
         </div>
     );
 };

@@ -21,9 +21,12 @@ import Courses from "./pages/Courses";
 import About from "./pages/About";
 import Policy from "./pages/Policy";
 import FAQ from "./pages/FAQ";
+import CloudinaryUploadForm from "../src/components/CloudinaryUploadForm"
+import LecturePage from "./components/LecturePage";
 
 function App() {
   return (
+    // <CloudinaryUploadForm></CloudinaryUploadForm>
     <>
       <header className="fixed top-0 left-0 right-0 z-10">
         <NavBar />
@@ -44,10 +47,10 @@ function App() {
             <Route path="home" element={<Home />} />
             <Route path="all-courses" element={<AllCourses />} />
             <Route path="my-courses" element={<MyCourses />} />
-            <Route path="notification" element={<NotificationPage />} />
             <Route path="profile" element={<UserProfile />} />
           </Route>
           <Route path="courses/:courseId" element={<CourseDetail />} />
+          <Route path="/course/:courseId/lecture/:lectureId" element={<LecturePage/>} />
           {/* Nested routes under UserDashboard */}
           <Route path="*" element={<NotFoundErrorPage />} />{" "}
           {/* Wildcard route for 404 */}
