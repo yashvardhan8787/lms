@@ -21,42 +21,55 @@ import Courses from "./pages/Courses";
 import About from "./pages/About";
 import Policy from "./pages/Policy";
 import FAQ from "./pages/FAQ";
-import CloudinaryUploadForm from "../src/components/CloudinaryUploadForm"
+import CloudinaryUploadForm from "../src/components/CloudinaryUploadForm";
 import LecturePage from "./components/LecturePage";
+import Sidebar from "./components/ui/SideBar";
 
 function App() {
   return (
     // <CloudinaryUploadForm></CloudinaryUploadForm>
     <>
-      <header className="fixed top-0 left-0 right-0 z-10">
-        <NavBar />
-      </header>
-      <main className="flex-grow pt-16">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/policy" element={<Policy />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegistrationForm />} />
-          <Route path="/confirm-email" element={<EmailConfirmationForm />} />
-          <Route path="/forgot-password" element={<ForgetPasswordForm />} />
-          <Route path="/reset-password" element={<ResetPasswordForm />} />
-          <Route path="/dashboard" element={<Dashboard />} >
-            <Route path="home" element={<Home />} />
-            <Route path="all-courses" element={<AllCourses />} />
-            <Route path="my-courses" element={<MyCourses />} />
-            <Route path="profile" element={<UserProfile />} />
-          </Route>
-          <Route path="courses/:courseId" element={<CourseDetail />} />
-          <Route path="/course/:courseId/lecture/:lectureId" element={<LecturePage/>} />
-          {/* Nested routes under UserDashboard */}
-          <Route path="*" element={<NotFoundErrorPage />} />{" "}
-          {/* Wildcard route for 404 */}
-        </Routes>
-      </main>
-      <Footer className="fixed bottom-0 left-0 right-0" />
+      <div className="flex bg-purple-700">
+        <div className="p-5">
+          <Sidebar />
+        </div>
+
+        <main className="flex-grow p-5 ">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/courses"
+              element={
+                <div className="flex-grow overflow-hidden">
+                  <Courses />
+                </div>
+              }
+            />
+            <Route path="/about" element={<About />} />
+            <Route path="/policy" element={<Policy />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegistrationForm />} />
+            <Route path="/confirm-email" element={<EmailConfirmationForm />} />
+            <Route path="/forgot-password" element={<ForgetPasswordForm />} />
+            <Route path="/reset-password" element={<ResetPasswordForm />} />
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="home" element={<Home />} />
+              <Route path="all-courses" element={<AllCourses />} />
+              <Route path="my-courses" element={<MyCourses />} />
+              <Route path="profile" element={<UserProfile />} />
+            </Route>
+            <Route path="courses/:courseId" element={<CourseDetail />} />
+            <Route
+              path="/course/:courseId/lecture/:lectureId"
+              element={<LecturePage />}
+            />
+            {/* Nested routes under UserDashboard */}
+            <Route path="*" element={<NotFoundErrorPage />} />{" "}
+            {/* Wildcard route for 404 */}
+          </Routes>
+        </main>
+      </div>
     </>
   );
 }
