@@ -1,146 +1,142 @@
-import React, { useState ,useContext } from "react";
+import React, { useState, useContext } from "react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import axios from 'axios'; // Import axios
-import Registration from "./RegistrationForm"; // Import the Registration component
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
-import {AuthContext} from "../contexts/AuthContext"
+import axios from "axios";
+import Registration from "./RegistrationForm";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import logo from "../../public/assets/images/Heroimg.png"; // Replace with the actual path to your logo image
+
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate(); // Initialize navigate for routing
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [registration, setRegistration] = useState(true); // Control login/registration views
+  const [registration, setRegistration] = useState(true);
   const { login } = useContext(AuthContext);
-  // Function to call the login API
+
   const loginUser = async (email, password) => {
     try {
       const response = await axios.post(
-        'http://localhost:8080/api/v1/login',
+        "http://localhost:8080/api/v1/login",
         { email, password },
         { withCredentials: true }
       );
 
       if (response?.status === 200 && response?.data?.success) {
         const user = response.data.user;
-        
-        // Store user data
-        login(JSON.stringify(user),response?.data?.accessToken);
-        
-        // Redirect to dashboard 
-        navigate("/Dashboard")
+        login(JSON.stringify(user), response?.data?.accessToken);
+        navigate("/Dashboard");
       } else {
-        setError(response.data.message || 'Invalid credentials');
+        setError(response.data.message || "Invalid credentials");
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'An error occurred. Please try again later.');
+      setError(err.response?.data?.message || "An error occurred. Please try again later.");
     }
   };
 
-  // Function to handle login
   const handleLogin = (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     loginUser(email, password);
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center ${!registration ? "bg-gray-900 backdrop-blur-sm" : "bg-gray-900"}`}>
-      <div className="w-full max-w-md p-8 space-y-6 bg-gray-800 shadow-lg rounded-xl">
-        {/* Conditional rendering for Login or Registration */}
-        {registration ? (
-          <>
-            <h2 className="text-2xl font-semibold text-white text-center">
-              Login with ELearning
-            </h2>
-            {error && <div className="error-message text-red-500">{error}</div>}
-            <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-              {/* Email Input */}
-              <div className="relative">
-                <label className="block text-gray-400 mb-2">
-                  Enter your Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="loginmail@gmail.com"
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white outline-none border border-gray-600 focus:border-blue-400"
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="flex w-full max-w-4xl shadow-lg rounded-2xl overflow-hidden">
+        
+        {/* Left Section - Image */}
+        <div className="hidden md:flex flex-col justify-center items-center bg-gray-50 p-6">
+          <img src={logo} alt="Illustration" className="w-80 h-auto" />
+        </div>
+        
+        {/* Right Section - Form */}
+        <div className="w-full md:w-1/2 p-8 bg-white flex flex-col justify-center">
+          <div className="text-center mb-6">
+            <img src={logo} alt="Logo" className="w-12 h-12 mx-auto mb-2" />
+            <h2 className="text-3xl font-semibold text-gray-800">IPL SOLUTIONS</h2>
+            <p className="text-sm text-gray-500">Information Processing Laboratory</p>
+          </div>
 
-              {/* Password Input */}
-              <div className="relative">
-                <label className="block text-gray-400 mb-2">
-                  Enter your password
-                </label>
+          {/* Login or Registration View */}
+          {registration ? (
+            <>
+              <h3 className="text-xl font-semibold text-center text-gray-800 mb-4">
+                Login to Your Account
+              </h3>
+              {error && <div className="text-center text-red-500 mb-4">{error}</div>}
+              
+              <form className="space-y-4" onSubmit={handleLogin}>
+                {/* Email Input */}
+                <div className="relative">
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:border-purple-500"
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+
+                {/* Password Input */}
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
-                    placeholder="password!@%"
-                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white outline-none border border-gray-600 focus:border-blue-400"
+                    placeholder="Password"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:border-purple-500"
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-4 flex items-center text-gray-400"
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-500"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
                   </button>
                 </div>
-              </div>
 
-              {/* Login Button */}
-              <div>
+                {/* Login Button */}
                 <button
                   type="submit"
-                  className="w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition"
+                  className="w-full bg-purple-700 text-white py-3 rounded-lg font-semibold hover:bg-purple-800 transition duration-200"
                 >
-                  Login
+                  LOGIN
+                </button>
+              </form>
+
+              {/* Social Login */}
+              <div className="text-center text-gray-500 my-4">or</div>
+              <button className="flex items-center justify-center w-full bg-white border border-gray-300 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                <FaGoogle className="mr-2" /> Login with Google
+              </button>
+
+              {/* Forgot Password & Sign Up */}
+              <div className="flex justify-between text-sm mt-4">
+                <button
+                  onClick={() => navigate("/forgot-password")}
+                  className="text-blue-500 hover:underline"
+                >
+                  Forgot Password?
+                </button>
+                <button
+                  onClick={() => setRegistration(false)}
+                  className="text-blue-500 hover:underline"
+                >
+                  Sign Up
                 </button>
               </div>
-            </form>
-
-            {/* Social Login */}
-            <div className="text-center text-gray-400">Or join with</div>
-            <div className="flex justify-center space-x-6 text-white">
-              <FaGoogle className="w-8 h-8 cursor-pointer" />
-              <FaGithub className="w-8 h-8 cursor-pointer" />
-            </div>
-            <div className="text-center text-gray-400">
-            if forgot your password ? 
-             <button
-                 onClick={() => navigate("/forgot-password")}
-                className="text-blue-400 font-semibold hover:underline"
-              >
-                click here 
-              </button>
-              <h6>or</h6>
-            </div>
-            {/* Sign up Link */}
-            <div className="text-center text-gray-400">
-              Not have any account?{" "}
-              <button
-                onClick={() => setRegistration(false)} // Switch to registration view
-                className="text-blue-400 font-semibold hover:underline"
-              >
-                Sign up
-              </button>
-            </div>
-          </>
-        ) : (
-          <div className="fixed inset-0 flex items-center justify-center w-full backdrop-blur-sm bg-gray-900 bg-opacity-70 z-10">
-            <div className="rounded-lg shadow-lg w-full z-20">
-              <Registration />
-            </div>
-          </div>
-        )}
+            </>
+          ) : (
+            <Registration />
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
 export default LoginForm;
+
+

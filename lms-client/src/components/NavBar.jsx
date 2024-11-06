@@ -49,7 +49,6 @@ const NavBar = () => {
         ) : (
           <button
             className="focus:outline-none"
-     //onclick function          onClick={}
           >
              <Link to="/login" className="text-teal-400 hover:underline">
            Login
