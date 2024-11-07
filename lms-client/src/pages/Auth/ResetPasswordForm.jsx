@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { resetPassword } from '../api/auth'; // Assuming the API call is defined here
+import { resetPassword } from '../../api/auth'; // Assuming the API call is defined here
 import { useNavigate } from 'react-router-dom';
 
 const ResetPasswordForm = () => {
@@ -7,7 +7,7 @@ const ResetPasswordForm = () => {
   const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const navigate = useNavigate();  // Use navigate at the top
+  const navigate = useNavigate();
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -25,14 +25,10 @@ const ResetPasswordForm = () => {
     }
 
     try {
-      // Ensure you're passing the correct data structure
-      const response = await resetPassword(otp, newPassword );
-      
+      const response = await resetPassword(otp, newPassword);
       if (response.status === 201) {
         setSuccess('Your password has been successfully reset.');
         setError('');
-        
-        // Redirect to login after success
         setTimeout(() => navigate('/login'), 2000);
       } else {
         setError(response.data?.message || 'Something went wrong.');
@@ -44,28 +40,25 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <div className="w-full max-w-md p-8 space-y-6 bg-gray-800 shadow-lg rounded-xl">
-        <h2 className="text-3xl font-bold text-white text-center">
-          Reset your password
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8">
+        <h2 className="text-2xl font-bold text-center text-gray-700">
+          Reset Password
         </h2>
-        <p className="text-gray-400 text-center">
-          Enter the code you received in your email along with your new password.
+        <p className="text-center text-gray-500 mb-6">
+          Enter the OTP and your new password
         </p>
 
         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
         {success && <div className="text-green-500 text-center mb-4">{success}</div>}
 
-        <form className="space-y-6" onSubmit={handleResetPassword}>
+        <form onSubmit={handleResetPassword} className="space-y-4">
           {/* OTP Input */}
           <div>
-            <label className="block text-gray-400 mb-2">
-              Code Sent to Your Email
-            </label>
             <input
               type="text"
               placeholder="Enter OTP"
-              className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white outline-none border border-gray-600 focus:border-blue-400"
+              className="w-full px-4 py-3 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               required
@@ -74,13 +67,10 @@ const ResetPasswordForm = () => {
 
           {/* New Password Input */}
           <div>
-            <label className="block text-gray-400 mb-2">
-              New Password
-            </label>
             <input
               type="password"
-              placeholder="Enter new password"
-              className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white outline-none border border-gray-600 focus:border-blue-400"
+              placeholder="New Password"
+              className="w-full px-4 py-3 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
@@ -88,20 +78,18 @@ const ResetPasswordForm = () => {
           </div>
 
           {/* Submit Button */}
-          <div>
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition"
-            >
-              Reset Password
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-3 bg-purple-700 text-white rounded-lg font-semibold hover:bg-purple-900 transition duration-200"
+          >
+            Reset Password
+          </button>
         </form>
 
-        {/* Instructions */}
-        <div className="text-gray-400 text-sm text-center mt-4">
-          Back to{' '}
-          <a href="/login" className="text-blue-400 hover:underline">
+        {/* Link to Login */}
+        <div className="text-center text-gray-500 text-sm mt-6">
+          Remembered your password?{' '}
+          <a href="/login" className="text-blue-500 hover:underline">
             Login
           </a>
         </div>

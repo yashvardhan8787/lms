@@ -2,12 +2,13 @@ import React, { useState, useContext } from "react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import axios from "axios";
-import Registration from "./RegistrationForm";
+import Registration from "./RegistrationPage";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
-import logo from "../../public/assets/images/Heroimg.png"; // Replace with the actual path to your logo image
+import { AuthContext } from "../../contexts/AuthContext";
+import logo from "../../../public/assets/images/Heroimg.png";
+import icon from "../../../public/assets/images/image.png";
 
-const LoginForm = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -47,16 +48,16 @@ const LoginForm = () => {
       <div className="flex w-full max-w-4xl shadow-lg rounded-2xl overflow-hidden">
         
         {/* Left Section - Image */}
-        <div className="hidden md:flex flex-col justify-center items-center bg-gray-50 p-6">
+        <div className="hidden md:flex flex-col justify-center items-center bg-gray-50 p-16">
           <img src={logo} alt="Illustration" className="w-80 h-auto" />
         </div>
         
         {/* Right Section - Form */}
         <div className="w-full md:w-1/2 p-8 bg-white flex flex-col justify-center">
           <div className="text-center mb-6">
-            <img src={logo} alt="Logo" className="w-12 h-12 mx-auto mb-2" />
-            <h2 className="text-3xl font-semibold text-gray-800">IPL SOLUTIONS</h2>
-            <p className="text-sm text-gray-500">Information Processing Laboratory</p>
+            <img src={icon} alt="Logo" className="w-12 h-12 mx-auto mb-2" />
+            <h2 className="text-3xl font-semibold text-gray-800">EduEra</h2>
+            <p className="text-sm text-gray-500">Make Learning Easy</p>
           </div>
 
           {/* Login or Registration View */}
@@ -129,7 +130,7 @@ const LoginForm = () => {
               </div>
             </>
           ) : (
-            <Registration />
+            navigate("/register")
           )}
         </div>
       </div>
@@ -137,6 +138,6 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;
 
 

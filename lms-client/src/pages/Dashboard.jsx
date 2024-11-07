@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { getUserInfo, logoutUser } from '../api/auth'; // Import your API calls
 import { useNavigate } from 'react-router-dom';
-import AdminDashboard from './adminDashboard/AdminDashboard';
-import UserDashboard from './userDashboard/UserDashboard';
+import AdminDashboard from './Admin/AdminDashboard';
+import UserDashboard from './Client/UserDashboard';
 import { AuthContext } from '../contexts/AuthContext';
 
 

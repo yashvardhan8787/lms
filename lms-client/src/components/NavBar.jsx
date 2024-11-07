@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiSun } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
-import LoginForm from "./LoginForm";
+import LoginPage from "../pages/LoginPage";
 
 const NavBar = () => {
   const [login, setLogin] = useState(false);
@@ -60,7 +60,7 @@ const NavBar = () => {
       {loginPopUp && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-gray-900 bg-opacity-70 z-10">
           <div className=" p-6 rounded-lg shadow-lg w-96 z-20">
-            <LoginForm  />
+            <LoginPage  />
           </div>
         </div>
       )}

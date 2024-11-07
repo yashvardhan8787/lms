@@ -1,5 +1,6 @@
 import React from 'react';
 import CourseCard from '../components/Cards/CourseCard';
+import { FaSearch } from "react-icons/fa";
 const Courses = () => {
   const courses = [
     {
@@ -113,6 +114,14 @@ const Courses = () => {
 
     <div className="p-6 bg-gray-100 max-h-screen border rounded-3xl overflow-scroll">
       <h2 className="text-2xl font-semibold mb-6">Courses</h2>
+      <div className="bg-gray-200 p-4 rounded-lg flex items-center mb-10">
+        <span className="text-gray-800 p-1 pr-10"><FaSearch size="24px"/></span>
+          <input
+            type="text"
+            placeholder="Search..."
+            className="bg-transparent flex-1 outline-none text-gray-700"
+          />
+        </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {courses.map((course, index) => (
           <CourseCard key={index} course={course} />

@@ -1,21 +1,22 @@
 import "./App.css";
+//Auth
+import RegistrationPage from "./pages/Auth/RegistrationPage";
+import LoginPage from "./pages/Auth/LoginPage";
+import ForgetPasswordForm from "./pages/Auth/ForgetPasswordForm";
+
 import HomePage from "./pages/HomePage";
-import LoginForm from "./components/LoginForm";
-import RegistrationForm from "./components/RegistrationForm";
 import EmailConfirmationForm from "./components/EmailConfirmationForm";
-import ForgetPasswordForm from "./components/ForgetPasswordForm";
-import ResetPasswordForm from "./components/ResetPasswordForm";
+import ResetPasswordForm from "./pages/Auth/ResetPasswordForm";
 import Dashboard from "./pages/dashboard";
 import { Route, Routes } from "react-router-dom";
 import NotFoundErrorPage from "./components/NotFoundErrorPage";
-import UserDashboard from "./pages/userDashboard/UserDashboard";
-import AllCourses from "./pages/userDashboard/AllCourses";
-import CourseDetail from "./pages/userDashboard/CourseDetail";
-import Home from "./pages/userDashboard/Home";
-import MyCourses from "./pages/userDashboard/MyCourses";
+import UserDashboard from "./pages/Client/UserDashboard";
+import AllCourses from "./pages/Client/AllCourses";
+import CourseDetail from "./pages/Client/CourseDetail";
+import Home from "./pages/Client/Home";
+import MyCourses from "./pages/Client/MyCourses";
 import UserProfile from "./components/UserProfile";
 import NotificationPage from "./components/NotificationPage";
-import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Courses from "./pages/Courses";
 import About from "./pages/About";
@@ -30,13 +31,14 @@ function App() {
   return (
     // <CloudinaryUploadForm></CloudinaryUploadForm>
     <>
-<div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="min-h-screen bg-gray-50 flex flex-col">
         {/* header */}
         <Header />
         <div className="flex flex-1 ">
           {/*sidebar*/}
           <Sidebar />
           <main className="flex-1  transition-all duration-100">
+            {/*STATIC ROUTE*/}
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route
@@ -50,14 +52,16 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/policy" element={<Policy />} />
               <Route path="/faq" element={<FAQ />} />
-              <Route path="/login" element={<LoginForm />} />
-              <Route path="/register" element={<RegistrationForm />} />
+              {/*AUTH ROUTE*/}
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegistrationPage />} />
               <Route
                 path="/confirm-email"
                 element={<EmailConfirmationForm />}
               />
               <Route path="/forgot-password" element={<ForgetPasswordForm />} />
               <Route path="/reset-password" element={<ResetPasswordForm />} />
+              {/*USER DASBOARD ROUTE*/}
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route path="home" element={<Home />} />
                 <Route path="all-courses" element={<AllCourses />} />
@@ -76,47 +80,6 @@ function App() {
           </main>
         </div>
       </div>
-      {/* <div className="flex bg-purple-700">
-        <div className="p-5">
-          <Sidebar />
-        </div>
-
-        <main className="flex-grow p-5 ">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route
-              path="/courses"
-              element={
-                <div className="flex-grow overflow-hidden">
-                  <Courses />
-                </div>
-              }
-            />
-            <Route path="/about" element={<About />} />
-            <Route path="/policy" element={<Policy />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegistrationForm />} />
-            <Route path="/confirm-email" element={<EmailConfirmationForm />} />
-            <Route path="/forgot-password" element={<ForgetPasswordForm />} />
-            <Route path="/reset-password" element={<ResetPasswordForm />} />
-            <Route path="/dashboard" element={<Dashboard />}>
-              <Route path="home" element={<Home />} />
-              <Route path="all-courses" element={<AllCourses />} />
-              <Route path="my-courses" element={<MyCourses />} />
-              <Route path="profile" element={<UserProfile />} />
-            </Route>
-            <Route path="courses/:courseId" element={<CourseDetail />} />
-            <Route
-              path="/course/:courseId/lecture/:lectureId"
-              element={<LecturePage />}
-            />
-            Nested routes under UserDashboard *
-            <Route path="*" element={<NotFoundErrorPage />} />{" "}
-           Wildcard route for 404 *
-          </Routes>
-        </main>
-      </div> */}
     </>
   );
 }
