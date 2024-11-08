@@ -20,6 +20,7 @@ import {
 } from "../services/user.service";
 import cloudinary from "cloudinary";
 import crypto from "crypto"; 
+import { Types } from "mongoose";
 
 // register user
 interface IRegistrationBody {
@@ -311,7 +312,9 @@ export const updateUserInfo = CatchAsyncError(
       if (email) user.email = email;
       if (about) user.about = about;
       if (title) user.title = title;
-      if (badges) user.badges = badges; // Assuming badges are stored as an array
+      if (badges) {
+        user.badges = badges.map((badgeId) => new Types.ObjectId(badgeId));
+      }// Assuming badges are stored as an array
       if (streaks !== undefined) user.streaks = streaks; // Update streaks if provide
 
       // If avatar is updated, handle it separately (assuming Cloudinary usage)

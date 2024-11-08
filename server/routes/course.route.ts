@@ -78,7 +78,6 @@ import {
   deleteCourse,
   getLecturesForCourse,
   deleteLecture,
-  trackUserProgress,
   createQuiz,
   getQuizById,
   deleteQuiz,
@@ -86,7 +85,8 @@ import {
   getAllReviews,
   createReview,
   replyToReview,
-  deleteReview
+  deleteReview,
+  enrollInCourse
 } from '../controllers/course.controller'; // Importing all controllers
 
 import { authorizeRoles, isAutheticated } from "../middleware/auth";// Assuming you have authentication middleware
@@ -105,8 +105,8 @@ router.post('/:courseId/lecture/add', isAutheticated,  addLecture);      // Add 
 router.get('/:courseId/lectures', isAutheticated, getLecturesForCourse); // Get all lectures of a course
 router.delete('/:courseId/lecture/:lectureId', isAutheticated, deleteLecture); // Delete a lecture from a course
 
-// User Progress Routes
-router.post('/trackProgress', isAutheticated, trackUserProgress);    // Track user progress for a lecture
+//courseEnrollement api 
+router.post('/enroll', enrollInCourse);
 
 // Quiz Routes
 router.post('/quiz/create', isAutheticated, createQuiz);              // Create a quiz

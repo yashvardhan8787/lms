@@ -1,5 +1,5 @@
 require("dotenv").config();
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document, Model, Schema, Types } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto"; // For password reset token generation
@@ -18,7 +18,7 @@ export interface IUser extends Document {
   isVerified: boolean;
   courses: Array<{ courseId: string }>; // Courses the user is enrolled in
   completedCourses: Array<{ courseId: string; completionDate: Date }>; // Completed courses
-  badges: Array<string>; // Badges earned by the user
+  badges: Types.ObjectId[];  // Badges earned by the user
   streaks: number; // Count of streaks (consecutive course completion days)
   title: string; // Title based on user achievements or self-setup
   about: string; // A self-written description about the user
@@ -79,7 +79,8 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
       },
     ],
     badges: {
-      type: [String], // Array of badge names or IDs
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Badge", // Reference to badges
       default: [],
     },
     streaks: {

@@ -10,7 +10,9 @@ import orderRouter from "./routes/order.route";
 import notificationRouter from "./routes/notification.route";
 import analyticsRouter from "./routes/analytics.route";
 import layoutRouter from "./routes/layout.route";
+import BadgeRouter from "./routes/badge.route";
 import { rateLimit } from 'express-rate-limit'
+import progressRouter from "./routes/userProgress.route";
 
 // body parser
 app.use(express.json({ limit: "50mb" }));
@@ -44,7 +46,9 @@ app.use(
     courseRouter,
     notificationRouter,
     analyticsRouter,
-    layoutRouter
+    layoutRouter,
+    BadgeRouter,
+    progressRouter
 );
 
 // testing api
