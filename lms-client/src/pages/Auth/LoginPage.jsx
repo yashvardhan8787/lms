@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import axios from "axios";
-import Registration from "./RegistrationPage";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import logo from "../../../public/assets/images/Heroimg.png";
@@ -27,13 +26,21 @@ const LoginPage = () => {
 
       if (response?.status === 200 && response?.data?.success) {
         const user = response.data.user;
+
+        // Store user email in local storage
+        localStorage.setItem("userEmail", user.email || "");
+
+        // Set login context and navigate
         login(JSON.stringify(user), response?.data?.accessToken);
         navigate("/Dashboard");
       } else {
         setError(response.data.message || "Invalid credentials");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred. Please try again later.");
+      setError(
+        err.response?.data?.message ||
+          "An error occurred. Please try again later."
+      );
     }
   };
 
@@ -46,12 +53,11 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="flex w-full max-w-4xl shadow-lg rounded-2xl overflow-hidden">
-        
         {/* Left Section - Image */}
         <div className="hidden md:flex flex-col justify-center items-center bg-gray-50 p-16">
           <img src={logo} alt="Illustration" className="w-80 h-auto" />
         </div>
-        
+
         {/* Right Section - Form */}
         <div className="w-full md:w-1/2 p-8 bg-white flex flex-col justify-center">
           <div className="text-center mb-6">
@@ -66,8 +72,10 @@ const LoginPage = () => {
               <h3 className="text-xl font-semibold text-center text-gray-800 mb-4">
                 Login to Your Account
               </h3>
-              {error && <div className="text-center text-red-500 mb-4">{error}</div>}
-              
+              {error && (
+                <div className="text-center text-red-500 mb-4">{error}</div>
+              )}
+
               <form className="space-y-4" onSubmit={handleLogin}>
                 {/* Email Input */}
                 <div className="relative">
@@ -139,5 +147,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-

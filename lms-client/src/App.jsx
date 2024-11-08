@@ -3,22 +3,15 @@ import "./App.css";
 import RegistrationPage from "./pages/Auth/RegistrationPage";
 import LoginPage from "./pages/Auth/LoginPage";
 import ForgetPasswordForm from "./pages/Auth/ForgetPasswordForm";
-
 import HomePage from "./pages/HomePage";
 import EmailConfirmationForm from "./components/EmailConfirmationForm";
 import ResetPasswordForm from "./pages/Auth/ResetPasswordForm";
-import Dashboard from "./pages/dashboard";
+
 import { Route, Routes } from "react-router-dom";
 import NotFoundErrorPage from "./components/NotFoundErrorPage";
-import UserDashboard from "./pages/Client/UserDashboard";
-import AllCourses from "./pages/Client/AllCourses";
-import CourseDetail from "./pages/Client/CourseDetail";
-import Home from "./pages/Client/Home";
-import MyCourses from "./pages/Client/MyCourses";
-import UserProfile from "./components/UserProfile";
-import NotificationPage from "./components/NotificationPage";
-import Footer from "./components/Footer";
-import Courses from "./pages/Courses";
+import CourseDetail from "./pages/Courses/CourseDetail";
+import UserProfile from "./pages/Client/Profile/UserProfile";
+import Courses from "./pages/Courses/Courses";
 import About from "./pages/About";
 import Policy from "./pages/Policy";
 import FAQ from "./pages/FAQ";
@@ -49,6 +42,14 @@ function App() {
                   </div>
                 }
               />
+              <Route
+                path="courses/:courseId"
+                element={
+                  <div className="flex-grow overflow-hidden">
+                    <CourseDetail />
+                  </div>
+                }
+              />
               <Route path="/about" element={<About />} />
               <Route path="/policy" element={<Policy />} />
               <Route path="/faq" element={<FAQ />} />
@@ -61,14 +62,8 @@ function App() {
               />
               <Route path="/forgot-password" element={<ForgetPasswordForm />} />
               <Route path="/reset-password" element={<ResetPasswordForm />} />
-              {/*USER DASBOARD ROUTE*/}
-              <Route path="/dashboard" element={<Dashboard />}>
-                <Route path="home" element={<Home />} />
-                <Route path="all-courses" element={<AllCourses />} />
-                <Route path="my-courses" element={<MyCourses />} />
-                <Route path="profile" element={<UserProfile />} />
-              </Route>
-              <Route path="courses/:courseId" element={<CourseDetail />} />
+              {/*User Route*/}
+              <Route path="profile" element={<UserProfile />} />
               <Route
                 path="/course/:courseId/lecture/:lectureId"
                 element={<LecturePage />}

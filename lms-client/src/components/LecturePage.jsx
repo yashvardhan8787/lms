@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { CourseContext } from '../contexts/CourseContext'; // Adjust the path to your CourseContext
-import ReviewSection from './ReviewSection';
+import ReviewSection from '../pages/Courses/ReviewSection';
 
 const LecturePage = () => {
   const { courseId } = useParams(); // Get the course ID from the URL
