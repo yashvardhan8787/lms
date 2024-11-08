@@ -97,7 +97,7 @@ interface ICourse extends Document {
   rating?: number;
   lectures: mongoose.Types.ObjectId[];
   roadmapPicUrl: string;
-  badges: string[];
+  badges:  mongoose.Types.ObjectId[];
   totalQuizzes: number;
   totalLectures: number;
   totalDuration: number;
@@ -122,7 +122,7 @@ const CourseSchema: Schema = new Schema({
   rating: { type: Number },
   lectures: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Lecture' }],
   roadmapPicUrl: { type: String },
-  badges: [{ type: String }],
+  badges:[{ type: mongoose.Schema.Types.ObjectId, ref: "Badge" }],
   totalQuizzes: { type: Number, default: 0 },
   totalLectures: { type: Number, default: 0 },
   totalDuration: { type: Number, default: 0 },

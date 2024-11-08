@@ -3,7 +3,7 @@ import { Course } from '../models/course.model';
 import { Lecture } from '../models/course.model';
 import { Quiz } from '../models/course.model';
 import { Review } from '../models/course.model';
-import { IUser } from '../models/user.model';
+import userModel from '../models/user.model';
 import { UserProgress } from '../models/course.model';
 import mongoose from 'mongoose';
 // Create a new course
@@ -153,22 +153,6 @@ export const deleteLecture = async (req: Request, res: Response) => {
   }
 };
 
-// Track user progress in a lecture
-export const trackUserProgress = async (req: Request, res: Response) => {
-  try {
-    const { userId, courseId, lectureId, status } = req.body;
-
-    const progress = await UserProgress.findOneAndUpdate(
-      { user: userId, course: courseId, lecture: lectureId },
-      { status },
-      { upsert: true, new: true }
-    );
-
-    res.status(200).json({ success: true, message: 'Progress updated successfully', progress });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Failed to update progress', error });
-  }
-};
 
 // Create a quiz
 export const createQuiz = async (req: Request, res: Response) => {
@@ -399,3 +383,65 @@ export const getAllReviews = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, message: 'Failed to fetch reviews', error });
   }
 };
+
+
+// Assume all models and schemas are imported and instantiated correctly
+
+export const enrollInCourse = async (req: Request, res: Response) => {
+  try {
+    const { userId, courseId } = req.body;
+
+    // Find the user and course by their IDs
+    const user = await userModel.findById(userId);
+    const course = await Course.findById(courseId);
+
+    // Ensure both user and course exist
+    if (!user || !course) {
+      return res.status(404).json({ message: "User or Course not found" });
+    }
+
+    // Check if the user is already enrolled in this course
+    const alreadyEnrolled = user.courses.some(
+      (enrolledCourse: { courseId: { toString: () => any; }; }) => enrolledCourse.courseId.toString() === courseId
+    );
+
+    if (alreadyEnrolled) {
+      return res.status(400).json({ message: "User is already enrolled in this course" });
+    }
+
+    // Add the course to the user's enrolled courses array
+    user.courses.push({ courseId });
+    
+    // Increment the course's purchase count
+    course.purchased += 1;
+
+    // Save both user and course updates to the database
+    await user.save();
+    await course.save();
+
+    // Create a UserProgress entry for tracking the user's progress in the course
+    const userProgress = new UserProgress({
+      userId: user._id,
+      courseId: course._id,
+      lectureProgress: [], // Initially empty, as user hasn't started any lectures
+      totalCompletedLectures: 0,
+      totalQuizzesPassed: 0,
+      streakUpdated: false,
+      earnedBadges: []
+    });
+
+    // Save the user progress document
+    await userProgress.save();
+
+    return res.status(200).json({
+      message: "Enrollment successful",
+      user,
+      course,
+      userProgress
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
