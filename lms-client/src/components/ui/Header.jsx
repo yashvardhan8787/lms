@@ -6,6 +6,7 @@ import { LuCoins } from "react-icons/lu";
 import { FaBell } from "react-icons/fa";
 import { logoutUser } from "../../api/auth";
 import { AuthContext } from "../../contexts/AuthContext";
+import  toast from "react-hot-toast"
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -25,6 +26,7 @@ const Header = () => {
       logout();
       localStorage.removeItem("userEmail");
       setLoggedIn(false);
+      toast.success("SucessFully Logout")
       navigate("/"); // Redirect to the home page after logout
     } catch (err) {
       console.error(err.response?.data?.message);

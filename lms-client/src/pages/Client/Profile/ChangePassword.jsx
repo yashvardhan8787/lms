@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const ChangePassword = ({ onPasswordChange, onCancel }) => {
   const [passwordData, setPasswordData] = useState({
@@ -14,6 +15,7 @@ const ChangePassword = ({ onPasswordChange, onCancel }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onPasswordChange(passwordData);
+    toast.success("SuccessFully Change Password")
   };
 
   return (

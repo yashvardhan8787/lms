@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaHome,FaBookOpen,FaQuestionCircle,FaExclamationCircle } from "react-icons/fa";
+import { FaHome,FaBookOpen,FaQuestionCircle,FaExclamationCircle, FaDollarSign } from "react-icons/fa";
 import { MdPolicy } from "react-icons/md";
 
 
@@ -11,6 +11,7 @@ const Sidebar = () => {
     { name: "About", path: "/about",icons:<FaExclamationCircle/> },
     { name: "Policy", path: "/policy",icons:<MdPolicy/> },
     { name: "FAQ", path: "/faq",icons:<FaQuestionCircle/> },
+    { name: "Rewards", path: "/rewards",icons:<FaDollarSign/> },
   ];
 
   return (

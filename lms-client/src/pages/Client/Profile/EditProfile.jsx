@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import toast from "react-hot-toast";
 const EditProfile = ({ userData, onUpdate, onCancel }) => {
   const [formData, setFormData] = useState({
     name: userData?.name || '',
@@ -15,6 +16,8 @@ const EditProfile = ({ userData, onUpdate, onCancel }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdate(formData);
+    toast.success("SuccessFully Profile Update")
+    
   };
 
   return (

@@ -14,9 +14,9 @@ const CourseCard = ({ course }) => {
         />
 
         <div className="p-4">
-          <h3 className="text-lg font-semibold text-gray-800">{course.name}</h3>
+          <h3 className="text-2xl font-bold text-gray-800">{course.name}</h3>
 
-          <p className="text-sm text-gray-500 mt-2">{course.description}</p>
+          <p className="text-xl text-gray-700 mt-2">{course.description}</p>
 
           <div className="flex items-center gap-2 mt-2">
             {course.badges.map((badge, index) => (
@@ -30,25 +30,44 @@ const CourseCard = ({ course }) => {
           </div>
 
           <div className="mt-4">
-            <p className="text-sm text-gray-500">
-              Category: {course.categories.join(", ")}
+            <p className="text-gray-500">
+              <span className="text-lg font-bold text-gray-600">
+                {" "}
+                Category :{" "}
+              </span>
+              {course.categories.join(", ")}
             </p>
-            <p className="text-sm text-gray-500">Level: {course.level}</p>
-            <p className="text-sm text-gray-500">
-              Lectures: {course.totalLectures}
+            <p className=" text-gray-500">
+              {" "}
+              <span className="text-lg font-bold text-gray-600 ">
+                {" "}
+                Level :{" "}
+              </span>
+              {course.level}
             </p>
-            <p className="text-sm text-gray-500">
-              Duration: {Math.floor(course.totalDuration / 60)}h{" "}
+            <p className=" text-gray-500">
+              <span className="text-lg font-bold text-gray-600 ">
+                {" "}
+                Lectures :{" "}
+              </span>
+              {course.totalLectures}
+            </p>
+            <p className=" text-gray-500">
+              <span className="text-lg font-bold text-gray-600">
+                {" "}
+                Duration :{" "}
+              </span>
+              {Math.floor(course.totalDuration / 60)}h{" "}
               {course.totalDuration % 60}m
             </p>
           </div>
 
-          <div className="flex justify-between items-center mt-4">
-            <span className="text-lg font-bold text-purple-700">
+          <div className="flex justify-between items-center mt-9">
+            <span className="text-xl font-bold text-purple-700">
               ${course.price}
             </span>
 
-            <button className="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600">
+            <button className="bg-orange-400  rounded-2xl w-42 p-3 text-white text-xl hover:bg-orange-600 font-bold">
               View Course
             </button>
           </div>

@@ -16,15 +16,18 @@ import About from "./pages/About";
 import Policy from "./pages/Policy";
 import FAQ from "./pages/FAQ";
 import CloudinaryUploadForm from "../src/components/CloudinaryUploadForm";
-import LecturePage from "./components/LecturePage";
+import LecturePage from "./pages/lectures/LecturePage";
 import Sidebar from "./components/ui/SideBar";
 import Header from "./components/ui/Header";
+import Rewards from "./pages/Rewards";
+
 
 function App() {
   return (
     // <CloudinaryUploadForm></CloudinaryUploadForm>
     <>
       <div className="min-h-screen bg-gray-50 flex flex-col">
+        
         {/* header */}
         <Header />
         <div className="flex flex-1 ">
@@ -53,6 +56,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/policy" element={<Policy />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/rewards" element={<Rewards />} />
               {/*AUTH ROUTE*/}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegistrationPage />} />

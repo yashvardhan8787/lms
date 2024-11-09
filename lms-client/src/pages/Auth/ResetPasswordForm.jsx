@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { resetPassword } from '../../api/auth'; // Assuming the API call is defined here
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const ResetPasswordForm = () => {
   const [otp, setOtp] = useState('');
@@ -28,6 +29,7 @@ const ResetPasswordForm = () => {
       const response = await resetPassword(otp, newPassword);
       if (response.status === 201) {
         setSuccess('Your password has been successfully reset.');
+        toast.success("Success Fully Reset Password")
         setError('');
         setTimeout(() => navigate('/login'), 2000);
       } else {
