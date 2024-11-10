@@ -1,24 +1,29 @@
 import "./App.css";
-// Auth
+import { Outlet } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+//ui
+import Header from "./components/ui/Header";
+import Sidebar from "./components/ui/SideBar";
+import NotFoundErrorPage from "./components/NotFoundErrorPage";
+//Static
+import HomePage from "./Client/HomePage";
+import About from "./Client/About";
+import FAQ from "./Client/FAQ";
+import Policy from "./Client/Policy";
+import Rewards from "./Client/Rewards"
+// Auth 
 import RegistrationPage from "./Client/Auth/RegistrationPage";
 import LoginPage from "./Client/Auth/LoginPage";
 import ForgetPasswordForm from "./Client/Auth/ForgetPasswordForm";
-import HomePage from "./Client/HomePage";
-import EmailConfirmationForm from "./components/EmailConfirmationForm";
 import ResetPasswordForm from "./Client/Auth/ResetPasswordForm";
-import { Route, Routes } from "react-router-dom";
-import NotFoundErrorPage from "./components/NotFoundErrorPage";
-import CourseDetail from "./Client/Courses/CourseDetail";
+import EmailConfirmationForm from "./components/EmailConfirmationForm";
+//user
 import UserProfile from "./Client/Profile/UserProfile";
+import CourseDetail from "./Client/Courses/CourseDetail";
 import Courses from "./Client/Courses/Courses";
-import About from "./Client/About";
-import Policy from "./Client/Policy";
-import FAQ from "./Client/FAQ";
 import LecturePage from "./Client/lectures/LecturePage";
-import Sidebar from "./components/ui/SideBar";
-import Header from "./components/ui/Header";
+//Admin 
 import AdminDashboard from "./Admin/AdminDashboard";
-import { Outlet } from "react-router-dom";
 import ManageUser from "./Admin/ManageUser";
 import ManageCourses from "./Admin/Courses/ManageCourses";
 import EditCourse from "./Admin/Courses/EditCourse";
@@ -60,6 +65,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgetPasswordForm />} />
         <Route path="/reset-password" element={<ResetPasswordForm />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/rewards" element={<Rewards/>} />
         <Route
           path="/course/:courseId/lecture/:lectureId"
           element={<LecturePage />}
@@ -68,7 +74,6 @@ function App() {
 
       {/* Admin Dashboard route (separate layout) */}
       <Route path="/adminDashboard" element={<AdminDashboard />}>
-
           <Route path="manage-users" element={<ManageUser />} />
           <Route path="manage-courses" element={<ManageCourses />} />
           <Route path="edit/:id" element={<EditCourse />} />
