@@ -95,13 +95,18 @@ const router = express.Router();
 
 // Course Routes
 router.post('/create',isAutheticated,authorizeRoles('admin'), createCourse);               // Create a new course
-router.put('/update/:id', isAutheticated, updateCourse);            // Update an existing course
-router.delete('/delete/:id', isAutheticated, deleteCourse);         // Delete a course
+router.put('/update/:id', 
+  // isAutheticated,
+  // authorizeRoles('admin'), 
+  updateCourse);            // Update an existing course
+router.delete('/delete/:id', isAutheticated,authorizeRoles('admin'), deleteCourse);         // Delete a course
 router.get('/getAll', getAllCourses);                                // Get all courses
 router.get('/:id', getCourseById);                                   // Get a specific course by ID
 
 // Lecture Routes
-router.post('/:courseId/lecture/add', isAutheticated,  addLecture);      // Add a lecture to a course
+router.post('/:courseId/lecture/add',
+  //  isAutheticated,
+     addLecture);      // Add a lecture to a course
 router.get('/:courseId/lectures', isAutheticated, getLecturesForCourse); // Get all lectures of a course
 router.delete('/:courseId/lecture/:lectureId', isAutheticated, deleteLecture); // Delete a lecture from a course
 
@@ -109,10 +114,16 @@ router.delete('/:courseId/lecture/:lectureId', isAutheticated, deleteLecture); /
 router.post('/enroll', enrollInCourse);
 
 // Quiz Routes
-router.post('/quiz/create', isAutheticated, createQuiz);              // Create a quiz
-router.get('/quiz/:id', isAutheticated, getQuizById);                 // Get a quiz by ID
-router.delete('/quiz/:id', isAutheticated, deleteQuiz);               // Delete a quiz
-router.post('/quiz/evaluate',isAutheticated, evaluateQuiz);          // Evaluate a quiz
+router.post('/quiz/create', createQuiz);              // Create a quiz
+router.get('/quiz/:id',
+   isAutheticated,
+    getQuizById);                 // Get a quiz by ID
+router.delete('/quiz/:id',
+   isAutheticated,
+    deleteQuiz);               // Delete a quiz
+router.post('/quiz/evaluate',
+  isAutheticated,
+   evaluateQuiz);          // Evaluate a quiz
 
 // Review Routes
 router.post('/review/create', createReview);          // Create a review
