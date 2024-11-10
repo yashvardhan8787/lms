@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import icon from "../../../public/assets/images/Heroimg.png"; // Replace with the actual path to your logo image
 import logo from "../../../public/assets/images/image.png"; // Replace with the actual path to your logo image
+import toast from "react-hot-toast";
 
 const RegistrationPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -51,6 +52,7 @@ const RegistrationPage = () => {
       return;
     }
     userRegistration(formData);
+    toast.success("SuccessFully Registerd")
   };
 
   return (

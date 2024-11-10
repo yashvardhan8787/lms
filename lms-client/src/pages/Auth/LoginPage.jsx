@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import logo from "../../../public/assets/images/Heroimg.png";
 import icon from "../../../public/assets/images/image.png";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -32,9 +33,11 @@ const LoginPage = () => {
 
         // Set login context and navigate
         login(JSON.stringify(user), response?.data?.accessToken);
-        navigate("/Dashboard");
+      
+        navigate("/");
       } else {
         setError(response.data.message || "Invalid credentials");
+        toast.error("Invalid credentials")
       }
     } catch (err) {
       setError(
@@ -48,6 +51,7 @@ const LoginPage = () => {
     e.preventDefault();
     setError("");
     loginUser(email, password);
+    toast.success("SuccesFully Login")
   };
 
   return (

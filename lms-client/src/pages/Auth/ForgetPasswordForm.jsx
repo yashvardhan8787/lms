@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { forgetPassword } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const ForgetPasswordForm = () => {
   const [email, setEmail] = useState('');
@@ -24,6 +25,7 @@ const ForgetPasswordForm = () => {
 
       if (response.data && response.data.success) {
         setSuccess('An OTP has been sent to your registered email address.');
+        toast.success("OTP send To Your E-mail")
         setTimeout(() => navigate("/reset-password"), 2000);
       } else {
         setError(response.data.message || 'Something went wrong.');

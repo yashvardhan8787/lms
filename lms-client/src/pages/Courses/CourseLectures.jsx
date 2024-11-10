@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const CourseLectures = ({ lectures, courseId }) => {
     return (
         <div className="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4">Lectures</h2>
+            <h2 className="text-2xl font-semibold mb-4">Lectures</h2>
             <div className="space-y-4">
                 {lectures.map((lecture) => (
                     <div

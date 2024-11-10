@@ -156,7 +156,7 @@ const Courses = () => {
           className="bg-transparent flex-1 outline-none text-gray-700"
         />
       </div>
-      <h2 className="text-2xl font-semibold mb-6">Courses</h2>
+      <h2 className="text-5xl  text-black font-bold mb-16 text-center ">Courses</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCourses.map((course, index) => (
           <CourseCard key={index} course={course} />

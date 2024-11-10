@@ -8,7 +8,7 @@ const CourseRoadmap = ({ roadmapPicUrl }) => {
     return (
     
         <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Course Roadmap</h2>
+        <h2 className="text-2xl font-semibold mb-4">Course Roadmap</h2>
             <a href={roadmapPicUrl}>
                 <img
                     src={roadmapPicUrl}

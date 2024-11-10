@@ -14,9 +14,9 @@ const CourseCard = ({ course }) => {
         />
 
         <div className="p-4">
-          <h3 className="text-lg font-semibold text-gray-800">{course?.name}</h3>
+          <h3 className="text-lg font-semibold text-gray-800">{course.name}</h3>
 
-          <p className="text-sm text-gray-500 mt-2">{course?.description}</p>
+          <p className="text-sm text-gray-500 mt-2">{course.description}</p>
 
           <div className="flex items-center gap-2 mt-2">
             {course?.badges?.map((badge, index) => (
@@ -31,24 +31,24 @@ const CourseCard = ({ course }) => {
 
           <div className="mt-4">
             <p className="text-sm text-gray-500">
-              Category: {course?.categories?.join(", ")}
+              Category: {course.categories.join(", ")}
             </p>
             <p className="text-sm text-gray-500">Level: {course.level}</p>
             <p className="text-sm text-gray-500">
-              Lectures: {course?.totalLectures}
+              Lectures: {course.totalLectures}
             </p>
             <p className="text-sm text-gray-500">
-              Duration: {Math?.floor(course.totalDuration / 60)}h{" "}
+              Duration: {Math.floor(course.totalDuration / 60)}h{" "}
               {course.totalDuration % 60}m
             </p>
           </div>
 
           <div className="flex justify-between items-center mt-4">
             <span className="text-lg font-bold text-purple-700">
-              ${course?.price}
+              ${course.price}
             </span>
 
-            <button className="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600">
+            <button className="bg-orange-400  rounded-2xl w-42 p-3 text-white text-xl hover:bg-orange-600 font-bold">
               View Course
             </button>
           </div>
