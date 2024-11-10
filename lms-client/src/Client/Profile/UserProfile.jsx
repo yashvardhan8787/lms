@@ -5,7 +5,7 @@ import { FaUserCircle, FaEdit, FaKey } from "react-icons/fa";
 import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
 import PublicProfile from "./PublicProfile"; // Import PublicProfile
-import { getUserInfo } from "../../../api/auth";
+import { getUserInfo } from "../../api/auth";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
