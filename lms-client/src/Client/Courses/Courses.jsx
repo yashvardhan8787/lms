@@ -4,122 +4,6 @@ import { useContext, useState } from "react";
 import { CourseContext } from "../../contexts/CourseContext";
 import { FaSearch } from "react-icons/fa";
 const Courses = () => {
-  const courses1 = [
-    {
-      _id: "67054fc6dc0ae74d8ec353a2",
-      name: "React for Beginners",
-      description:
-        "Learn the basics of React.js and build dynamic web applications.",
-      categories: ["Web Development", "JavaScript", "Frontend"],
-      price: 49.99,
-      thumbnailUrl: "https://example.com/react-image.jpg",
-      tags: ["React", "JavaScript", "Web Development"],
-      level: "Beginner",
-      badges: ["React Beginner"],
-      totalLectures: 12,
-      totalDuration: 360, // minutes
-    },
-    {
-      _id: "67055129dc0ae74d8ec353a4",
-      name: "Python for Beginners",
-      description:
-        "Get started with Python and develop a strong foundation in programming.",
-      categories: ["Programming", "Python", "Backend"],
-      price: 59.99,
-      thumbnailUrl: "https://example.com/python-image.jpg",
-      tags: ["Python", "Backend", "Programming"],
-      level: "Beginner",
-      badges: ["Python Beginner"],
-      totalLectures: 10,
-      totalDuration: 300, // minutes
-    },
-    {
-      _id: "67054fc6dc0ae74d8ec353a2",
-      name: "React for Beginners",
-      description:
-        "Learn the basics of React.js and build dynamic web applications.",
-      categories: ["Web Development", "JavaScript", "Frontend"],
-      price: 49.99,
-      thumbnailUrl: "https://example.com/react-image.jpg",
-      tags: ["React", "JavaScript", "Web Development"],
-      level: "Beginner",
-      badges: ["React Beginner"],
-      totalLectures: 12,
-      totalDuration: 360, // minutes
-    },
-    {
-      _id: "67055129dc0ae74d8ec353a4",
-      name: "Python for Beginners",
-      description:
-        "Get started with Python and develop a strong foundation in programming.",
-      categories: ["Programming", "Python", "Backend"],
-      price: 59.99,
-      thumbnailUrl: "https://example.com/python-image.jpg",
-      tags: ["Python", "Backend", "Programming"],
-      level: "Beginner",
-      badges: ["Python Beginner"],
-      totalLectures: 10,
-      totalDuration: 300, // minutes
-    },
-    {
-      _id: "67054fc6dc0ae74d8ec353a2",
-      name: "React for Beginners",
-      description:
-        "Learn the basics of React.js and build dynamic web applications.",
-      categories: ["Web Development", "JavaScript", "Frontend"],
-      price: 49.99,
-      thumbnailUrl: "https://example.com/react-image.jpg",
-      tags: ["React", "JavaScript", "Web Development"],
-      level: "Beginner",
-      badges: ["React Beginner"],
-      totalLectures: 12,
-      totalDuration: 360, // minutes
-    },
-    {
-      _id: "67055129dc0ae74d8ec353a4",
-      name: "Python for Beginners",
-      description:
-        "Get started with Python and develop a strong foundation in programming.",
-      categories: ["Programming", "Python", "Backend"],
-      price: 59.99,
-      thumbnailUrl: "https://example.com/python-image.jpg",
-      tags: ["Python", "Backend", "Programming"],
-      level: "Beginner",
-      badges: ["Python Beginner"],
-      totalLectures: 10,
-      totalDuration: 300, // minutes
-    },
-    {
-      _id: "67054fc6dc0ae74d8ec353a2",
-      name: "React for Beginners",
-      description:
-        "Learn the basics of React.js and build dynamic web applications.",
-      categories: ["Web Development", "JavaScript", "Frontend"],
-      price: 49.99,
-      thumbnailUrl: "https://example.com/react-image.jpg",
-      tags: ["React", "JavaScript", "Web Development"],
-      level: "Beginner",
-      badges: ["React Beginner"],
-      totalLectures: 12,
-      totalDuration: 360, // minutes
-    },
-    {
-      _id: "67055129dc0ae74d8ec353a4",
-      name: "Python for Beginners",
-      description:
-        "Get started with Python and develop a strong foundation in programming.",
-      categories: ["Programming", "Python", "Backend"],
-      price: 59.99,
-      thumbnailUrl: "https://example.com/python-image.jpg",
-      tags: ["Python", "Backend", "Programming"],
-      level: "Beginner",
-      badges: ["Python Beginner"],
-      totalLectures: 10,
-      totalDuration: 300, // minutes
-    },
-    // Add more courses here
-  ];
-
   const { courses, loading } = useContext(CourseContext);
   console.log(courses);
 
@@ -156,7 +40,9 @@ const Courses = () => {
           className="bg-transparent flex-1 outline-none text-gray-700"
         />
       </div>
-      <h2 className="text-5xl  text-black font-bold mb-16 text-center ">Courses</h2>
+      <h2 className="text-5xl  text-black font-bold mb-16 text-center ">
+        Courses
+      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCourses.map((course, index) => (
           <CourseCard key={index} course={course} />

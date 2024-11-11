@@ -43,11 +43,13 @@ const LoginPage = () => {
         setError(response.data.message || "Invalid credentials");
         toast.error("Invalid credentials")
       }
+
     } catch (err) {
       setError(
-        err.response?.data?.message ||
+        err.response?.data?.message||
           "An error occurred. Please try again later."
       );
+      toast.error(err.response?.data?.message)
     }
   };
 
@@ -55,7 +57,7 @@ const LoginPage = () => {
     e.preventDefault();
     setError("");
     loginUser(email, password);
-    toast.success("SuccesFully Login")
+
   };
 
   return (

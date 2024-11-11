@@ -38,6 +38,7 @@ import AddBadge from "./Admin/Courses/AddBadge";
 
 // Private Route
 import PrivateRoute from "../src/components/PrivateRoute";
+import MyCourses from "./Client/Courses/MyCourses";
 
 function MainLayout() {
   return (
@@ -60,6 +61,7 @@ function App() {
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/courses" element={<Courses />} />
+        <Route path="/my-course" element={<MyCourses/>} /> 
         <Route path="/courses/:courseId" element={<CourseDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/policy" element={<Policy />} />
