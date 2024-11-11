@@ -40,6 +40,9 @@ import AddBadge from "./Admin/Courses/AddBadge";
 import PrivateRoute from "../src/components/PrivateRoute";
 import MyCourses from "./Client/Courses/MyCourses";
 
+
+import ChatBot from "./ChatBot/ChatBot";
+
 function MainLayout() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -73,10 +76,12 @@ function App() {
         <Route path="/reset-password" element={<ResetPasswordForm />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/rewards" element={<Rewards />} />
+        <Route path="/bot" element={<ChatBot />} />
         <Route
           path="/course/:courseId/lecture/:lectureId"
           element={<LecturePage />}
         />
+        
       </Route>
 
       {/* Admin Dashboard route with PrivateRoute protection */}

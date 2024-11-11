@@ -14,6 +14,7 @@ const Header = () => {
   const userEmail = localStorage.getItem("userEmail");
   const navigate = useNavigate(); // Use useNavigate for navigation
   const [userData, setUserData] = useState(null);
+  const[error,setError]=useState(null)
 
   useEffect(() => {
     const fetchUserInfo = async () => {
