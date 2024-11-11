@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { uploadImage, uploadVideo } from '../../utils/cloudUploadFunctions'; // adjust path as necessary
 
 const AddLecture = () => {
-  const { courseId } = useParams(); // Get the course ID from URL params
-  const navigate = useNavigate(); // Hook to redirect after adding lecture
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  // State for lecture form data
   const [lectureData, setLectureData] = useState({
     title: '',
     description: '',
-    thumbnailPicUrl: '',
-    videoUrl: '',
     duration: '',
   });
 
+  const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [videoFile, setVideoFile] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -27,25 +27,72 @@ const AddLecture = () => {
     }));
   };
 
+  // Handle file change for thumbnail and video
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    if (name === "thumbnailFile") {
+      setThumbnailFile(files[0]);
+    } else if (name === "videoFile") {
+      setVideoFile(files[0]);
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
 
     try {
-      const response = await axios.post(`/api/courses/${courseId}/lectures`, {
+      // Upload files to Cloudinary if they exist
+      let thumbnailUrl = "";
+      let videoUrl = "";
+
+      if (thumbnailFile) {
+        const thumbnailResponse = await uploadImage(thumbnailFile);
+        if (thumbnailResponse.success) {
+          thumbnailUrl = thumbnailResponse.resourceUrl;
+        } else {
+          throw new Error(thumbnailResponse.error);
+        }
+      }
+
+      if (videoFile) {
+        const videoResponse = await uploadVideo(videoFile);
+        if (videoResponse.success) {
+          videoUrl = videoResponse.resourceUrl;
+        } else {
+          throw new Error(videoResponse.error);
+        }
+      }
+      const condata = {
         ...lectureData,
-        isVideoLecture: true, // Always true
-        isQuiz: false, // Always false
+        thumbnailPicUrl: thumbnailUrl,
+        videoUrl: videoUrl,
+        isVideoLecture: true,
+        isQuiz: false,
+      }
+
+      console.log(condata);
+
+      // Send lecture data along with Cloudinary URLs to the server
+      const response = await axios.post(`http://localhost:8080/api/v1/${id}/lecture/add`, {
+        ...lectureData,
+        thumbnailPicUrl: thumbnailUrl,
+        videoUrl: videoUrl,
+        isVideoLecture: true,
+        isQuiz: false,
       });
-
-      setLoading(false);
-
+      
       if (response.data.success) {
-        navigate(`/courses/${courseId}`); // Redirect to course page after adding lecture
+        navigate(`/courses/${id}`);
+      } else {
+        setError('Failed to add lecture');
       }
     } catch (err) {
-      setError('Failed to add lecture');
+      console.log(err)
+      setError(err.message || 'Failed to add lecture');
+    } finally {
       setLoading(false);
     }
   };
@@ -81,23 +128,21 @@ const AddLecture = () => {
         </div>
 
         <div className="flex flex-col">
-          <label className="font-semibold mb-1">Thumbnail URL</label>
+          <label className="font-semibold mb-1">Thumbnail</label>
           <input
-            type="text"
-            name="thumbnailPicUrl"
-            value={lectureData.thumbnailPicUrl}
-            onChange={handleChange}
+            type="file"
+            name="thumbnailFile"
+            onChange={handleFileChange}
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
         <div className="flex flex-col">
-          <label className="font-semibold mb-1">Video URL</label>
+          <label className="font-semibold mb-1">Video</label>
           <input
-            type="text"
-            name="videoUrl"
-            value={lectureData.videoUrl}
-            onChange={handleChange}
+            type="file"
+            name="videoFile"
+            onChange={handleFileChange}
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
@@ -117,8 +162,9 @@ const AddLecture = () => {
         <button
           type="submit"
           className="col-span-2 mt-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200"
+          disabled={loading}
         >
-          Add Lecture
+          {loading ? 'Adding Lecture...' : 'Add Lecture'}
         </button>
       </form>
     </div>
