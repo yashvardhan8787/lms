@@ -56,26 +56,24 @@ const Header = () => {
                 <FaBell className="h-6 w-6 md:h-6 md:w-6 mr-1 ml-1" />
               </span>
             </div>
-            <div className="flex items-center justify-center h-10 w-20 bg-gray-100 rounded-full px-2 md:px-3 py-1">
-              <LuCoins className="h-6 w-6 md:h-6 md:w-6 mr-1 ml-1 text-green-500 font-extrabold" />
-              <span className="font-bold text-xl md:text-xl text-gray-800">
-                0
-              </span>
-            </div> */}
+            */}
+
             {loggedIn ? (
               <>
-                {/* <Link  to="profile">
+                <Link  to="profile">
                   <button
                     variant="ghost"
                     size="icon"
                     className="flex items-center"
                   >
                     <FaRegUserCircle className="h-5 w-5 md:h-6 md:w-6" />
+                    <span>username</span>
                   </button>
-                </Link> */}
+                  
+                </Link>
                 <button
                   className="bg-purple-700 rounded-2xl w-32 p-2 text-white text-xl hover:text-orange-400 font-bold"
-                
+                  onClick={handleLogout}
                 >
                   Logout
                 </button>

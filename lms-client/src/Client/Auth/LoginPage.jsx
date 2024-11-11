@@ -33,8 +33,12 @@ const LoginPage = () => {
 
         // Set login context and navigate
         login(JSON.stringify(user), response?.data?.accessToken);
-      
-        navigate("/");
+        if(user.role == "admin"){
+          navigate("/adminDashboard");
+        }else{
+          navigate("/");
+        }
+        
       } else {
         setError(response.data.message || "Invalid credentials");
         toast.error("Invalid credentials")

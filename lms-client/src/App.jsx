@@ -74,6 +74,7 @@ function App() {
 
       {/* Admin Dashboard route (separate layout) */}
       <Route path="/adminDashboard" element={<AdminDashboard />}>
+          <Route path="profile" element={<UserProfile />} />
           <Route path="manage-users" element={<ManageUser />} />
           <Route path="manage-courses" element={<ManageCourses />} />
           <Route path="edit/:id" element={<EditCourse />} />
