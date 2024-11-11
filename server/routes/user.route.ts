@@ -49,8 +49,8 @@ userRouter.get(
 
 userRouter.put(
   "/update-user",
-  isAutheticated,
-  authorizeRoles("admin"),
+  // isAutheticated,
+  // authorizeRoles("admin"),
   updateUserRole
 );
 

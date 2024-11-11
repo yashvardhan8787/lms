@@ -75,7 +75,7 @@ const Header = () => {
                 </Link> */}
                 <button
                   className="bg-purple-700 rounded-2xl w-32 p-2 text-white text-xl hover:text-orange-400 font-bold"
-                  onClick=""
+                
                 >
                   Logout
                 </button>

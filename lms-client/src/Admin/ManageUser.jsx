@@ -36,11 +36,11 @@ const ManageUser = () => {
     }
   };
 
-  const handleUpdateRole = async (userId, newRole) => {
+  const handleUpdateRole = async (email ,userId, newRole) => {
     try {
       await axios.put(
-        `http://localhost:8080/api/v1/api/user/update-user`,
-        { userId, role: newRole },
+        `http://localhost:8080/api/v1/update-user`,
+        { email:email, role: newRole },
         { withCredentials: true }
       );
       setUsers(
@@ -49,6 +49,7 @@ const ManageUser = () => {
         )
       );
     } catch (err) {
+      console.log(error);
       setError("Failed to update role");
     }
   };
@@ -87,7 +88,7 @@ const ManageUser = () => {
                     <select
                       className="bg-gray-100 border border-gray-300 rounded px-3 py-1"
                       value={user.role}
-                      onChange={(e) => handleUpdateRole(user._id, e.target.value)}
+                      onChange={(e) => handleUpdateRole( user.email ,user._id, e.target.value)}
                     >
                       <option value="user">User</option>
                       <option value="admin">Admin</option>
