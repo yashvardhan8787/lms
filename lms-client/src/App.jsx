@@ -1,28 +1,33 @@
+import React from "react";
+import { Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Outlet } from "react-router-dom";
-import { Route, Routes } from "react-router-dom";
-//ui
+
+// UI Components
 import Header from "./components/ui/Header";
 import Sidebar from "./components/ui/SideBar";
 import NotFoundErrorPage from "./components/NotFoundErrorPage";
-//Static
+
+// Static Pages
 import HomePage from "./Client/HomePage";
 import About from "./Client/About";
 import FAQ from "./Client/FAQ";
 import Policy from "./Client/Policy";
-import Rewards from "./Client/Rewards"
-// Auth 
+import Rewards from "./Client/Rewards";
+
+// Auth Pages
 import RegistrationPage from "./Client/Auth/RegistrationPage";
 import LoginPage from "./Client/Auth/LoginPage";
 import ForgetPasswordForm from "./Client/Auth/ForgetPasswordForm";
 import ResetPasswordForm from "./Client/Auth/ResetPasswordForm";
 import EmailConfirmationForm from "./components/EmailConfirmationForm";
-//user
+
+// User Pages
 import UserProfile from "./Client/Profile/UserProfile";
 import CourseDetail from "./Client/Courses/CourseDetail";
 import Courses from "./Client/Courses/Courses";
 import LecturePage from "./Client/lectures/LecturePage";
-//Admin 
+
+// Admin Pages
 import AdminDashboard from "./Admin/AdminDashboard";
 import ManageUser from "./Admin/ManageUser";
 import ManageCourses from "./Admin/Courses/ManageCourses";
@@ -31,17 +36,17 @@ import AddLecuter from "./Admin/Courses/AddLecuter";
 import AddQuiz from "./Admin/Courses/AddQuiz";
 import AddBadge from "./Admin/Courses/AddBadge";
 
+// Private Route
+import PrivateRoute from "../src/components/PrivateRoute";
+
 function MainLayout() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
       <Header />
       <div className="flex flex-1">
-        {/* Sidebar */}
         <Sidebar />
-        {/* Main content area where nested routes will render */}
         <main className="flex-1 transition-all duration-100">
-          <Outlet /> {/* This renders the component for each route */}
+          <Outlet />
         </main>
       </div>
     </div>
@@ -65,15 +70,16 @@ function App() {
         <Route path="/forgot-password" element={<ForgetPasswordForm />} />
         <Route path="/reset-password" element={<ResetPasswordForm />} />
         <Route path="/profile" element={<UserProfile />} />
-        <Route path="/rewards" element={<Rewards/>} />
+        <Route path="/rewards" element={<Rewards />} />
         <Route
           path="/course/:courseId/lecture/:lectureId"
           element={<LecturePage />}
         />
       </Route>
 
-      {/* Admin Dashboard route (separate layout) */}
-      <Route path="/adminDashboard" element={<AdminDashboard />}>
+      {/* Admin Dashboard route with PrivateRoute protection */}
+      <Route element={<PrivateRoute />}>
+        <Route path="/adminDashboard" element={<AdminDashboard />}>
           <Route path="profile" element={<UserProfile />} />
           <Route path="manage-users" element={<ManageUser />} />
           <Route path="manage-courses" element={<ManageCourses />} />
@@ -81,8 +87,10 @@ function App() {
           <Route path="add-lecture/:id" element={<AddLecuter />} />
           <Route path="add-quiz/:courseId" element={<AddQuiz />} />
           <Route path="add-badge/:id" element={<AddBadge />} />
+        </Route>
       </Route>
-      {/* Wildcard route for 404 Not Found (separate from MainLayout) */}
+
+      {/* Wildcard route for 404 Not Found */}
       <Route path="*" element={<NotFoundErrorPage />} />
     </Routes>
   );
