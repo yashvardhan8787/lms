@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { uploadImage, uploadVideo } from '../../utils/cloudUploadFunctions'; // Import the Cloudinary upload functions
 
 const EditCourse = () => {
-  const {id} = useParams(); // Get course ID from URL params
-  const navigate = useNavigate(); 
-  // Navigation hook to redirect after updating
+  const { id } = useParams(); // Get course ID from URL params
+  const navigate = useNavigate();
   const [courseData, setCourseData] = useState({
     name: '',
     description: '',
     categories: '',
     price: '',
-    thumbnailUrl: '',
+    thumbnailUrl: '', // will be updated after upload
     tags: '',
     level: '',
     benefits: '',
@@ -22,9 +22,12 @@ const EditCourse = () => {
     totalLectures: '',
     totalDuration: '',
   });
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
+  const [file, setFile] = useState(null); // For holding file to upload
+
   // Fetch course details when component mounts
   useEffect(() => {
     const fetchCourseData = async () => {
@@ -42,28 +45,50 @@ const EditCourse = () => {
     fetchCourseData();
   }, [id]);
 
-  // Update form state as user types
+  // Handle file change for upload
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCourseData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Handle form submission
+  // Handle form submission for updating course details
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      setLoading(true);
+      // Step 1: Upload file to Cloudinary if a file is selected
+      if (file) {
+        const uploadFunction = file.type.startsWith('image/') ? uploadImage : uploadVideo;
+        const uploadResponse = await uploadFunction(file);
+
+        if (uploadResponse.success) {
+          courseData.thumbnailUrl = uploadResponse.resourceUrl; // Update thumbnail URL in course data
+        } else {
+          setError(uploadResponse.error);
+          setLoading(false);
+          return;
+        }
+      }
+
+      // Step 2: Send updated course data to the server
       const response = await axios.put(`http://localhost:8080/api/v1/update/${id}`, courseData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
+
       setLoading(false);
       if (response.data.success) {
-       setSuccess("Course Details Upadated Successfully ") // Redirect to course page after update
+        setSuccess('Course details updated successfully.');
+         // Redirect to course page after successful update
       }
     } catch (err) {
-      console.log(err);
       setError('Failed to update course');
       setLoading(false);
     }
@@ -100,9 +125,9 @@ const EditCourse = () => {
             />
           </div>
 
-          <div className="flex flex-col">
-            <label className="font-semibold mb-1">Categories</label>
-            <input
+                  <div className="flex flex-col">  
+                     <label className="font-semibold mb-1">Categories</label>
+          <input
               type="text"
               name="categories"
               value={courseData?.categories}
@@ -124,18 +149,28 @@ const EditCourse = () => {
             />
           </div>
 
+          {/* Additional form fields */}
           <div className="flex flex-col">
-            <label className="font-semibold mb-1">Thumbnail URL</label>
+            <label className="font-semibold mb-1">Thumbnail Upload</label>
             <input
-              type="text"
-              name="thumbnailUrl"
-              value={courseData?.thumbnailUrl}
+              type="file"
+              accept="image/*,video/*"
+              onChange={handleFileChange}
+              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+
+          <div className="flex flex-col">   
+                     <label className="font-semibold mb-1">Price</label>
+            <input
+              type="number"
+              name="price"
+              value={courseData?.price}
               onChange={handleChange}
               className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
-
           <div className="flex flex-col">
             <label className="font-semibold mb-1">Tags</label>
             <input
@@ -214,6 +249,7 @@ const EditCourse = () => {
             />
           </div>
 
+          {/* More form fields like tags, level, etc. can be added here as needed */}
           <button
             type="submit"
             className="col-span-2 mt-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200"
@@ -221,7 +257,7 @@ const EditCourse = () => {
             Update Course
           </button>
 
-        <p className="text-green-500 text-center">{success}</p>
+          {success && <p className="text-green-500 text-center">{success}</p>}
         </form>
       )}
     </div>
