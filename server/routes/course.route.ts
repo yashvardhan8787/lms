@@ -95,7 +95,11 @@ const router = express.Router();
 
 // Course Routes
 router.post('/create',
+<<<<<<< Updated upstream
   //isAutheticated,authorizeRoles('admin'), 
+=======
+  // isAutheticated,authorizeRoles('admin'), 
+>>>>>>> Stashed changes
   createCourse);               // Create a new course
 router.put('/update/:id', 
   // isAutheticated,
