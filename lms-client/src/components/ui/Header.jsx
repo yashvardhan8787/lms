@@ -14,7 +14,7 @@ const Header = () => {
   const userEmail = localStorage.getItem("userEmail");
   const navigate = useNavigate(); // Use useNavigate for navigation
   const [userData, setUserData] = useState(null);
-  const[error,setError]=useState(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -65,18 +65,17 @@ const Header = () => {
           </div>
           <div className="flex items-center justify-between gap-5">
             <div className="flex flex-col ">
-              <span className="font-medium">
-                <FaBell className="h-6 w-6 md:h-6 md:w-6 mr-1 ml-1" />
-              </span>
+
             </div>
-            <div className="flex items-center justify-center h-10 w-20 bg-gray-100 rounded-full px-2 md:px-3 py-1">
-              <LuCoins className="h-6 w-6 md:h-6 md:w-6 mr-1 ml-1 text-green-500 font-extrabold" />
-              <span className="font-bold text-xl md:text-xl text-gray-800">
-                0
-              </span>
-            </div>
+
             {loggedIn ? (
               <>
+          <div className="flex items-center justify-center h-10 w-20 bg-gray-100 rounded-full px-2 md:px-3 py-1">
+                  <LuCoins className="h-6 w-6 md:h-6 md:w-6 mr-1 ml-1 text-green-500 font-extrabold" />
+                  <span className="font-bold text-xl md:text-xl text-gray-800">
+                    0
+                  </span>
+                </div>
                 <Link to="profile">
                   <button
                     variant="ghost"
@@ -94,11 +93,14 @@ const Header = () => {
                 </button>
               </>
             ) : (
-              <Link to="/login">
-                <button className="bg-purple-700 rounded-2xl w-32 p-2 text-white text-xl hover:text-orange-400 font-bold">
-                  Login
-                </button>
-              </Link>
+              <>
+      
+                <Link to="/login">
+                  <button className="bg-purple-700 rounded-2xl w-32 p-2 text-white text-xl hover:text-orange-400 font-bold">
+                    Login
+                  </button>
+                </Link>
+              </>
             )}
           </div>
         </div>

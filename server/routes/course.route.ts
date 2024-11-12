@@ -94,7 +94,9 @@ import { authorizeRoles, isAutheticated } from "../middleware/auth";// Assuming 
 const router = express.Router();
 
 // Course Routes
-router.post('/create',isAutheticated,authorizeRoles('admin'), createCourse);               // Create a new course
+router.post('/create',
+  //isAutheticated,authorizeRoles('admin'), 
+  createCourse);               // Create a new course
 router.put('/update/:id', 
   // isAutheticated,
   // authorizeRoles('admin'), 
