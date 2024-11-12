@@ -31,7 +31,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="bg-purple-700 text-white h-screen w-64 p-6 flex flex-col">
+    <div className="bg-[#5A4BA1] text-white h-screen w-64 p-6 flex flex-col">
       <nav className="mt-16 flex-grow">
         {navItems.map((item, index) => (
           <div key={index}>
@@ -39,7 +39,7 @@ const Sidebar = () => {
               <>
                 <button
                   onClick={() => setIsCoursesOpen(!isCoursesOpen)}
-                  className="flex items-center w-full text-2xl font-bold mb-4 hover:bg-gray-100 hover:text-orange-500 hover:rounded-lg py-2 transition-all duration-200"
+                  className="flex items-center w-full text-2xl font-bold mb-4 hover:bg-gray-100 hover:text-[#FD8B51] hover:rounded-lg py-2 transition-all duration-200"
                 >
                   <i className="mr-2">{item.icon}</i>
                   {item.name}
@@ -51,7 +51,7 @@ const Sidebar = () => {
                       <Link
                         key={subIndex}
                         to={subItem.path}
-                        className="block mb-2 text-xl font-semibold hover:bg-gray-100 hover:text-orange-500 hover:rounded-lg py-1 transition-all duration-200"
+                        className="block mb-2 text-xl font-semibold hover:bg-gray-100 hover:text-[#FD8B51] hover:rounded-lg py-1 transition-all duration-200"
                       >
                         {subItem.name}
                       </Link>
@@ -62,7 +62,7 @@ const Sidebar = () => {
             ) : (
               <Link
                 to={item.path}
-                className="flex items-center mb-4 text-2xl font-bold hover:bg-gray-100 hover:text-orange-500 hover:rounded-lg hover:px-4 hover:pr-80 py-2 transition-all duration-200"
+                className="flex items-center mb-4 text-2xl font-bold hover:bg-gray-100 hover:text-[#FD8B51] hover:rounded-lg hover:px-4 hover:pr-80 py-2 transition-all duration-200"
               >
                 <i className="mr-2">{item.icon}</i>
                 {item.name}
@@ -73,7 +73,7 @@ const Sidebar = () => {
       </nav>
       <div className="mt-auto pt-8 text-center">
         <p>Support 24/7</p>
-        <button className="bg-orange-500 mt-4 py-2 px-4 rounded-lg">
+        <button className="bg-[#FD8B51] mt-4 py-2 px-4 rounded-lg">
           Start
         </button>
       </div>

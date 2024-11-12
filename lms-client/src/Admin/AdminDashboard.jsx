@@ -1,16 +1,9 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
-import {
-  FaBell,
-  FaUserCircle,
-  FaHome,
-  FaBook,
-  FaSignOutAlt,
-} from "react-icons/fa"; // Importing icons from react-icons
+import { Outlet } from "react-router-dom";
 import Header from "./ui/Header";
 import Sidebar from "./ui/Sidebar";
 
-const AdminDashboard = ({ user, onLogout }) => {
+const AdminDashboard = () => {
   return (
     <>
       <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -20,7 +13,7 @@ const AdminDashboard = ({ user, onLogout }) => {
           {/* Sidebar */}
           <Sidebar />
           {/* Main content area where nested routes will render */}
-          <main className="flex-1 transition-all duration-100">
+          <main className="flex-1 bg-white shadow-lg rounded-lg p-6 transition-all duration-300 ease-in-out">
             <Outlet /> {/* This renders the component for each route */}
           </main>
         </div>

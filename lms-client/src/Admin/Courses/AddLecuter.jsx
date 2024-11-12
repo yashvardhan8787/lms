@@ -17,8 +17,8 @@ const AddLecture = () => {
   const [videoFile, setVideoFile] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState({ thumbnail: 0, video: 0 });
 
-  // Update form state as user types
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLectureData((prevData) => ({
@@ -27,71 +27,66 @@ const AddLecture = () => {
     }));
   };
 
-  // Handle file change for thumbnail and video
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    if (name === "thumbnailFile") {
-      setThumbnailFile(files[0]);
-    } else if (name === "videoFile") {
-      setVideoFile(files[0]);
-    }
+    if (name === "thumbnailFile") setThumbnailFile(files[0]);
+    if (name === "videoFile") setVideoFile(files[0]);
   };
 
-  // Handle form submission
+  const uploadFile = async (file, type) => {
+    if (!file) return '';
+    const uploadFunction = type === 'thumbnail' ? uploadImage : uploadVideo;
+    const onUploadProgress = (progressEvent) => {
+      const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+      setUploadProgress((prev) => ({ ...prev, [type]: progress }));
+    };
+    const response = await uploadFunction(file, { onUploadProgress });
+    if (!response.success) throw new Error(response.error);
+    return response.resourceUrl;
+  };
+
+  const validateForm = () => {
+    if (!lectureData.title || !lectureData.description || !lectureData.duration) {
+      setError('All fields are required.');
+      return false;
+    }
+    if (!videoFile) {
+      setError('Please upload a video file.');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
+    setLoading(true);
+
+    if (!validateForm()) {
+      setLoading(false);
+      return;
+    }
 
     try {
-      // Upload files to Cloudinary if they exist
-      let thumbnailUrl = "";
-      let videoUrl = "";
+      const thumbnailUrl = thumbnailFile ? await uploadFile(thumbnailFile, 'thumbnail') : '';
+      const videoUrl = await uploadFile(videoFile, 'video');
 
-      if (thumbnailFile) {
-        const thumbnailResponse = await uploadImage(thumbnailFile);
-        if (thumbnailResponse.success) {
-          thumbnailUrl = thumbnailResponse.resourceUrl;
-        } else {
-          throw new Error(thumbnailResponse.error);
-        }
-      }
-
-      if (videoFile) {
-        const videoResponse = await uploadVideo(videoFile);
-        if (videoResponse.success) {
-          videoUrl = videoResponse.resourceUrl;
-        } else {
-          throw new Error(videoResponse.error);
-        }
-      }
-      const condata = {
-        ...lectureData,
-        thumbnailPicUrl: thumbnailUrl,
-        videoUrl: videoUrl,
-        isVideoLecture: true,
-        isQuiz: false,
-      }
-
-      console.log(condata);
-
-      // Send lecture data along with Cloudinary URLs to the server
       const response = await axios.post(`http://localhost:8080/api/v1/${id}/lecture/add`, {
         ...lectureData,
         thumbnailPicUrl: thumbnailUrl,
-        videoUrl: videoUrl,
+        videoUrl,
         isVideoLecture: true,
         isQuiz: false,
       });
-      
+
       if (response.data.success) {
         navigate(`/courses/${id}`);
       } else {
-        setError('Failed to add lecture');
+        setError('Failed to add lecture.');
       }
     } catch (err) {
-      console.log(err)
-      setError(err.message || 'Failed to add lecture');
+      console.error(err);
+      setError('An error occurred while adding the lecture.');
     } finally {
       setLoading(false);
     }
@@ -99,11 +94,11 @@ const AddLecture = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
-      <h2 className="text-2xl font-semibold text-center mb-6">Add Lecture</h2>
+      <h2 className="text-2xl font-semibold text-center mb-6">Add New Lecture</h2>
       {error && <p className="text-red-500 text-center">{error}</p>}
-      {loading && <p className="text-center">Loading...</p>}
+      {loading && <p className="text-center">Uploading... Please wait.</p>}
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
         <div className="flex flex-col">
           <label className="font-semibold mb-1">Title</label>
           <input
@@ -128,13 +123,14 @@ const AddLecture = () => {
         </div>
 
         <div className="flex flex-col">
-          <label className="font-semibold mb-1">Thumbnail</label>
+          <label className="font-semibold mb-1">Thumbnail (optional)</label>
           <input
             type="file"
             name="thumbnailFile"
             onChange={handleFileChange}
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
+          {uploadProgress.thumbnail > 0 && <p className="text-xs text-gray-500">Uploading: {uploadProgress.thumbnail}%</p>}
         </div>
 
         <div className="flex flex-col">
@@ -146,25 +142,27 @@ const AddLecture = () => {
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
+          {uploadProgress.video > 0 && <p className="text-xs text-gray-500">Uploading: {uploadProgress.video}%</p>}
         </div>
 
         <div className="flex flex-col">
-          <label className="font-semibold mb-1">Duration</label>
+          <label className="font-semibold mb-1">Duration (minutes)</label>
           <input
-            type="text"
+            type="number"
             name="duration"
             value={lectureData.duration}
             onChange={handleChange}
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
           />
         </div>
 
         <button
           type="submit"
-          className="col-span-2 mt-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200"
+          className={`mt-4 py-2 bg-blue-500 text-white rounded-lg ${loading ? 'opacity-50' : 'hover:bg-blue-600'} transition-all duration-200`}
           disabled={loading}
         >
-          {loading ? 'Adding Lecture...' : 'Add Lecture'}
+          {loading ? 'Uploading...' : 'Add Lecture'}
         </button>
       </form>
     </div>

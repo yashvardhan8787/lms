@@ -87,7 +87,7 @@ const Header = () => {
                   </button>
                 </Link>
                 <button
-                  className="bg-purple-700 rounded-2xl w-32 p-2 text-white text-xl hover:text-orange-400 font-bold"
+                  className="bg-[#5A4BA1] rounded-2xl w-32 p-2 text-white text-xl hover:text-[#FD8B51] font-bold"
                   onClick={handleLogout}
                 >
                   Logout
@@ -95,7 +95,7 @@ const Header = () => {
               </>
             ) : (
               <Link to="/login">
-                <button className="bg-purple-700 rounded-2xl w-32 p-2 text-white text-xl hover:text-orange-400 font-bold">
+                <button className="bg-[#5A4BA1] rounded-2xl w-32 p-2 text-white text-xl hover:text-[#FD8B51] font-bold">
                   Login
                 </button>
               </Link>

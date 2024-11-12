@@ -32,6 +32,19 @@ const AddBadge = () => {
     setImageFile(e.target.files[0]);
   };
 
+  // Validate form fields
+  const validateForm = () => {
+    if (!badgeData.title || !badgeData.description || !badgeData.name) {
+      setError('Please fill out all fields.');
+      return false;
+    }
+    if (!imageFile) {
+      setError('Please select an image file.');
+      return false;
+    }
+    return true;
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,36 +52,39 @@ const AddBadge = () => {
     setError(''); // Clear any previous errors
     setSuccess(''); // Clear any previous success messages
 
-    try {
-      let badgeImageUrl = '';
+    if (!validateForm()) {
+      setLoading(false);
+      return;
+    }
 
+    try {
       // Step 1: Upload image to Cloudinary
-      if (imageFile) {
-        const cloudinaryResponse = await uploadImage(imageFile);
-        if (cloudinaryResponse.success) {
-          badgeImageUrl = cloudinaryResponse.resourceUrl;
-        } else {
-          throw new Error(cloudinaryResponse.error); // Stop if image upload fails
-        }
-      } else {
-        throw new Error('Please select an image file.');
+      const cloudinaryResponse = await uploadImage(imageFile);
+      if (!cloudinaryResponse.success) {
+        throw new Error(cloudinaryResponse.error); // Stop if image upload fails
       }
 
       // Step 2: Send POST request to add badge using the Cloudinary URL
       const response = await axios.post('http://localhost:8080/api/v1/add-badge-to-course', {
         ...badgeData,
-        badgeImageUrl, // Use the URL from Cloudinary
+        badgeImageUrl: cloudinaryResponse.resourceUrl,
       }, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      setSuccess("Badge added successfully");
-      setLoading(false);
+      if (response.data.success) {
+        setSuccess("Badge added successfully!");
+        setBadgeData({ title: '', description: '', name: '', badgeImageUrl: '', courseId: id });
+        setImageFile(null);
+      } else {
+        setError("Failed to add badge.");
+      }
     } catch (err) {
       console.error('Error adding badge:', err.message);
-      setError(err.message || 'Failed to add badge');
+      setError(err.message || 'An unexpected error occurred.');
+    } finally {
       setLoading(false);
     }
   };
@@ -76,9 +92,8 @@ const AddBadge = () => {
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
       <h2 className="text-2xl font-semibold text-center mb-6">Add Badge to Course</h2>
-      {error && <p className="text-red-500 text-center">{error}</p>}
-      {loading && <p className="text-center">Loading...</p>}
-      {<p className="text-center text-green-500">{success}</p>}
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+      {success && <p className="text-green-500 text-center mb-4">{success}</p>}
 
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
         
@@ -132,9 +147,12 @@ const AddBadge = () => {
 
         <button
           type="submit"
-          className="col-span-2 mt-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200"
+          className={`col-span-2 mt-4 py-2 text-white rounded-lg transition-all duration-200 ${
+            loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+          }`}
+          disabled={loading}
         >
-          Add Badge
+          {loading ? 'Adding Badge...' : 'Add Badge'}
         </button>
       </form>
     </div>

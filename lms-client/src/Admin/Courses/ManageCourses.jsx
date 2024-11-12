@@ -3,6 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import CreateCourseForm from "./CreateCourseForm";
 import { CourseContext } from "../../contexts/CourseContext";
+
 const ManageCourses = () => {
   const { courses } = useContext(CourseContext);
 
@@ -23,8 +24,8 @@ const ManageCourses = () => {
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 p-4">
-      <div className="p-6 bg-gray-100 max-h-screen h-full border rounded-3xl overflow-auto">
+    <div className="flex flex-col min-h-screen bg-gray-50 p-6">
+      <div className="p-6 bg-white shadow-lg rounded-3xl overflow-auto">
         {/* Search Bar */}
         <div className="bg-gray-200 p-4 rounded-lg flex items-center mb-10">
           <span className="text-gray-800 p-1 pr-10">
@@ -41,7 +42,7 @@ const ManageCourses = () => {
         {/* Create New Course Button */}
         <button
           onClick={toggleCreateCourse}
-          className="mt-8 mb-4 bg-purple-600 text-white py-3 px-6 rounded-lg text-lg hover:bg-purple-700 transition-all duration-300 shadow-md"
+          className="mb-6 bg-[#5A4BA1] text-white py-3 px-6 rounded-lg text-lg hover:bg-[#704cb2] transition-all duration-300 shadow-md"
         >
           {isCreatingCourse ? "Close Create Course" : "Create New Course"}
         </button>
@@ -63,7 +64,7 @@ const ManageCourses = () => {
               className="relative bg-white shadow-lg rounded-lg overflow-hidden p-4"
             >
               <img
-                src={course?.thumbnailUrl} //course.thumbnailUrl
+                src={course?.thumbnailUrl} // course.thumbnailUrl
                 alt={course?.name}
                 className="w-full h-80 object-cover"
               />
