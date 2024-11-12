@@ -27,7 +27,9 @@ const CourseLectures = ({ lectures, courseId }) => {
                                     Watch Lecture
                                 </Link>
                             ) : lecture.isQuiz ? (
-                                <p className="text-purple-500">Quiz</p>
+                                <Link to={`/course/${courseId}/lecture/${lecture._id}`} className="text-purple-600">
+                                    start quiz
+                                </Link>
                             ) : null}
                         </div>
                     </div>

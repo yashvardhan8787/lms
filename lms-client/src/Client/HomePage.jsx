@@ -10,7 +10,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="flex-1 p-6 space-y-6 bg-gray-100 h-screen border rounded-3xl overflow-scroll ">
+      <div className="flex-1 p-6 space-y-6 bg-gray-100 h-screen border rounded-3xl overflow-scroll scrollbar-hide  ">
         {/* Search Bar */}
 
 

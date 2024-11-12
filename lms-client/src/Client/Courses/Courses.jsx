@@ -28,7 +28,7 @@ const Courses = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-100 max-h-screen h-[1000px]  border rounded-3xl overflow-scroll">
+    <div className="p-6 bg-gray-100 max-h-screen h-[1000px]  border rounded-3xl overflow-scroll scrollbar-hide">
       <div className="bg-gray-200 p-4 rounded-lg flex items-center mb-10">
         <span className="text-gray-800 p-1 pr-10">
           <FaSearch size="24px" />

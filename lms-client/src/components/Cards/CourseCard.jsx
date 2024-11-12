@@ -1,12 +1,16 @@
 import React from "react";
 import executioncontext from "../../../public/assets/images/execution-context.jpg";
 import { Link } from "react-router-dom";
-
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 // CourseCard.js
 const CourseCard = ({ course }) => {
+  
+ const {auth} =useContext(AuthContext);
+
   return (
     <div className="relative bg-white shadow-lg rounded-lg overflow-hidden ">
-      <Link to={`/courses/${course?._id}`}>
+      <Link to={auth ?`/courses/${course?._id}`:`/login`}>
         <img
           src={executioncontext} //course.thumbnailUrl
           alt={course?.name}
@@ -48,7 +52,8 @@ const CourseCard = ({ course }) => {
               ${course.price}
             </span>
 
-            <button className="bg-orange-400  rounded-2xl w-42 p-3 text-white text-xl hover:bg-orange-600 font-bold">
+            <button className="bg-orange-400  rounded-2xl w-42 p-3 text-white text-xl hover:bg-orange-600 font-bold"
+            >
               View Course
             </button>
           </div>
