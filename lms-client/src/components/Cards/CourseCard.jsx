@@ -12,7 +12,7 @@ const CourseCard = ({ course }) => {
     <div className="relative bg-white shadow-lg rounded-lg overflow-hidden ">
       <Link to={auth ?`/courses/${course?._id}`:`/login`}>
         <img
-          src={executioncontext} //course.thumbnailUrl
+          src={course.thumbnailUrl} //course.thumbnailUrl
           alt={course?.name}
           className="w-full h-80 object-cover"
         />
