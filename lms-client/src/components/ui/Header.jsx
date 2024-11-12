@@ -28,7 +28,7 @@ const Header = () => {
     fetchUserInfo();
   }, []);
   useEffect(() => {
-    if (userEmail && userData) {
+    if (userEmail) {
       setLoggedIn(true);
     }
   }, [userEmail]);
