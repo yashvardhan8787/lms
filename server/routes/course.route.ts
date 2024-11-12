@@ -94,7 +94,10 @@ import { authorizeRoles, isAutheticated } from "../middleware/auth";// Assuming 
 const router = express.Router();
 
 // Course Routes
-router.post('/create',isAutheticated,authorizeRoles('admin'), createCourse);               // Create a new course
+router.post('/create',
+  //isAutheticated,authorizeRoles('admin'), 
+  // isAutheticated,authorizeRoles('admin'), 
+  createCourse);               // Create a new course
 router.put('/update/:id', 
   // isAutheticated,
   // authorizeRoles('admin'), 
@@ -116,13 +119,13 @@ router.post('/enroll', enrollInCourse);
 // Quiz Routes
 router.post('/quiz/create', createQuiz);              // Create a quiz
 router.get('/quiz/:id',
-   isAutheticated,
+  //  isAutheticated,
     getQuizById);                 // Get a quiz by ID
 router.delete('/quiz/:id',
    isAutheticated,
     deleteQuiz);               // Delete a quiz
 router.post('/quiz/evaluate',
-  isAutheticated,
+  // isAutheticated,
    evaluateQuiz);          // Evaluate a quiz
 
 // Review Routes

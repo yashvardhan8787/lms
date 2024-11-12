@@ -13,9 +13,10 @@ import CourseRoadmap from './CourseRoadMap';
 
 const CourseDetail = () => {
     const { courseId } = useParams();
-    const { courses } = useContext(CourseContext);
+    const { courses,fetchLectures} = useContext(CourseContext);
     const [course, setCourse] = useState(null);
-
+    const [lecture , setLecture] =useState("");
+  
     useEffect(() => {
         const foundCourse = courses.find((c) => c._id === courseId);
         setCourse(foundCourse);
@@ -24,7 +25,7 @@ const CourseDetail = () => {
     if (!course) return <div>Loading...</div>;
 
     return (
-        <div className="p-6 mx-auto bg-gray-100 max-h-screen h-[1000px]  border rounded-3xl overflow-scroll">
+        <div className="p-6 mx-auto bg-gray-100 max-h-screen h-[1000px]  border rounded-3xl overflow-scroll scrollbar-hide">
             <CourseHeader course={course} />
             <CourseDescription course={course} />
             <CourseCategories categories={course.categories} />
