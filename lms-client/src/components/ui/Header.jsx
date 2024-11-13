@@ -5,8 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { LuCoins } from "react-icons/lu";
 import { getUserInfo, logoutUser } from "../../api/auth";
 import { AuthContext } from "../../contexts/AuthContext";
+import ChatBot from "../../ChatBot/ChatBot" // Import the ChatBot component
 import toast from "react-hot-toast";
-// Ensure you have the fonts.css file to import Roboto
+import { RiRobot3Fill } from "react-icons/ri";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -15,6 +16,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
+  const [isChatBotOpen, setIsChatBotOpen] = useState(false); // Track ChatBot modal state
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -55,14 +57,15 @@ const Header = () => {
             <IoMenu className="h-6 w-6" />
           </button>
           <Link to="/" className="flex items-center space-x-2">
-            <h1 className="text-4xl font-extrabold text-white">
-              Playground
-            </h1>
+            <h1 className="text-4xl font-extrabold text-white">Playground</h1>
           </Link>
         </div>
         <div className="flex items-center space-x-6">
           {loggedIn ? (
             <>
+              <button onClick={() => setIsChatBotOpen(true)} className="flex items-center space-x-2">
+                <RiRobot3Fill className="h-10 w-10 text-[#FD8B51] hover:text-[#FD8B51]" />
+              </button>
               <div className="flex items-center justify-center h-10 w-20 bg-gray-100 rounded-full px-3 py-1">
                 <LuCoins className="h-6 w-6 text-green-500 font-extrabold" />
                 <span className="font-bold text-xl text-gray-800">0</span>
@@ -70,7 +73,7 @@ const Header = () => {
               <Link to="/profile" className="flex items-center space-x-2">
                 <FaRegUserCircle className="h-6 w-6 text-white hover:text-[#FD8B51]" />
                 <span className="text-lg font-medium text-white hover:text-[#FD8B51]">
-                  Profile
+                  {userData?.name}
                 </span>
               </Link>
               <button
@@ -89,6 +92,8 @@ const Header = () => {
           )}
         </div>
       </div>
+      {/* Render ChatBot as a modal when isChatBotOpen is true */}
+      {isChatBotOpen && <ChatBot onClose={() => setIsChatBotOpen(false)} />}
     </header>
   );
 };

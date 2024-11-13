@@ -106,3 +106,4 @@ const PublicProfile = ({ userData }) => {
 };
 
 export default PublicProfile;
+// singhharsh7309@gamil.com

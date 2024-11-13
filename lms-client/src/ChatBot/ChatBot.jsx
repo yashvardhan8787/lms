@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CourseContext } from "../contexts/CourseContext";
 import Typewriter from "typewriter-effect";
+import { FaTimes } from "react-icons/fa";
 
-const ChatBot = () => {
+const ChatBot = ({ onClose }) => {
   const { courses, loading } = useContext(CourseContext);
   const [step, setStep] = useState(1);
   const [field, setField] = useState("");
   const [filteredCourses, setFilteredCourses] = useState([]);
-  const [expandedImage, setExpandedImage] = useState(null); // To handle roadmap image expansion
+  const [expandedImage, setExpandedImage] = useState(null);
 
   // Define fields of interest
   const fieldsOfInterest = ["IT", "Business", "Engineering", "Fashion"];
@@ -35,11 +36,18 @@ const ChatBot = () => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-80">
       <div className="chatbot-container w-full max-w-lg p-6 shadow-lg rounded-lg bg-white text-purple-900 relative">
-        <div className="header text-center font-bold text-2xl text-purple-700 mb-4">
+        {/* Close Button */}
+        <button
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+          onClick={onClose}
+        >
+          <FaTimes className="h-6 w-6 " />
+        </button>
+        
+        <div className="header text-center font-bold text-2xl text-white mb-4">
           ChatBot
         </div>
         <div className="chat-area max-h-[70vh] overflow-y-auto">
-          {/* Welcome message and field selection */}
           {step === 1 && (
             <div className="message bot-message mb-4">
               <div className="text-left mb-2">
@@ -68,7 +76,6 @@ const ChatBot = () => {
             </div>
           )}
 
-          {/* Course suggestions based on selected field */}
           {step === 2 && (
             <div>
               <div className="message user-message text-right mb-4">

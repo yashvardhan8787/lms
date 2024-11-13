@@ -102,7 +102,6 @@ function App() {
         <Route path="/reset-password" element={<ResetPasswordForm />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/rewards" element={<Rewards />} />
-        <Route path="/bot" element={<ChatBot />} />
         <Route
           path="/course/:courseId/lecture/:lectureId"
           element={<LecturePage />}
