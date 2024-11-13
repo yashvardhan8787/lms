@@ -3,8 +3,8 @@ import { FaYoutube, FaInstagram, FaGithub } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-gradient-to-r from-[#5A4BA1] to-[#704cb2] text-white py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {/* About */}
           <div>
@@ -60,7 +60,7 @@ const Footer = () => {
         </div>
         
         <div className="mt-8 text-center text-sm">
-          <p>Copyright © 2023 ELearning | All Rights Reserved</p>
+          <p className="text-white font-medium">&copy; 2024 ELearning | All Rights Reserved</p>
         </div>
       </div>
     </footer>

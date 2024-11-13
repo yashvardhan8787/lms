@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { LuCoins } from "react-icons/lu";
 import { getUserInfo, logoutUser } from "../../api/auth";
 import { AuthContext } from "../../contexts/AuthContext";
-import ChatBot from "../../ChatBot/ChatBot" // Import the ChatBot component
+import ChatBot from "../../ChatBot/ChatBot";
 import toast from "react-hot-toast";
 import { RiRobot3Fill } from "react-icons/ri";
 
@@ -16,7 +16,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
-  const [isChatBotOpen, setIsChatBotOpen] = useState(false); // Track ChatBot modal state
+  const [isChatBotOpen, setIsChatBotOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -63,8 +63,12 @@ const Header = () => {
         <div className="flex items-center space-x-6">
           {loggedIn ? (
             <>
-              <button onClick={() => setIsChatBotOpen(true)} className="flex items-center space-x-2">
-                <RiRobot3Fill className="h-10 w-10 text-[#FD8B51] hover:text-[#FD8B51]" />
+              <button
+                onClick={() => setIsChatBotOpen(true)}
+                className="flex items-center space-x-2 bg-[#FD8B51] text-white p-2 rounded-full hover:bg-[#e67c3c] transition-all duration-300"
+              >
+                <RiRobot3Fill className="h-6 w-6" />
+                <span className="text-lg font-medium">ChatBot</span>
               </button>
               <div className="flex items-center justify-center h-10 w-20 bg-gray-100 rounded-full px-3 py-1">
                 <LuCoins className="h-6 w-6 text-green-500 font-extrabold" />
@@ -92,7 +96,6 @@ const Header = () => {
           )}
         </div>
       </div>
-      {/* Render ChatBot as a modal when isChatBotOpen is true */}
       {isChatBotOpen && <ChatBot onClose={() => setIsChatBotOpen(false)} />}
     </header>
   );

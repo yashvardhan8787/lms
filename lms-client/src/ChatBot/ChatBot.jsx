@@ -10,22 +10,18 @@ const ChatBot = ({ onClose }) => {
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [expandedImage, setExpandedImage] = useState(null);
 
-  // Define fields of interest
   const fieldsOfInterest = ["IT", "Business", "Engineering", "Fashion"];
 
-  // Handle user's field selection
   const handleFieldSelection = (selectedField) => {
     setField(selectedField);
     setStep(2);
 
-    // Filter courses based on the selected field
     const filtered = courses.filter((course) =>
       course.categories.includes(selectedField)
     );
     setFilteredCourses(filtered);
   };
 
-  // Reset the chatbot when user revisits or changes field of interest
   useEffect(() => {
     setField("");
     setFilteredCourses([]);
@@ -34,22 +30,21 @@ const ChatBot = ({ onClose }) => {
   if (loading) return <p>Loading chatbot...</p>;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-80">
-      <div className="chatbot-container w-full max-w-lg p-6 shadow-lg rounded-lg bg-white text-purple-900 relative">
-        {/* Close Button */}
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-80 z-50">
+      <div className="w-full max-w-lg p-6 shadow-lg rounded-lg bg-white text-gray-800 relative">
         <button
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none"
           onClick={onClose}
         >
-          <FaTimes className="h-6 w-6 " />
+          <FaTimes className="h-6 w-6" />
         </button>
-        
-        <div className="header text-center font-bold text-2xl text-white mb-4">
+
+        <div className="text-center font-extrabold text-2xl text-[#5A4BA1] mb-4">
           ChatBot
         </div>
-        <div className="chat-area max-h-[70vh] overflow-y-auto">
+        <div className="max-h-[70vh] overflow-y-auto">
           {step === 1 && (
-            <div className="message bot-message mb-4">
+            <div className="mb-4">
               <div className="text-left mb-2">
                 <Typewriter
                   onInit={(typewriter) => {
@@ -62,12 +57,12 @@ const ChatBot = ({ onClose }) => {
                   }}
                 />
               </div>
-              <div className="field-options mt-4 flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {fieldsOfInterest.map((interest, index) => (
                   <button
                     key={index}
                     onClick={() => handleFieldSelection(interest)}
-                    className="bg-purple-500 text-white px-4 py-2 rounded-full hover:bg-purple-600 transition"
+                    className="bg-gradient-to-r from-[#5A4BA1] to-[#704cb2] text-white px-4 py-2 rounded-full hover:from-[#704cb2] hover:to-[#5A4BA1] transition-all duration-300"
                   >
                     {interest}
                   </button>
@@ -78,21 +73,21 @@ const ChatBot = ({ onClose }) => {
 
           {step === 2 && (
             <div>
-              <div className="message user-message text-right mb-4">
-                <p className="bg-purple-200 inline-block p-2 rounded-lg text-sm">
+              <div className="text-right mb-4">
+                <p className="bg-gradient-to-r from-[#5A4BA1] to-[#704cb2] inline-block p-2 rounded-lg text-sm text-white">
                   {field}
                 </p>
               </div>
-              <div className="message bot-message text-left mb-4">
+              <div className="text-left mb-4">
                 <p className="text-lg font-semibold">
                   Here are some recommended courses in {field}:
                 </p>
-                <div className="course-suggestions mt-4">
+                <div className="mt-4">
                   {filteredCourses.length > 0 ? (
                     filteredCourses.map((course, index) => (
                       <div
                         key={index}
-                        className="course-card bg-gray-50 mb-3 shadow-md p-3 rounded-md border border-gray-200"
+                        className="bg-gray-50 mb-3 shadow-md p-3 rounded-md border border-gray-200"
                       >
                         <h3 className="font-bold text-md mb-1">{course.name}</h3>
                         {course.roadmapPicUrl && (
@@ -103,10 +98,12 @@ const ChatBot = ({ onClose }) => {
                             onClick={() => setExpandedImage(course.roadmapPicUrl)}
                           />
                         )}
-                        <p className="text-sm text-gray-700">{course.description}</p>
+                        <p className="text-sm text-gray-700">
+                          {course.description}
+                        </p>
                         <a
                           href={`/courses/${course._id}`}
-                          className="text-purple-600 underline mt-2 inline-block"
+                          className="text-[#5A4BA1] underline mt-2 inline-block"
                         >
                           View More
                         </a>
@@ -121,7 +118,6 @@ const ChatBot = ({ onClose }) => {
           )}
         </div>
 
-        {/* Expanded roadmap image modal */}
         {expandedImage && (
           <div
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
