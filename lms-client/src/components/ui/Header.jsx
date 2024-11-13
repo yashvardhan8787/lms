@@ -8,6 +8,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import ChatBot from "../../ChatBot/ChatBot"; // Import the ChatBot component
 import toast from "react-hot-toast";
 import { RiRobot3Fill } from "react-icons/ri";
+import { IoBagSharp } from "react-icons/io5";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -73,7 +74,7 @@ const Header = () => {
               
               <div className="flex items-center justify-center h-10 w-20 bg-gray-100 rounded-full px-3 py-1">
                 <LuCoins className="h-6 w-6 text-green-500 font-extrabold" />
-                <span className="font-bold text-xl text-gray-800">0</span>
+                <span className="font-bold text-xl text-gray-800">{userData?.streaks}</span>
               </div>
               
               <Link to="/profile" className="flex items-center space-x-2">
@@ -88,6 +89,12 @@ const Header = () => {
                 onClick={handleLogout}
               >
                 Logout
+              </button>
+              <button
+            
+                className="flex items-center space-x-2"
+              >
+                <IoBagSharp className="h-7 w-7 text-white " />
               </button>
             </>
           ) : (

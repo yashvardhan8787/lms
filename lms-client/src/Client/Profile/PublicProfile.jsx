@@ -84,6 +84,9 @@ const PublicProfile = ({ userData }) => {
       </div>
       <div className="mt-10">
         <h1 className="text-3xl font-bold mb-6">Badges</h1>
+        <div>
+
+        </div>
       </div>
 
       {/* Purchased Courses Section */}
@@ -92,7 +95,7 @@ const PublicProfile = ({ userData }) => {
         {loading ? (
           <p className="text-center text-xl">Loading courses...</p>
         ) : purchasedCourses.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="">
             {purchasedCourses.map((course, index) => (
               <CourseCard key={index} course={course} />
             ))}
