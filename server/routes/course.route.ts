@@ -97,7 +97,8 @@ const router = express.Router();
 router.post('/create',
   //isAutheticated,authorizeRoles('admin'), 
   // isAutheticated,authorizeRoles('admin'), 
-  createCourse);               // Create a new course
+  createCourse); 
+                // Create a new course
 router.put('/update/:id', 
   // isAutheticated,
   // authorizeRoles('admin'), 

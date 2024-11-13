@@ -1,7 +1,10 @@
 import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
-
+import  { useEffect, useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import axios from "axios";
 // UI Components
 import Header from "./components/ui/Header";
 import Sidebar from "./components/ui/SideBar";
@@ -40,7 +43,7 @@ import AddBadge from "./Admin/Courses/AddBadge";
 import PrivateRoute from "../src/components/PrivateRoute";
 import MyCourses from "./Client/Courses/MyCourses";
 
-
+import OrderComponent from "./components/OrderComponent";
 import ChatBot from "./ChatBot/ChatBot";
 
 function MainLayout() {
@@ -58,7 +61,30 @@ function MainLayout() {
 }
 
 function App() {
+  const [stripePromise, setStripePromise] = useState(null);
+
+  useEffect(() => {
+    // Fetch the Stripe publishable key from your backend
+    const fetchStripeKey = async () => {
+      try {
+        const response = await axios.get("/payment/stripepublishablekey");
+        const stripeKey = response.data.publishablekey;
+        setStripePromise(loadStripe(stripeKey));
+      } catch (error) {
+        console.error("Failed to fetch Stripe publishable key:", error);
+      }
+    };
+
+    fetchStripeKey();
+  }, []);
+
+  if (!stripePromise) {
+    return <p>Loading payment integration...</p>;
+  }
   return (
+    <Elements stripe={stripePromise}>
+
+    {/* <OrderComponent courseId="YOUR_COURSE_ID_HERE" /> */}
     <Routes>
       {/* Main layout routes */}
       <Route element={<MainLayout />}>
@@ -100,7 +126,10 @@ function App() {
       {/* Wildcard route for 404 Not Found */}
       <Route path="*" element={<NotFoundErrorPage />} />
     </Routes>
+    </Elements>
   );
 }
 
 export default App;
+
+

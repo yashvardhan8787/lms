@@ -4,15 +4,14 @@ import { Lecture } from '../models/course.model';
 import  Badge  from '../models/badge.model';
 import { Course } from '../models/course.model';
 import mongoose from 'mongoose';
-
+import User from '../models/user.model';  // Import user model
 
 export const getUserProgress = async (req: Request, res: Response) => {
     const { userId, courseId } = req.params;
   
     try {
       const userProgress = await UserProgress.findOne({ userId, courseId })
-        .populate('lectureProgress.lectureId')
-        .exec();
+      .exec();
   
       if (!userProgress) {
         return res.status(404).json({ message: 'Progress data not found.' });
@@ -24,12 +23,14 @@ export const getUserProgress = async (req: Request, res: Response) => {
     }
   };
   
+ 
 
   export const updateLectureProgress = async (req: Request, res: Response) => {
     const { userId, courseId, lectureId } = req.body;
     const { isCompleted, progressPercentage, quizStatus } = req.body;
   
     try {
+      // Fetch or create user progress
       let userProgress = await UserProgress.findOne({ userId, courseId });
       if (!userProgress) {
         userProgress = new UserProgress({
@@ -43,6 +44,7 @@ export const getUserProgress = async (req: Request, res: Response) => {
         });
       }
   
+      // Update lecture progress
       const lectureIndex = userProgress.lectureProgress.findIndex(
         (lp) => lp.lectureId.toString() === lectureId
       );
@@ -63,16 +65,53 @@ export const getUserProgress = async (req: Request, res: Response) => {
         });
       }
   
-      if (isCompleted) userProgress.totalCompletedLectures += 1;
+      // Update streaks if lecture is completed
+      if (isCompleted) {
+        userProgress.totalCompletedLectures += 1;
+  
+        const user = await User.findById(userId);
+        if (user) {
+          user.streaks += 10;
+          await user.save();
+        }
+      }
+  
       if (quizStatus?.isPassed) userProgress.totalQuizzesPassed += 1;
   
       await userProgress.save();
+  
+      // Check if all course lectures are completed
+      const course = await Course.findById(courseId).populate('lectures');
+      if (course) {
+        const completedLectureIds = userProgress.lectureProgress
+          .filter(lp => lp.isCompleted)
+          .map(lp => lp.lectureId.toString());
+  
+        const allLecturesCompleted = course.lectures.every(lecture =>
+          completedLectureIds.includes(lecture._id.toString())
+        );
+  
+        // Award course badges to user if all lectures are completed
+        if (allLecturesCompleted) {
+          const user = await User.findById(userId);
+          if (user) {
+            course.badges.forEach(badgeId => {
+              if (!user.badges.includes(badgeId)) {
+                user.badges.push(badgeId);
+              }
+            });
+            await user.save();
+          }
+        }
+      }
+  
       res.status(200).json({ message: 'Lecture progress updated.', userProgress });
     } catch (error) {
       res.status(500).json({ message: 'Server error', error });
     }
   };
-
+  
+  
   
   export const awardBadgeForCourseCompletion = async (req: Request, res: Response) => {
     const { userId, courseId } = req.body;

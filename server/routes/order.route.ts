@@ -5,20 +5,18 @@ import {
   getAllOrders,
   newPayment,
   sendStripePublishableKey,
-} from "../controllers/order.controller";
+} from "../controllers/order.controller" ;
 const orderRouter = express.Router();
 
-orderRouter.post("/create-order", isAutheticated, createOrder);
+orderRouter.post("/create-order",  createOrder);
 
 orderRouter.get(
   "/get-orders",
-  isAutheticated,
-  authorizeRoles("admin"),
   getAllOrders
 );
 
 orderRouter.get("/payment/stripepublishablekey", sendStripePublishableKey);
 
-orderRouter.post("/payment", isAutheticated, newPayment);
+orderRouter.post("/payment", newPayment);
 
 export default orderRouter;

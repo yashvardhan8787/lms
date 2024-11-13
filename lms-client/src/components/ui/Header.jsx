@@ -15,7 +15,7 @@ const Header = () => {
   const navigate = useNavigate(); // Use useNavigate for navigation
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null)
-
+  const userInfo = JSON.parse(auth);
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -28,10 +28,10 @@ const Header = () => {
     fetchUserInfo();
   }, []);
   useEffect(() => {
-    if (userEmail) {
+    if (userInfo) {
       setLoggedIn(true);
     }
-  }, [userEmail]);
+  }, [userInfo]);
 
   const handleLogout = async () => {
     try {
@@ -73,7 +73,7 @@ const Header = () => {
           <div className="flex items-center justify-center h-10 w-20 bg-gray-100 rounded-full px-2 md:px-3 py-1">
                   <LuCoins className="h-6 w-6 md:h-6 md:w-6 mr-1 ml-1 text-green-500 font-extrabold" />
                   <span className="font-bold text-xl md:text-xl text-gray-800">
-                    0
+                    {userData?.streaks}
                   </span>
                 </div>
                 <Link to="profile">

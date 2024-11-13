@@ -27,7 +27,6 @@ const UserProfile = () => {
     fetchUserInfo();
   }, []);
 
-  console.log(userData.role)
 
   const handleUpdateProfile = (updatedData) => {
     setUserData(updatedData);
