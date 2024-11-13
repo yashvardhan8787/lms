@@ -3,6 +3,8 @@ import executioncontext from "../../../public/assets/images/execution-context.jp
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import Badges from "../../Client/Badges/Badges";
+import BadgeImg from "../../Client/Badges/BadgeImg";
 // CourseCard.js
 const CourseCard = ({ course }) => {
   
@@ -28,7 +30,7 @@ const CourseCard = ({ course }) => {
                 key={index}
                 className="bg-purple-200 text-purple-700 text-xs font-semibold px-2 py-1 rounded-full"
               >
-                {badge}
+                <BadgeImg badgeId={badge}></BadgeImg>
               </span>
             ))}
           </div>
