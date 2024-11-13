@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import {
   FaHome,
   FaBookOpen,
@@ -8,10 +8,20 @@ import {
   FaDollarSign,
 } from "react-icons/fa";
 import { MdPolicy, MdKeyboardArrowDown } from "react-icons/md";
+import { AuthContext } from "../../contexts/AuthContext";
 
 // Sidebar.js
 const Sidebar = () => {
   const [isCoursesOpen, setIsCoursesOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const { auth, logout } = useContext(AuthContext);
+  const userInfo = JSON.parse(auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      setLoggedIn(true);
+    }
+  }, [userInfo]);
 
   const navItems = [
     { name: "Home", path: "/", icon: <FaHome /> },
@@ -21,7 +31,7 @@ const Sidebar = () => {
       isDropdown: true,
       subItems: [
         { name: "All Courses", path: "/courses" },
-        { name: "My Course", path: "/my-course" },
+        ...(loggedIn ? [{ name: "My Course", path: "/my-course" }] : []), // Conditionally add "My Course"
       ],
     },
     { name: "About", path: "/about", icon: <FaExclamationCircle /> },

@@ -1,19 +1,30 @@
-// PublicProfile.js
-
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaEnvelope } from "react-icons/fa";
 import { MdVerified, MdNotInterested } from "react-icons/md";
 import { GiAchievement } from "react-icons/gi";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { FaRegUser } from "react-icons/fa";
 import { LuCoins } from "react-icons/lu";
+import CourseCard from "../../components/Cards/CourseCard";
+import { CourseContext } from "../../contexts/CourseContext";
 
 const PublicProfile = ({ userData }) => {
+  const { courses, loading } = useContext(CourseContext);
+  const [purchasedCourses, setPurchasedCourses] = useState([]);
+
+  useEffect(() => {
+    if (userData && userData.courses && Array.isArray(courses)) {
+      const purchasedCourseIds = userData.courses.map((c) => c.courseId);
+      const filteredCourses = courses.filter((course) =>
+        purchasedCourseIds.includes(course._id)
+      );
+      setPurchasedCourses(filteredCourses);
+    }
+  }, [userData, courses]);
+
   return (
     <div className="text-center space-y-6">
       {/* Email and Verification Status */}
-
-      {/* About Me Section */}
       <div className="text-center mt-6">
         <h3 className="text-3xl font-bold ">About Me</h3>
         <p className="text-gray-600 mt-2 text-xl">
@@ -34,6 +45,7 @@ const PublicProfile = ({ userData }) => {
           </span>
         )}
       </p>
+
       {/* Additional Details: Role, Streaks, Badges */}
       <div className="grid grid-cols-3 gap-8 mt-6 text-center">
         {/* Role */}
@@ -61,17 +73,33 @@ const PublicProfile = ({ userData }) => {
                   key={index}
                   className="text-yellow-500 p-2 rounded-full bg-gray-100 shadow-sm"
                 >
-                  <GiAchievement className="inline-block mr-1" /> {badge}
+                  <GiAchievement className="inline-block mr-1" /> {badge.length}
                 </span>
               ))
             ) : (
-              <p className="text-gray-400">No badges earned yet.</p>
+              <p className="text-gray-950">0</p>
             )}
           </div>
         </div>
       </div>
-      <div>
-        <h1 className="text-3xl font-bold">Your Courses</h1>
+      <div className="mt-10">
+        <h1 className="text-3xl font-bold mb-6">Badges</h1>
+      </div>
+
+      {/* Purchased Courses Section */}
+      <div className="mt-10">
+        <h1 className="text-3xl font-bold mb-6">Your Courses</h1>
+        {loading ? (
+          <p className="text-center text-xl">Loading courses...</p>
+        ) : purchasedCourses.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {purchasedCourses.map((course, index) => (
+              <CourseCard key={index} course={course} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-xl">No purchased courses available</p>
+        )}
       </div>
     </div>
   );

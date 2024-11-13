@@ -1,31 +1,34 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CourseCard from "../../components/Cards/CourseCard";
 import { CourseContext } from "../../contexts/CourseContext";
 import { FaSearch } from "react-icons/fa";
-import { getCourseById } from "../../api/courses"; // Import the getCourseById API
 import { getUserInfo } from "../../api/auth";
 
 const MyCourses = () => {
-  const { courses, loading } = useContext(CourseContext); // Assuming user data is available in context
+  const { courses, loading } = useContext(CourseContext);
   const [purchasedCourses, setPurchasedCourses] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const res = await getUserInfo();
-        setUser(res?.data?.user);
-        setLoading(false);
+        if (!res?.data?.user) {
+          navigate("/login"); // Redirect to login if no user data
+        } else {
+          setUser(res.data.user);
+        }
       } catch (err) {
-        setError(err.response?.data?.message || "An error occurred");
-        setLoading(false);
+        navigate("/login"); // Redirect to login if an error occurs
       }
     };
     fetchUserInfo();
-  }, []);
+  }, [navigate]);
+
   useEffect(() => {
-    // Filter the courses array based on purchased courses
     if (user && user.courses && Array.isArray(courses)) {
       const purchasedCourseIds = user.courses.map((c) => c.courseId);
       const filteredCourses = courses.filter((course) =>
@@ -35,7 +38,6 @@ const MyCourses = () => {
     }
   }, [user, courses]);
 
-  // Filter courses based on search term
   const filteredCourses = searchTerm
     ? purchasedCourses.filter((course) =>
         course?.name?.toLowerCase().includes(searchTerm.toLowerCase().trim())
