@@ -1,5 +1,4 @@
 import React from "react";
-import executioncontext from "../../../public/assets/images/execution-context.jpg";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";

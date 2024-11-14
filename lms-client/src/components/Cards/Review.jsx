@@ -41,7 +41,7 @@ const Review = () => {
   };
 
   return (
-    <div className="container mx-auto my-8">
+    <div className="container mx-auto my-8 overflow-hidden">
       <div className="text-center mb-8">
         <h2 className="text-4xl font-bold text-[#5A4BA1]">Top Stories</h2>
       </div>
