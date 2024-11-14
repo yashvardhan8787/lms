@@ -2,7 +2,7 @@ import React from 'react'
 
 const Policy = () => {
   return (
-    <section className="bg-gray-100 py-16 h-screen rounded-3xl">
+    <section className="bg-gray-100 py-16 h-screen rounded-3xl overflow-scroll">
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 className="text-5xl  text-black font-bold mb-6 text-center">
         Terms & Conditions

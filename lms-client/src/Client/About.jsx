@@ -2,7 +2,7 @@ import React from "react";
 
 const About = () => {
   return (
-    <section className="bg-gray-100 h-screen border rounded-3xl py-16">
+    <section className="bg-gray-100 h-screen border rounded-3xl py-16 overflow-scroll">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-5xl font-bold mb-6 text-center">
           What is <span className="text-purple-800">E-learning</span>
