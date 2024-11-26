@@ -5,7 +5,6 @@ import AdminDashboard from './Admin/AdminDashboard';
 import UserDashboard from './Client/UserDashboard';
 import { AuthContext } from '../contexts/AuthContext';
 
-
 const Dashboard = () => {
   const [user, setUser] = useState(null); // User state
   const [loading, setLoading] = useState(true); // Loading state
@@ -32,22 +31,22 @@ const Dashboard = () => {
   const handleLogout = async () => {
     try {
       await logoutUser(); // Call API to log out
-      logout();
+      logout(); // Clear session in context
       navigate('/'); // Redirect to login page 
-
     } catch (err) {
       console.error(err.response?.data?.message);
+      setError(err.response?.data?.message || 'Logout failed');
     }
   };
 
   // Loading or error display
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (error) return <p className="text-red-600">{error}</p>; // Display error in red
 
   // Render AdminDashboard or UserDashboard based on role
   return (
     <div className="dashboard">
-      {user.role === 'admin' ? (
+      {user?.role === 'admin' ? (
         <AdminDashboard user={user} onLogout={handleLogout} />
       ) : (
         <UserDashboard user={user} onLogout={handleLogout} />

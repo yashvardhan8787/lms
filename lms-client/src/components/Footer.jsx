@@ -10,9 +10,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">About</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:underline">Our Story</a></li>
-              <li><a href="#" className="hover:underline">Privacy Policy</a></li>
-              <li><a href="#" className="hover:underline">FAQ</a></li>
+              <li><a href="#" className="hover:underline" aria-label="Our Story">Our Story</a></li>
+              <li><a href="#" className="hover:underline" aria-label="Privacy Policy">Privacy Policy</a></li>
+              <li><a href="#" className="hover:underline" aria-label="FAQ">FAQ</a></li>
             </ul>
           </div>
           
@@ -20,9 +20,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:underline">Courses</a></li>
-              <li><a href="#" className="hover:underline">My Account</a></li>
-              <li><a href="#" className="hover:underline">Course Dashboard</a></li>
+              <li><a href="#" className="hover:underline" aria-label="Courses">Courses</a></li>
+              <li><a href="#" className="hover:underline" aria-label="My Account">My Account</a></li>
+              <li><a href="#" className="hover:underline" aria-label="Course Dashboard">Course Dashboard</a></li>
             </ul>
           </div>
           
@@ -31,18 +31,18 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Social Links</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="flex items-center hover:underline">
-                  <FaYoutube className="mr-2" /> YouTube
+                <a href="#" className="flex items-center hover:underline" aria-label="YouTube Channel" target="_blank" rel="noopener noreferrer">
+                  <FaYoutube className="mr-2 transition-transform transform hover:scale-110" /> YouTube
                 </a>
               </li>
               <li>
-                <a href="#" className="flex items-center hover:underline">
-                  <FaInstagram className="mr-2" /> Instagram
+                <a href="#" className="flex items-center hover:underline" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                  <FaInstagram className="mr-2 transition-transform transform hover:scale-110" /> Instagram
                 </a>
               </li>
               <li>
-                <a href="#" className="flex items-center hover:underline">
-                  <FaGithub className="mr-2" /> GitHub
+                <a href="#" className="flex items-center hover:underline" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+                  <FaGithub className="mr-2 transition-transform transform hover:scale-110" /> GitHub
                 </a>
               </li>
             </ul>

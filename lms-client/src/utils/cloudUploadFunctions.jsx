@@ -12,25 +12,29 @@ const uploadToCloudinary = async (file) => {
 
   const formData = new FormData();
   formData.append('file', file);
-  // Use `import.meta.env` for Vite environment variables
   formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
 
   try {
+    // Make the POST request to Cloudinary
     const response = await axios.post(import.meta.env.VITE_CLOUDINARY_URL, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
 
+    // Ensure the response data is valid before accessing it
+    const resourceUrl = response?.data?.secure_url || "";
     return {
-      resourceUrl: response.data.secure_url,
+      resourceUrl,
       error: "",
-      success: true,
+      success: !!resourceUrl, // Ensure success is true if a URL is returned
     };
   } catch (error) {
+    // Improved error handling
+    const errorMessage = error.response?.data?.error?.message || 'Something went wrong';
     return {
       resourceUrl: "",
-      error: `Error: ${error.response?.data?.error?.message || 'Something went wrong'}`,
+      error: `Error: ${errorMessage}`,
       success: false,
     };
   }
@@ -39,7 +43,7 @@ const uploadToCloudinary = async (file) => {
 // Function for image upload
 export const uploadImage = (file) => uploadToCloudinary(file);
 
-// Function for video upload (can extend if needed, or use same as image upload)
+// Function for video upload (uses the same logic as image upload)
 export const uploadVideo = (file) => uploadToCloudinary(file);
 
 export default uploadImage;

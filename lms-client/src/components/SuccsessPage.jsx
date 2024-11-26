@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const SuccessPage = () => {
@@ -8,6 +8,7 @@ const SuccessPage = () => {
   const [paymentDetails, setPaymentDetails] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const createOrder = async (courseId, sessionId) => {
     setLoading(true);
@@ -44,6 +45,10 @@ const SuccessPage = () => {
     }
   }, [courseId, searchParams]);
 
+  const handleRedirect = () => {
+    navigate("/"); // Redirect to homepage
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {loading ? (
@@ -63,6 +68,7 @@ const SuccessPage = () => {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-label="Success Icon"
               >
                 <path
                   strokeLinecap="round"
@@ -91,22 +97,22 @@ const SuccessPage = () => {
             <span className="font-semibold">Amount Paid:</span> ₹
             {paymentDetails.amount_total}
           </p>
-          <a
-            href="/"
+          <button
+            onClick={handleRedirect}
             className="inline-block mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition-colors"
           >
             Back to Home
-          </a>
+          </button>
         </div>
       ) : (
         <div className="flex flex-col items-center">
           <h1 className="text-2xl font-semibold text-gray-700">{error}</h1>
-          <a
-            href="/"
+          <button
+            onClick={handleRedirect}
             className="mt-4 px-6 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition-colors"
           >
             Back to Home
-          </a>
+          </button>
         </div>
       )}
     </div>

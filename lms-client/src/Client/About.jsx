@@ -7,16 +7,16 @@ const About = () => {
         <h2 className="text-5xl font-bold mb-6 text-center">
           What is <span className="text-purple-800">E-learning</span>
         </h2>
-        <p className="mb-4  pt-10 text-2xl">
+        <p className="mb-4 pt-10 text-2xl">
           Are you ready to take your learning to the next level? Look no further
-          than our platform, the learning community dedicated to helping new
+          than our platform, a learning community dedicated to helping new
           learners achieve their goals and reach their full potential.
         </p>
         <p className="mb-4 text-2xl">
-          As the founder and Developer and owner, I know firsthand the
-          challenges that come with learning and growing in the field. That's
-          why we have created a plafrom – to provide new learners with the
-          resources and support they need to succeed.
+          As the founder, developer, and owner, I know firsthand the challenges
+          that come with learning and growing in the field. That's why we have
+          created this platform – to provide new learners with the resources and
+          support they need to succeed.
         </p>
         <p className="mb-4 text-2xl">
           Our website is a treasure trove of informative videos on everything
