@@ -15,10 +15,11 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (data,accessToken) => {
+  const login = (data,ac) => {
     setAuth(data);
     localStorage.setItem('auth', JSON.stringify(data)); // Save token in localStorage
-    setAccessToken(accessToken)
+    setAccessToken(ac.toString());
+    
   };
 
   const logout = () => {

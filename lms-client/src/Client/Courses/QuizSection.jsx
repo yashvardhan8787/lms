@@ -10,7 +10,7 @@ const QuizSection = ({ quizId }) => {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/quiz/673020f0096c06e026976205`);
+        const response = await fetch(`http://localhost:8080/api/v1/quiz/67344221b49a9cec131fd407`);
         const data = await response.json();
         if (data.success) {
           setQuiz(data.quiz);

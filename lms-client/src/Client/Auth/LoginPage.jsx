@@ -16,7 +16,6 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [registration, setRegistration] = useState(true);
   const { login } = useContext(AuthContext);
-
   const loginUser = async (email, password) => {
     try {
       const response = await axios.post(
@@ -26,14 +25,15 @@ const LoginPage = () => {
       );
 
       if (response?.status === 200 && response?.data?.success) {
-        const user = response.data.user;
+        response.data.user.accessToken = response.data.accessToken;
 
+        console.log(response);
         // Store user email in local storage
-        localStorage.setItem("userEmail", user.email || "");
+        localStorage.setItem("userEmail", response.data.user.email || "");
 
         // Set login context and navigate
-        login(JSON.stringify(user), response?.data?.accessToken);
-        if(user.role == "admin"){
+        login(JSON.stringify(response.data.user),response.data.accessToken);
+        if(response.data.user.role == "admin"){
           navigate("/adminDashboard");
         }else{
           navigate("/");
@@ -45,6 +45,7 @@ const LoginPage = () => {
       }
 
     } catch (err) {
+      console.log(err);
       setError(
         err.response?.data?.message||
           "An error occurred. Please try again later."
@@ -72,7 +73,7 @@ const LoginPage = () => {
         <div className="w-full md:w-1/2 p-8 bg-white flex flex-col justify-center">
           <div className="text-center mb-6">
             <img src={icon} alt="Logo" className="w-12 h-12 mx-auto mb-2" />
-            <h2 className="text-3xl font-semibold text-gray-800">EduEra</h2>
+            <h2 className="text-3xl font-semibold text-gray-800">Playground</h2>
             <p className="text-sm text-gray-500">Make Learning Easy</p>
           </div>
 

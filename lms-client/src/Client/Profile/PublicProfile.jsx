@@ -7,14 +7,14 @@ import { FaRegUser } from "react-icons/fa";
 import { LuCoins } from "react-icons/lu";
 import CourseCard from "../../components/Cards/CourseCard";
 import { CourseContext } from "../../contexts/CourseContext";
-
+import CourseListItem from "../../components/Cards/CourseListItem";
 const PublicProfile = ({ userData }) => {
   const { courses, loading } = useContext(CourseContext);
   const [purchasedCourses, setPurchasedCourses] = useState([]);
 
   useEffect(() => {
     if (userData && userData.courses && Array.isArray(courses)) {
-      const purchasedCourseIds = userData.courses.map((c) => c.courseId);
+      const purchasedCourseIds = userData.courses.map((c) => c._id);
       const filteredCourses = courses.filter((course) =>
         purchasedCourseIds.includes(course._id)
       );
@@ -95,10 +95,15 @@ const PublicProfile = ({ userData }) => {
         {loading ? (
           <p className="text-center text-xl">Loading courses...</p>
         ) : purchasedCourses.length > 0 ? (
+<<<<<<< Updated upstream
           <div className="">
+=======
+          <div className=" gap-6">
+>>>>>>> Stashed changes
             {purchasedCourses.map((course, index) => (
-              <CourseCard key={index} course={course} />
+              <CourseListItem key={course._id} course={course} />
             ))}
+            
           </div>
         ) : (
           <p className="text-center text-xl">No purchased courses available</p>
@@ -109,4 +114,3 @@ const PublicProfile = ({ userData }) => {
 };
 
 export default PublicProfile;
-// singhharsh7309@gamil.com

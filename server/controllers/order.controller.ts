@@ -13,20 +13,33 @@ import { redis } from "../utils/redis";
 require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-// Create Order
+// Create Order using Stripe Session
 export const createOrder = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { courseId, payment_info } = req.body as IOrder;
+      const { courseId, sessionId } = req.body as { courseId: string; sessionId: string };
 
-      // Retrieve payment intent if payment_info is provided
-      if (payment_info && "id" in payment_info) {
-        const paymentIntentId = payment_info.id;
-        const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      // Validate the Stripe session ID
+      if (!sessionId) {
+        return next(new ErrorHandler("Stripe session ID is required", 400));
+      }
 
-        if (paymentIntent.status !== "succeeded") {
-          return next(new ErrorHandler("Payment not authorized!", 400));
-        }
+      // Check if the session ID is already used in an order
+      const existingOrder = await OrderModel.findOne({ "payment_info.id": sessionId });
+
+      if (existingOrder) {
+        return res.status(400).json({
+          success: false,
+          message: "This payment session has already been used. Default or duplicate payment detected.",
+        });
+      }
+
+      // Retrieve Stripe session
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+      // Ensure the payment is completed
+      if (session.payment_status !== "paid") {
+        return next(new ErrorHandler("Payment not authorized!", 400));
       }
 
       const user = await userModel.findById(req.user?._id);
@@ -53,7 +66,11 @@ export const createOrder = CatchAsyncError(
       const orderData = {
         courseId: course._id,
         userId: user?._id,
-        payment_info,
+        payment_info: {
+          id: session.id,
+          amount_total: session.amount_total,
+          currency: session.currency,
+        },
       };
 
       // Prepare email data for order confirmation
@@ -113,12 +130,21 @@ export const createOrder = CatchAsyncError(
       res.status(201).json({
         success: true,
         message: "Order created successfully",
+        customer_details:{
+          email:user?.email
+        },
+        id:session.id,
+        amount_total:course.price
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
     }
   }
 );
+
+
+
+
 
 // Get all orders for admin
 export const getAllOrders = CatchAsyncError(
@@ -140,40 +166,38 @@ export const sendStripePublishableKey = CatchAsyncError(
   }
 );
 
-// Create a new payment
-export const newPayment = CatchAsyncError(
+
+export const Payment = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
+    const { courses } = req.body; // courses array should contain course details like name, price, etc.
+    // Create line items from the courses array
+    const lineItems = courses.map((course: any) => ({
+      price_data: {
+        currency: "usd", // Currency (you can change it to your required currency)
+        product_data: {
+          name: course.name, // Course name
+          images: [course.imgUrl], // Course image URL
+        },
+        unit_amount:course.price, // Convert price to cents (Stripe expects cents)
+      },
+      quantity: 1, // Assuming one course per transaction, but you can update based on your use case
+    }));
+
     try {
-      const myPayment = await stripe.paymentIntents.create({
-        amount: req.body.amount,
-        currency: "USD",
-        description: "E-learning course services",
-        metadata: {
-          company: "E-Learning",
-        },
-        automatic_payment_methods: {
-          enabled: true,
-        },
-        shipping: {
-          name: "yash vardhan singh",
-          address: {
-            line1: "510 Townsend St",
-            postal_code: "98140",
-            city: "San Francisco",
-            state: "CA",
-            country: "US",
-          },
-        },
+      // Create the Stripe checkout session
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types:["card"],
+        line_items:lineItems,
+        mode:"payment",
+        success_url:`http://localhost:5173/${courses[0].id}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url:"http://localhost:5173/cancel",
       });
 
-      res.status(201).json({
-        success: true,
-        client_secret: myPayment.client_secret,
-      });
-    } catch (error: any) {
-      return next(new ErrorHandler(error.message, 500));
+      // Send the session ID to the frontend
+      res.json({ id: session.id });
+    } catch (error) {
+      console.error("Error creating Stripe checkout session:", error);
+      next(error); // Call next middleware for error handling
     }
   }
 );
-
-

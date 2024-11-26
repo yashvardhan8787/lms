@@ -1,8 +1,53 @@
-// CourseDescription.js
 
 import React from "react";
+import { loadStripe } from "@stripe/stripe-js";
+
+// Load Stripe with your publishable key
+const stripePromise = loadStripe("pk_test_51QONozRqhHrvlkTmtKK3yb6ZyC3QxvoMJVuOmlJwyBM1d9qBeI0y0KR4uW7nMhNeKSZW7NMnrvuS3jMiPBRRijsL00Y6pczY0z");
 
 const CourseDescription = ({ course }) => {
+  console.log(course)
+  const handleCheckout = async () => {
+    // Prepare the request body
+    const courses = [
+      {
+        id:course._id,
+        name: course.name,
+        price:parseInt(course.price)*100, // Price in INR
+        imgUrl: course.thumbnailUrl, // URL of the course image
+      },
+    ];
+
+    try {
+      // Call the Payment API
+      const response = await fetch("http://localhost:8080/api/v1/make-payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ courses }), // Send the courses array
+      });
+
+      const data = await response.json();
+
+      if (data.id) {
+        // Redirect to Stripe Checkout using session ID
+        const stripe = await stripePromise;
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: data.id,
+        });
+
+        if (error) {
+          console.error("Error redirecting to checkout:", error);
+        }
+      } else {
+        console.error("Failed to create payment session");
+      }
+    } catch (error) {
+      console.error("Error processing payment:", error);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow p-6 mb-6">
       <h2 className="text-2xl font-semibold mb-2">Description</h2>
@@ -11,7 +56,7 @@ const CourseDescription = ({ course }) => {
         <p className="text-purple-600 font-semibold text-3xl">
           ${course.price}
         </p>
-        <button className="bg-orange-400  rounded-2xl w-32 p-2 text-white text-xl hover:bg-orange-600 font-bold">
+        <button className="bg-orange-400  rounded-2xl w-32 p-2 text-white text-xl hover:bg-orange-600 font-bold"  onClick={handleCheckout}>
           Buy Now
         </button>
       </div>

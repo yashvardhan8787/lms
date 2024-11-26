@@ -30,7 +30,7 @@ const MyCourses = () => {
 
   useEffect(() => {
     if (user && user.courses && Array.isArray(courses)) {
-      const purchasedCourseIds = user.courses.map((c) => c.courseId);
+      const purchasedCourseIds = user.courses.map((c) => c._id);
       const filteredCourses = courses.filter((course) =>
         purchasedCourseIds.includes(course._id)
       );

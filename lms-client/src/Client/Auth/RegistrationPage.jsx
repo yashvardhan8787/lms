@@ -62,7 +62,7 @@ const RegistrationPage = () => {
         <div className="w-full md:w-1/2 p-8 bg-white flex flex-col justify-center">
           <div className="text-center mb-6">
             <img src={logo} alt="Logo" className="w-12 h-12 mx-auto mb-2" />
-            <h2 className="text-3xl font-semibold text-gray-800">EduEra</h2>
+            <h2 className="text-3xl font-semibold text-gray-800">Playground</h2>
             <p className="text-sm text-gray-500">Make Learning Easy</p>
           </div>
 

@@ -64,11 +64,12 @@ export const getBadgeById = async (req: Request, res: Response) => {
 
 export const redeemRewards = async (req: Request, res: Response) => {
   try {
-    // Ensure req.user exists before accessing its properties
-    if (!req.user) {
-        return res.status(401).json({ message: 'User not authenticated' });
-      }
-    const userId = req.user.id; // Assuming the user ID is available in the request after authentication
+    const userId = req.body.userId; // Get userId from request body
+    
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+    
     const user = await User.findById(userId);
 
     if (!user) {
@@ -85,12 +86,7 @@ export const redeemRewards = async (req: Request, res: Response) => {
     user.streaks -= requiredStreaks;
     await user.save();
 
-    // await sendMail({
-    //   email: user.email,
-    //   subject: "Activate your account",
-    //   template: "activation-mail.ejs",
-    //   data,
-    // });
+    // Optionally send an email or further actions here
 
     res.status(200).json({ message: 'Reward redeemed successfully and email sent to user.' });
   } catch (error) {
