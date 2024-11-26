@@ -9,6 +9,8 @@ import { MdOutlineOndemandVideo } from "react-icons/md";
 import QuizSection from "../Courses/QuizSection";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
+
+
 const LecturePage = () => {
   const { courseId } = useParams();
   const { courses, lectures, fetchLectures, loadingCourses, loadingLectures, error } = useContext(CourseContext);

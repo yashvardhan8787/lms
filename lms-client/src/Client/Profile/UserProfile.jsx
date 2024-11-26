@@ -6,6 +6,7 @@ import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
 import PublicProfile from "./PublicProfile"; // Import PublicProfile
 import { getUserInfo } from "../../api/auth";
+import LoadingScreen from "../../components/Loading";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -38,8 +39,19 @@ const UserProfile = () => {
     setActiveForm("view");
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  // Show loading spinner while loading user data
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <LoadingScreen/>
+      </div>
+    );
+  }
+
+  // Show error message if there is an error
+  if (error) {
+    return <p className="text-center text-red-500">{error}</p>;
+  }
 
   return (
     <div className="flex justify-center items-start min-h-screen bg-gray-100 py-10">
