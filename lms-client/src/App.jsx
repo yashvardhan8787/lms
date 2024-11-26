@@ -45,12 +45,9 @@ import MyCourses from "./Client/Courses/MyCourses";
 
 import ChatBot from "./ChatBot/ChatBot";
 import HomePage2 from "./Client/HomePage2";
-<<<<<<< Updated upstream
 import LoadingScreen from "./components/Loading";
-=======
 import CancelPage from "./components/CancelPage";
 import SuccessPage from "./components/SuccsessPage";
->>>>>>> Stashed changes
 
 function MainLayout() {
   return (
