@@ -44,12 +44,7 @@ import PrivateRoute from "../src/components/PrivateRoute";
 import MyCourses from "./Client/Courses/MyCourses";
 
 import ChatBot from "./ChatBot/ChatBot";
-<<<<<<< Updated upstream
 import HomePage2 from "./Client/HomePage2";
-=======
-import SuccsessPage from "./components/SuccsessPage";
-import CancelPage from "./components/CancelPage";
->>>>>>> Stashed changes
 
 function MainLayout() {
   return (
@@ -70,13 +65,7 @@ function App() {
     <Routes>
       {/* Main layout routes */}
       <Route element={<MainLayout />}>
-<<<<<<< Updated upstream
         <Route path="/" element={<HomePage2 />} />
-=======
-        <Route path="/" element={<HomePage />} />
-        <Route path="/:courseId/success" element={<SuccsessPage/>} />
-        <Route path="/cancel" element={<CancelPage></CancelPage>} />
->>>>>>> Stashed changes
         <Route path="/courses" element={<Courses />} />
         <Route path="/my-course" element={<MyCourses />} />
         <Route path="/courses/:courseId" element={<CourseDetail />} />

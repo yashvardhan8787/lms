@@ -95,11 +95,7 @@ const PublicProfile = ({ userData }) => {
         {loading ? (
           <p className="text-center text-xl">Loading courses...</p>
         ) : purchasedCourses.length > 0 ? (
-<<<<<<< Updated upstream
           <div className="">
-=======
-          <div className=" gap-6">
->>>>>>> Stashed changes
             {purchasedCourses.map((course, index) => (
               <CourseListItem key={course._id} course={course} />
             ))}
