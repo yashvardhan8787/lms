@@ -22,7 +22,7 @@ const CourseLectures = ({ lectures, courseId }) => {
                             <h3 className="text-lg font-semibold text-gray-800">{lecture.title}</h3>
                             <p className="text-gray-600">{lecture.description}</p>
                             <p className="text-sm text-gray-500">Duration: {lecture.duration} mins</p>
-                            {lecture.isVideoLecture ? (
+                            {/* {lecture.isVideoLecture ? (
                                 <Link to={`/course/${courseId}/lecture/${lecture._id}`} className="text-purple-600">
                                     Watch Lecture
                                 </Link>
@@ -30,7 +30,7 @@ const CourseLectures = ({ lectures, courseId }) => {
                                 <Link to={`/course/${courseId}/lecture/${lecture._id}`} className="text-purple-600">
                                     start quiz
                                 </Link>
-                            ) : null}
+                            ) : null} */}
                         </div>
                     </div>
                 ))}

@@ -45,7 +45,12 @@ import MyCourses from "./Client/Courses/MyCourses";
 
 import ChatBot from "./ChatBot/ChatBot";
 import HomePage2 from "./Client/HomePage2";
+<<<<<<< Updated upstream
 import LoadingScreen from "./components/Loading";
+=======
+import CancelPage from "./components/CancelPage";
+import SuccessPage from "./components/SuccsessPage";
+>>>>>>> Stashed changes
 
 function MainLayout() {
   return (
@@ -67,6 +72,8 @@ function App() {
       {/* Main layout routes */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage2 />} />
+        <Route path="/:courseId/success" element={<SuccessPage/>} />
+        <Route path="/cancel" element={<CancelPage/>} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/my-course" element={<MyCourses />} />
         <Route path="/courses/:courseId" element={<CourseDetail />} />
