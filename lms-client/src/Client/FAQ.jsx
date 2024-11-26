@@ -13,7 +13,6 @@ const FAQ = () => {
       question: "Are the courses live?",
       answer: "No, the courses are pre-recorded and you can access them at any time.",
     },
-
     {
       question: "For how many months can I access my purchased course?",
       answer: "For 12 months",
@@ -51,18 +50,18 @@ const FAQ = () => {
         <h2 className="text-5xl font-bold mb-8 text-center text-black">Frequently Asked Questions</h2>
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="border-b border-gray-700 pb-2">
+            <div key={index} className="border-b border-gray-300 pb-4">
               <div 
-                className="flex justify-between items-center cursor-pointer py-2" 
+                className="flex justify-between items-center cursor-pointer py-3" 
                 onClick={() => toggleFAQ(index)}
               >
-                <h3 className="text-lg font-medium">{faq.question}</h3>
+                <h3 className="text-lg font-medium text-gray-800">{faq.question}</h3>
                 <span className="text-lg">
                   {activeIndex === index ? <FaMinus color='#800080' /> : <FaPlus color='#800080' />}
                 </span>
               </div>
               {activeIndex === index && (
-                <p className="mt-2 text-gray-300">{faq.answer}</p>
+                <p className="mt-2 text-gray-700 font-light">{faq.answer}</p> // Adjusted color and font weight for better visibility
               )}
             </div>
           ))}

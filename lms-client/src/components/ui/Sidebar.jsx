@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import {
   FaHome,
@@ -10,18 +10,25 @@ import {
 import { MdPolicy, MdKeyboardArrowDown } from "react-icons/md";
 import { AuthContext } from "../../contexts/AuthContext";
 
-// Sidebar.js
 const Sidebar = () => {
-  const [isCoursesOpen, setIsCoursesOpen] = useState(false);
+  const [dropdownState, setDropdownState] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  const { auth, logout } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const userInfo = JSON.parse(auth);
+  const location = useLocation();
 
   useEffect(() => {
     if (userInfo) {
       setLoggedIn(true);
     }
   }, [userInfo]);
+
+  const toggleDropdown = (name) => {
+    setDropdownState((prevState) => ({
+      ...prevState,
+      [name]: !prevState[name],
+    }));
+  };
 
   const navItems = [
     { name: "Home", path: "/", icon: <FaHome /> },
@@ -31,7 +38,7 @@ const Sidebar = () => {
       isDropdown: true,
       subItems: [
         { name: "All Courses", path: "/courses" },
-        ...(loggedIn ? [{ name: "My Course", path: "/my-course" }] : []), // Conditionally add "My Course"
+        ...(loggedIn ? [{ name: "My Course", path: "/my-course" }] : []),
       ],
     },
     { name: "About", path: "/about", icon: <FaExclamationCircle /> },
@@ -48,20 +55,31 @@ const Sidebar = () => {
             {item.isDropdown ? (
               <>
                 <button
-                  onClick={() => setIsCoursesOpen(!isCoursesOpen)}
-                  className="flex items-center w-full text-2xl font-bold mb-4 hover:bg-gray-100 hover:text-[#FD8B51] hover:rounded-lg py-2 transition-all duration-200"
+                  onClick={() => toggleDropdown(item.name)}
+                  className={`flex items-center w-full text-2xl font-bold mb-4 py-2 transition-all duration-200 ${
+                    dropdownState[item.name] ? "bg-gray-100 text-[#FD8B51]" : ""
+                  } hover:bg-gray-100 hover:text-[#FD8B51] hover:rounded-lg`}
+                  aria-expanded={dropdownState[item.name] || false}
                 >
                   <i className="mr-2">{item.icon}</i>
                   {item.name}
-                  <MdKeyboardArrowDown className="ml-auto" />
+                  <MdKeyboardArrowDown
+                    className={`ml-auto transition-transform ${
+                      dropdownState[item.name] ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
                 </button>
-                {isCoursesOpen && (
+                {dropdownState[item.name] && (
                   <div className="pl-6">
                     {item.subItems.map((subItem, subIndex) => (
                       <Link
                         key={subIndex}
                         to={subItem.path}
-                        className="block mb-2 text-xl font-semibold hover:bg-gray-100 hover:text-[#FD8B51] hover:rounded-lg py-1 transition-all duration-200"
+                        className={`block mb-2 text-xl font-semibold py-1 transition-all duration-200 ${
+                          location.pathname === subItem.path
+                            ? "bg-gray-100 text-[#FD8B51] rounded-lg"
+                            : "hover:bg-gray-100 hover:text-[#FD8B51] hover:rounded-lg"
+                        }`}
                       >
                         {subItem.name}
                       </Link>
@@ -72,7 +90,11 @@ const Sidebar = () => {
             ) : (
               <Link
                 to={item.path}
-                className="flex items-center mb-4 text-2xl font-bold hover:bg-gray-100 hover:text-[#FD8B51] hover:rounded-lg hover:px-4 hover:pr-80 py-2 transition-all duration-200"
+                className={`flex items-center mb-4 text-2xl font-bold py-2 transition-all duration-200 ${
+                  location.pathname === item.path
+                    ? "bg-gray-100 text-[#FD8B51] rounded-lg"
+                    : "hover:bg-gray-100 hover:text-[#FD8B51] hover:rounded-lg"
+                }`}
               >
                 <i className="mr-2">{item.icon}</i>
                 {item.name}
@@ -83,7 +105,7 @@ const Sidebar = () => {
       </nav>
       <div className="mt-auto pt-8 text-center">
         <p>Support 24/7</p>
-        <button className="bg-[#FD8B51] mt-4 py-2 px-4 rounded-lg">
+        <button className="bg-[#FD8B51] mt-4 py-2 px-4 rounded-lg transition-all duration-200 hover:bg-[#e67c3c]">
           Start
         </button>
       </div>

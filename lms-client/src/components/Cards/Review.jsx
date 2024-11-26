@@ -18,7 +18,7 @@ const Review = () => {
         by: "Jared Ebanks",
         btn: "Read More",
       },
-      // ... other news items
+      // Add more news items as needed
     ],
   };
 
@@ -41,47 +41,69 @@ const Review = () => {
   };
 
   return (
-    <div className="container mx-auto my-8 overflow-hidden">
+    <div className="container mx-auto my-12 px-4 lg:px-0">
+      {/* Title */}
       <div className="text-center mb-8">
-        <h2 className="text-4xl font-bold text-[#5A4BA1]">Top Stories</h2>
+        <h2 className="text-4xl font-bold text-[#5A4BA1]">
+          {story.title || "Stories"}
+        </h2>
+        <p className="text-gray-500 mt-2">
+          Explore the latest updates and exciting news from the world of sports and beyond.
+        </p>
       </div>
+
+      {/* Carousel */}
       <Splide options={splideOptions}>
         {story.news.map((val, i) => (
-          <SplideSlide key={i} className="mb-6">
-            <div className="relative grid items-center gap-4 p-4 bg-white rounded-lg shadow-lg">
+          <SplideSlide key={i}>
+            <div className="relative grid items-center gap-4 p-4 bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+              {/* Image */}
               <div className="flex items-center justify-center">
                 <img
                   className="w-28 h-28 object-cover shadow-md rounded-full"
-                  src={val.img}
-                  alt={`img/story/${i}`}
+                  src={val.img || "/default-image.jpg"}
+                  alt={val.title || "Story Image"}
                 />
               </div>
-              <div className="flex items-center justify-between w-full px-4">
+
+              {/* Stats */}
+              <div className="flex items-center justify-between w-full px-4 text-gray-500">
                 <div className="flex items-center space-x-1">
                   <FaHeart className="w-5 h-5 text-red-500" />
-                  <span className="text-xs font-bold">{val.like}</span>
+                  <span className="text-xs font-bold">{val.like || "N/A"}</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <FaClock className="w-4 h-4 text-gray-500" />
-                  <span className="text-xs font-bold">{val.time}</span>
+                  <span className="text-xs font-bold">{val.time || "N/A"}</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <FaHashtag className="w-4 h-4 text-blue-500" />
-                  <span className="text-xs font-bold text-blue-500">{val.by}</span>
+                  <span className="text-xs font-bold text-blue-500">
+                    {val.by || "Anonymous"}
+                  </span>
                 </div>
               </div>
+
+              {/* Content */}
               <div className="grid items-center justify-items-start px-4">
-                <h1 className="text-lg font-semibold text-[#5A4BA1]">{val.title}</h1>
-                <p className="text-sm text-justify text-gray-600">{val.text}</p>
+                <h3 className="text-lg font-semibold text-[#5A4BA1] truncate">
+                  {val.title || "Untitled Story"}
+                </h3>
+                <p className="text-sm text-justify text-gray-600 line-clamp-3">
+                  {val.text || "No description available."}
+                </p>
               </div>
+
+              {/* Button */}
               <div className="flex items-center justify-center px-4 w-full">
                 <a
-                  href={val.url}
+                  href={val.url || "#"}
                   target="_blank"
+                  rel="noopener noreferrer"
                   role="button"
                   className="w-full bg-gradient-to-r from-[#5A4BA1] to-[#704cb2] text-center text-white py-2 rounded-lg transition-all duration-300 ease-in-out hover:from-[#704cb2] hover:to-[#5A4BA1] shadow-md"
                 >
-                  {val.btn}
+                  {val.btn || "Learn More"}
                 </a>
               </div>
             </div>

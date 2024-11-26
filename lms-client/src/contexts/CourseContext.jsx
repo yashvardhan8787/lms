@@ -19,7 +19,7 @@ export const CourseProvider = ({ children }) => {
         const response = await getAllCourses(); // API call 
         setCourses(response.data.courses); // Assuming response.data is an array of courses
       } catch (error) {
-        setError("Error fetching courses:", error);
+        setError(error?.response?.data?.message || "Error fetching courses"); // Capture actual error message
       } finally {
         setLoadingCourses(false);
       }
@@ -32,11 +32,12 @@ export const CourseProvider = ({ children }) => {
   const fetchLectures = useCallback(async (courseId) => {
     setLoadingLectures(true);
     setError(null);
+    setLectures([]); // Clear previous lectures when fetching for a new course
     try {
-      const response = await getLecturesForCourse(courseId); 
+      const response = await getLecturesForCourse(courseId);
       setLectures(response.data); // Assuming response.data contains lectures
     } catch (error) {
-      setError('Error fetching lectures');
+      setError(error?.response?.data?.message || 'Error fetching lectures');
     } finally {
       setLoadingLectures(false);
     }
