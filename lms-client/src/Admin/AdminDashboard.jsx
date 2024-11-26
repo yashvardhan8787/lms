@@ -13,7 +13,7 @@ const AdminDashboard = () => {
           {/* Sidebar */}
           <Sidebar />
           {/* Main content area where nested routes will render */}
-          <main className="flex-1 bg-white shadow-lg rounded-lg p-6 transition-all duration-300 ease-in-out">
+          <main className="flex-1 bg-white shadow-lg rounded-lg p-6 transition-all duration-300 ease-in-out overflow-scroll">
             <Outlet /> {/* This renders the component for each route */}
           </main>
         </div>

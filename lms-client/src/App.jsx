@@ -52,7 +52,7 @@ function MainLayout() {
       <Header />
       <div className="flex flex-1">
         <Sidebar />
-        <main className="flex-1 transition-all duration-100">
+        <main className="flex-1 transition-all duration-100 overflow-scroll">
           <Outlet />
         </main>
       </div>
