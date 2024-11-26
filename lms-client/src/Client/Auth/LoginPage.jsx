@@ -7,16 +7,20 @@ import { AuthContext } from "../../contexts/AuthContext";
 import logo from "../../../public/assets/images/Heroimg.png";
 import icon from "../../../public/assets/images/image.png";
 import toast from "react-hot-toast";
+import LoadingScreen from "../../components/Loading";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // Track loading state
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [registration, setRegistration] = useState(true);
   const { login } = useContext(AuthContext);
+
   const loginUser = async (email, password) => {
+    setLoading(true); // Start loading
     try {
       const response = await axios.post(
         "http://localhost:8080/api/v1/login",
@@ -24,6 +28,7 @@ const LoginPage = () => {
         { withCredentials: true }
       );
 
+      setLoading(false); // Stop loading
       if (response?.status === 200 && response?.data?.success) {
         response.data.user.accessToken = response.data.accessToken;
 
@@ -32,25 +37,23 @@ const LoginPage = () => {
         localStorage.setItem("userEmail", response.data.user.email || "");
 
         // Set login context and navigate
-        login(JSON.stringify(response.data.user),response.data.accessToken);
-        if(response.data.user.role == "admin"){
+        login(JSON.stringify(response.data.user), response.data.accessToken);
+        if (response.data.user.role === "admin") {
           navigate("/adminDashboard");
-        }else{
+        } else {
           navigate("/");
         }
-        
       } else {
         setError(response.data.message || "Invalid credentials");
-        toast.error("Invalid credentials")
+        toast.error("Invalid credentials");
       }
-
     } catch (err) {
+      setLoading(false); // Stop loading
       console.log(err);
       setError(
-        err.response?.data?.message||
-          "An error occurred. Please try again later."
+        err.response?.data?.message || "An error occurred. Please try again later."
       );
-      toast.error(err.response?.data?.message)
+      toast.error(err.response?.data?.message);
     }
   };
 
@@ -58,7 +61,6 @@ const LoginPage = () => {
     e.preventDefault();
     setError("");
     loginUser(email, password);
-
   };
 
   return (
@@ -87,44 +89,49 @@ const LoginPage = () => {
                 <div className="text-center text-red-500 mb-4">{error}</div>
               )}
 
-              <form className="space-y-4" onSubmit={handleLogin}>
-                {/* Email Input */}
-                <div className="relative">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full px-4 py-3 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:border-purple-500"
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
+              {/* Show loader if loading */}
+              {loading ? (
+                <LoadingScreen />
+              ) : (
+                <form className="space-y-4" onSubmit={handleLogin}>
+                  {/* Email Input */}
+                  <div className="relative">
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:border-purple-500"
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
 
-                {/* Password Input */}
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    className="w-full px-4 py-3 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:border-purple-500"
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
+                  {/* Password Input */}
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:border-purple-500"
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
+                    </button>
+                  </div>
+
+                  {/* Login Button */}
                   <button
-                    type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-500"
-                    onClick={() => setShowPassword(!showPassword)}
+                    type="submit"
+                    className="w-full bg-purple-700 text-white py-3 rounded-lg font-semibold hover:bg-purple-800 transition duration-200"
                   >
-                    {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
+                    LOGIN
                   </button>
-                </div>
-
-                {/* Login Button */}
-                <button
-                  type="submit"
-                  className="w-full bg-purple-700 text-white py-3 rounded-lg font-semibold hover:bg-purple-800 transition duration-200"
-                >
-                  LOGIN
-                </button>
-              </form>
+                </form>
+              )}
 
               {/* Social Login */}
               <div className="text-center text-gray-500 my-4">or</div>

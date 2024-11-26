@@ -4,9 +4,10 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { registerUser } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import icon from "../../../public/assets/images/Heroimg.png"; // Replace with the actual path to your logo image
-import logo from "../../../public/assets/images/image.png"; // Replace with the actual path to your logo image
+import icon from "../../../public/assets/images/Heroimg.png";
+import logo from "../../../public/assets/images/image.png";
 import toast from "react-hot-toast";
+import LoadingScreen from "../../components/Loading";
 
 const RegistrationPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,6 +18,7 @@ const RegistrationPage = () => {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false); // State for loading
   const navigate = useNavigate();
   const { setToken } = useContext(AuthContext);
 
@@ -26,8 +28,10 @@ const RegistrationPage = () => {
 
   const userRegistration = async (data) => {
     setError("");
+    setLoading(true); // Set loading to true when the registration starts
     try {
       const response = await registerUser(data);
+      setLoading(false); // Set loading to false once the registration response is received
       if (response?.status === 201) {
         const activationToken = response?.data?.activationToken;
         setToken(activationToken);
@@ -37,6 +41,7 @@ const RegistrationPage = () => {
         setError("Something went wrong. Please try again.");
       }
     } catch (err) {
+      setLoading(false); // Set loading to false if there is an error
       setError(err.response?.data?.message || "An error occurred.");
     }
   };
@@ -52,7 +57,7 @@ const RegistrationPage = () => {
       return;
     }
     userRegistration(formData);
-    toast.success("SuccessFully Registerd")
+    toast.success("Successfully Registered");
   };
 
   return (
@@ -128,7 +133,14 @@ const RegistrationPage = () => {
               type="submit"
               className="w-full bg-purple-700 text-white py-3 rounded-lg font-semibold hover:bg-purple-800 transition duration-200"
             >
-              SIGN UP
+              {loading ? (
+                <div className="flex justify-center items-center">
+                  <LoadingScreen/>
+                  <span>Signing Up...</span>
+                </div>
+              ) : (
+                "SIGN UP"
+              )}
             </button>
           </form>
 

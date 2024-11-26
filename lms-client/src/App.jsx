@@ -45,6 +45,7 @@ import MyCourses from "./Client/Courses/MyCourses";
 
 import ChatBot from "./ChatBot/ChatBot";
 import HomePage2 from "./Client/HomePage2";
+import LoadingScreen from "./components/Loading";
 
 function MainLayout() {
   return (
@@ -100,6 +101,7 @@ function App() {
 
       {/* Wildcard route for 404 Not Found */}
       <Route path="*" element={<NotFoundErrorPage />} />
+      <Route path="/loading" element={<LoadingScreen/>}/>
     </Routes>
   );
 }

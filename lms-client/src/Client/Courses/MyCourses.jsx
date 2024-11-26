@@ -4,6 +4,7 @@ import CourseCard from "../../components/Cards/CourseCard";
 import { CourseContext } from "../../contexts/CourseContext";
 import { FaSearch } from "react-icons/fa";
 import { getUserInfo } from "../../api/auth";
+import LoadingScreen from "../../components/Loading";
 
 const MyCourses = () => {
   const { courses, loading } = useContext(CourseContext);
@@ -44,7 +45,7 @@ const MyCourses = () => {
       )
     : purchasedCourses;
 
-  if (loading) return <p className="text-center text-xl">Loading courses...</p>;
+  if (loading) return <LoadingScreen />; // Show loader if loading is true
 
   return (
     <div className="p-6 bg-gray-100 max-h-screen h-[1000px] border rounded-3xl overflow-scroll">

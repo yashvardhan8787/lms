@@ -52,6 +52,7 @@ const Header = () => {
 
   return (
     <header className="bg-gradient-to-r from-[#5A4BA1] to-[#704cb2] shadow-md sticky top-0 z-50 font-roboto">
+      
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center">
           <button className="mr-4 text-white hover:text-[#FD8B51] focus:outline-none">

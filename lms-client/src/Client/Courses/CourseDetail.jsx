@@ -1,5 +1,3 @@
-// CourseDetail.js
-
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { CourseContext } from '../../contexts/CourseContext';
@@ -10,22 +8,23 @@ import CourseBenefits from './CourseBenefits';
 import CourseLectures from './CourseLectures';
 import ReviewSection from './ReviewSection';
 import CourseRoadmap from './CourseRoadMap';
+import LoadingScreen from '../../components/Loading';
 
 const CourseDetail = () => {
     const { courseId } = useParams();
-    const { courses,fetchLectures} = useContext(CourseContext);
+    const { courses, fetchLectures, loading } = useContext(CourseContext);
     const [course, setCourse] = useState(null);
-    const [lecture , setLecture] =useState("");
-  
+    const [lecture, setLecture] = useState("");
+
     useEffect(() => {
         const foundCourse = courses.find((c) => c._id === courseId);
         setCourse(foundCourse);
     }, [courseId, courses]);
 
-    if (!course) return <div>Loading...</div>;
+    if (loading || !course) return <LoadingScreen />; // Show loader if data is loading or course is not found
 
     return (
-        <div className="p-6 mx-auto bg-gray-100 max-h-screen h-[1000px]  border rounded-3xl overflow-scroll scrollbar-hide">
+        <div className="p-6 mx-auto bg-gray-100 max-h-screen h-[1000px] border rounded-3xl overflow-scroll scrollbar-hide">
             <CourseHeader course={course} />
             <CourseDescription course={course} />
             <CourseCategories categories={course.categories} />

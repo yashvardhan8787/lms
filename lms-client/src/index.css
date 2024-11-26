@@ -15,6 +15,26 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari, and Opera */
   }
+  /* Loading bar animation */
+@keyframes loading-bar-smooth {
+  0% {
+    width: 0%; /* Start with no progress */
+  }
+  100% {
+    width: 100%; /* Fill the entire bar */
+  }
+}
+
+/* Runner animation */
+@keyframes runner-smooth {
+  0% {
+    left: 0%; /* Start at the beginning of the bar */
+  }
+  100% {
+    left: 100%; /* End at the right edge of the bar */
+  }
+}
+
   
 
 
