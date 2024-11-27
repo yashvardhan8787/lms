@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './QuizSection.css'; // Import custom CSS for scrollbar styling
+import './QuizSection.css';
 
-const QuizSection = ({ quizId }) => {
+const QuizSection = ({ quizId, lectureId, userId, courseId, onQuizPass }) => {
   const [quiz, setQuiz] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [result, setResult] = useState(null);
@@ -10,7 +10,7 @@ const QuizSection = ({ quizId }) => {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/quiz/67344221b49a9cec131fd407`);
+        const response = await fetch(`http://localhost:8080/api/v1/quiz/${quizId}`);
         const data = await response.json();
         if (data.success) {
           setQuiz(data.quiz);
@@ -41,11 +41,27 @@ const QuizSection = ({ quizId }) => {
       const data = await response.json();
       if (data.success) {
         setResult(data.result);
+
+        // Check if the user passed
+        if (data.result.scorePercentage > 33.33) {
+          await fetch('http://localhost:8080/api/v1/update-progress', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId,
+              courseId,
+              lectureId,
+              isCompleted: true,
+              progressPercentage: 100, // Mark as completed
+            }),
+          });
+          onQuizPass(); // Notify parent about progress update
+        }
       } else {
         setError(data.message);
       }
     } catch (err) {
-      console.log(error);
+      console.error('Failed to evaluate quiz:', err);
       setError('Failed to evaluate quiz');
     }
   };
@@ -53,10 +69,10 @@ const QuizSection = ({ quizId }) => {
   if (error) return <div className="text-red-600 font-semibold">{error}</div>;
 
   return (
-    <div className="bg-gray-50 p-8 rounded-lg shadow-xl mx-auto mt-12 w-1/2">
+    <div className="bg-gray-50 p-8 rounded-lg shadow-xl h-screen mx-auto mt-12 w-1/2">
       <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Quiz Section</h2>
       {quiz ? (
-        <div className="quiz-content h-[1000px] overflow-y-scroll scrollbar-hide"> {/* Scrollable content */}
+        <div className="quiz-content h-3/4 overflow-y-scroll scrollbar-hide">
           {quiz.questions.map((question, index) => (
             <div key={index} className="mb-6">
               <h3 className="text-xl font-semibold text-gray-700 mb-3">{question.questionText}</h3>

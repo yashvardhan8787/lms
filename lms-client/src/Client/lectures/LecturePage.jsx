@@ -10,23 +10,31 @@ import QuizSection from "../Courses/QuizSection";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 
-
 const LecturePage = () => {
   const { courseId } = useParams();
-  const { courses, lectures, fetchLectures, loadingCourses, loadingLectures, error } = useContext(CourseContext);
-  const {auth} =useContext(AuthContext)
+  const {
+    courses,
+    lectures,
+    fetchLectures,
+    loadingCourses,
+    loadingLectures,
+    error,
+  } = useContext(CourseContext);
+  const { auth } = useContext(AuthContext);
   const [currentLecture, setCurrentLecture] = useState(null);
   const [currentCourse, setCurrentCourse] = useState(null);
   const [activeTab, setActiveTab] = useState("description");
   const [userProgress, setUserProgress] = useState([]);
-  const userId = JSON.parse(auth)?._id
-  console.log(userId)
+  const userId = JSON.parse(auth)?._id;
+  console.log(userId);
   // Fetch user progress
   useEffect(() => {
     const fetchUserProgress = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/getprogress/${userId}/${courseId}`);
-        setUserProgress(response.data.lectureProgress);  // Assuming this is the progress structure
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/getprogress/${userId}/${courseId}`
+        );
+        setUserProgress(response.data.lectureProgress); // Assuming this is the progress structure
       } catch (error) {
         console.error("Error fetching user progress:", error);
       }
@@ -59,7 +67,9 @@ const LecturePage = () => {
   const handleVideoEnd = async () => {
     if (currentLecture) {
       try {
-        const progress = userProgress.find((prog) => prog.lectureId === currentLecture._id);
+        const progress = userProgress.find(
+          (prog) => prog.lectureId === currentLecture._id
+        );
         if (!progress || !progress.isCompleted) {
           // Update lecture progress in the backend
           await axios.post("http://localhost:8080/api/v1/update-progress", {
@@ -67,11 +77,11 @@ const LecturePage = () => {
             courseId,
             lectureId: currentLecture._id,
             isCompleted: true,
-            progressPercentage: 100,  // Full completion
+            progressPercentage: 100, // Full completion
           });
           setUserProgress((prevProgress) => [
             ...prevProgress,
-            { lectureId: currentLecture._id, isCompleted: true }
+            { lectureId: currentLecture._id, isCompleted: true },
           ]);
         }
       } catch (error) {
@@ -102,8 +112,21 @@ const LecturePage = () => {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-scroll">
-      {currentLecture?.isQuiz && <QuizSection quizId={currentLecture?.quiz} />}
+    <div className="flex  h-screen bg-gray-50 overflow-y-scroll scrollbar-hide">
+      {currentLecture?.isQuiz && (
+        <QuizSection
+          quizId={currentLecture?.quiz}
+          lectureId={currentLecture._id}
+          userId={userId}
+          courseId={courseId}
+          onQuizPass={() => {
+            setUserProgress((prevProgress) => [
+              ...prevProgress,
+              { lectureId: currentLecture._id, isCompleted: true },
+            ]);
+          }}
+        />
+      )}
 
       {/* Left side: Current Lecture and Video */}
       {currentLecture.isVideoLecture && (
@@ -114,30 +137,38 @@ const LecturePage = () => {
             className="w-full rounded-lg shadow-lg mb-4"
             onEnded={handleVideoEnd}
           />
-          
+
           <div className="mt-6 overflow-hidden">
             <div className="flex space-x-4 text-2xl font-bold text-gray-600 mb-4">
               <button
                 onClick={() => setActiveTab("description")}
-                className={`focus:outline-none ${activeTab === "description" ? "text-orange-600 underline" : ""}`}
+                className={`focus:outline-none ${
+                  activeTab === "description" ? "text-orange-600 underline" : ""
+                }`}
               >
                 Description
               </button>
               <button
                 onClick={() => setActiveTab("quiz")}
-                className={`focus:outline-none ${activeTab === "quiz" ? "text-orange-600 p-1 underline" : ""}`}
+                className={`focus:outline-none ${
+                  activeTab === "quiz" ? "text-orange-600 p-1 underline" : ""
+                }`}
               >
                 Quiz
               </button>
               <button
                 onClick={() => setActiveTab("review")}
-                className={`focus:outline-none ${activeTab === "review" ? "text-orange-600 underline" : ""}`}
+                className={`focus:outline-none ${
+                  activeTab === "review" ? "text-orange-600 underline" : ""
+                }`}
               >
                 Review
               </button>
               <button
                 onClick={() => setActiveTab("faq")}
-                className={`focus:outline-none ${activeTab === "faq" ? "text-orange-600 underline" : ""}`}
+                className={`focus:outline-none ${
+                  activeTab === "faq" ? "text-orange-600 underline" : ""
+                }`}
               >
                 FAQ
               </button>
@@ -148,16 +179,20 @@ const LecturePage = () => {
       )}
 
       {/* Right side: List of other lectures */}
-      <div className="w-1/3 bg-gray-100 p-6 overflow-y-auto rounded-lg m-4 shadow-lg">
+      <div className="w-1/3 bg-gray-100 p-6 overflow-y-auto rounded-lg m-4 shadow-lg  scrollbar-hide">
         <h3 className="text-2xl font-bold mb-4">Course content</h3>
         <ul className="space-y-4">
           {currentCourse.lectures.map((lecture) => {
-            const isCompleted = userProgress.some((prog) => prog.lectureId === lecture._id && prog.isCompleted);
+            const isCompleted = userProgress.some(
+              (prog) => prog.lectureId === lecture._id && prog.isCompleted
+            );
             return (
               <li
                 key={lecture._id}
                 onClick={() => handleLectureChange(lecture)}
-                className={`p-4 rounded-lg shadow cursor-pointer ${isCompleted ? "bg-green-300" : "bg-white"}`}
+                className={`p-4 rounded-lg shadow cursor-pointer ${
+                  isCompleted ? "bg-green-300" : "bg-white"
+                }`}
               >
                 <img
                   src={lecture.thumbnailPicUrl}
@@ -170,7 +205,9 @@ const LecturePage = () => {
                     <MdOutlineOndemandVideo size="25px" />
                     Duration: {lecture.duration} min
                   </span>
-                  {isCompleted && <span className="text-green-700 font-bold">Completed</span>}
+                  {isCompleted && (
+                    <span className="text-green-700 font-bold">Completed</span>
+                  )}
                 </p>
               </li>
             );
