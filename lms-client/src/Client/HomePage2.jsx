@@ -9,7 +9,7 @@ import cat from "../../public/assets/cat.png";
 import sparkels from "../../public/assets/sparkels.png";
 import plus from "../../public/assets/plus.png";
 import "@splidejs/react-splide/css";
-import Review from "../components/Cards/Review";
+// import Review from "../components/Cards/Review";
 import { Link } from "react-router-dom";
 
 const HomePage2 = () => {
@@ -87,10 +87,10 @@ const HomePage2 = () => {
           </div>
         </section>
 
-        {/* Review Section */}
+        {/* Review Section
         <section className="w-full">
           <Review />
-        </section>
+        </section> */}
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ const FAQ = () => {
   const faqs = [
     {
       question: "For how many months can I access my purchased course?",
-      answer: "For 12 months",
+      answer: "For 60 months",
     },
     {
       question: "Are the courses live?",
@@ -15,7 +15,7 @@ const FAQ = () => {
     },
     {
       question: "For how many months can I access my purchased course?",
-      answer: "For 12 months",
+      answer: "For 60 months",
     },
     {
       question: "Are the courses live?",
@@ -23,7 +23,7 @@ const FAQ = () => {
     },
     {
       question: "For how many months can I access my purchased course?",
-      answer: "For 12 months",
+      answer: "For 60 months",
     },
     {
       question: "Are the courses live?",
@@ -31,7 +31,7 @@ const FAQ = () => {
     },
     {
       question: "For how many months can I access my purchased course?",
-      answer: "For 12 months",
+      answer: "For 60 months",
     },
     {
       question: "Are the courses live?",
