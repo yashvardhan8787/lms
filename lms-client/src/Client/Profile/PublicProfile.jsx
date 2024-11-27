@@ -7,7 +7,7 @@ import { LuCoins } from "react-icons/lu";
 import { CourseContext } from "../../contexts/CourseContext";
 import CourseListItem from "../../components/Cards/CourseListItem";
 import BadgeImg from "../Badges/BadgeImg";
-
+import BadgeCard from "../../components/Cards/BadgeCard"
 const PublicProfile = ({ userData }) => {
   const { courses, loading } = useContext(CourseContext);
   const [purchasedCourses, setPurchasedCourses] = useState([]);
@@ -22,20 +22,20 @@ const PublicProfile = ({ userData }) => {
     }
   }, [userData, courses]);
 
-  const renderBadges = () => {
+
+  const renderBadgesImg = () => {
     if (userData?.badges?.length) {
       return userData.badges.map((badge, index) => (
         <span
           key={index}
           className="text-yellow-500 p-2 rounded-full bg-gray-100 shadow-sm"
         >
-          <GiAchievement className="inline-block mr-1" /><BadgeImg badgeId={badge} />
+         <BadgeCard badgeId={badge} />
         </span>
       ));
     }
     return <p className="text-gray-600">No badges earned yet.</p>;
   };
-
   return (
     <div className="text-center space-y-6">
       {/* About Section */}
@@ -82,14 +82,14 @@ const PublicProfile = ({ userData }) => {
         <div className="flex items-center justify-center flex-col gap-2">
           <LuCoins size="28px" />
           <h4 className="text-xl font-bold text-gray-700">Badges</h4>
-          <div className="flex justify-center space-x-4 mt-2">{renderBadges()}</div>
+          <div className="flex justify-center space-x-4 mt-2">{userData?.badges.length}</div>
         </div>
       </div>
 
       {/* Purchased Courses Section */}
       <div className="mt-10">
         <h1 className="text-3xl font-bold mb-6">Your Badge</h1>
-        
+        {renderBadgesImg()}
 
       </div>
 

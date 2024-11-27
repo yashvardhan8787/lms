@@ -54,7 +54,7 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="flex justify-center items-start min-h-screen bg-gray-100 py-10">
+    <div className="flex justify-center items-start h-screen overflow-x-hidden bg-gray-100 py-10">
       <div className="flex max-w-5xl w-full bg-white rounded-xl shadow-md">
         {/* Left Sidebar */}
         <div className="w-1/4 bg-gray-100 p-6 border-r">
