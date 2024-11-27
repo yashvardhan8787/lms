@@ -50,17 +50,6 @@ const PublicProfile = ({ userData }) => {
       <p className="flex justify-center items-center text-gray-500 text-sm">
         <FaEnvelope className="mr-2" /> {userData?.email}
       </p>
-      <p className="flex justify-center items-center text-sm">
-        {userData?.isVerified ? (
-          <span className="flex items-center text-green-500">
-            <MdVerified className="mr-1" /> Verified
-          </span>
-        ) : (
-          <span className="flex items-center text-red-500">
-            <MdNotInterested className="mr-1" /> Not Verified
-          </span>
-        )}
-      </p>
 
       {/* Additional Details */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6 text-center">
