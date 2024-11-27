@@ -38,7 +38,7 @@ const Sidebar = () => {
       <div className="mt-auto pt-8 text-center">
         <p className="font-medium">Support 24/7</p>
         <button className="bg-[#FD8B51] mt-4 py-2 px-4 rounded-lg text-white hover:bg-[#e67c3c] transition-all duration-300 ease-in-out">
-          Start
+          Contact Us
         </button>
       </div>
     </div>
