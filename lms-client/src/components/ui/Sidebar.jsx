@@ -44,7 +44,9 @@ const Sidebar = () => {
     { name: "About", path: "/about", icon: <FaExclamationCircle /> },
     { name: "Policy", path: "/policy", icon: <MdPolicy /> },
     { name: "FAQ", path: "/faq", icon: <FaQuestionCircle /> },
-    { name: "Rewards", path: "/rewards", icon: <FaDollarSign /> },
+    ...(loggedIn
+      ? [{ name: "Rewards", path: "/rewards", icon: <FaDollarSign /> }]
+      : []),
   ];
 
   return (

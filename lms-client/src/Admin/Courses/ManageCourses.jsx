@@ -24,7 +24,7 @@ const ManageCourses = () => {
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 p-6">
+    <div className="flex flex-col h-screen bg-gray-50 p-6 overflow-scroll overflow-x-hidden overflow-y-hidden">
       <div className="p-6 bg-white shadow-lg rounded-3xl overflow-auto">
         {/* Search Bar */}
         <div className="bg-gray-200 p-4 rounded-lg flex items-center mb-10">

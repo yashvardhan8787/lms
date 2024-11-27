@@ -22,9 +22,9 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-r from-[#5A4BA1] to-[#704cb2] text-white h-screen w-64 p-6 flex flex-col shadow-lg">
+    <div className="bg-gradient-to-r from-[#5A4BA1] to-[#704cb2] text-white h-screen w-64 p-6 pb-0 flex flex-col shadow-lg">
       <nav className="mt-16 flex-grow">
-        {navItems.map((item, index) => (
+        {navItems.map((item, index) => ( 
           <Link
             key={index}
             to={item.path}

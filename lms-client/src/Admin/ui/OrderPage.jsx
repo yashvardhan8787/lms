@@ -50,7 +50,7 @@ const OrderPage = () => {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 h-screen">
       <h2 className="text-2xl font-bold text-gray-800">Orders</h2>
       <div className="bg-white shadow-md rounded-lg p-6">
         <table className="table-auto w-full border-collapse border border-gray-200">
