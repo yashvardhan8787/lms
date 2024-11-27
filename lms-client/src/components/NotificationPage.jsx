@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 const NotificationPage = () => {
   const notifications = [
@@ -20,6 +21,25 @@ const NotificationPage = () => {
         return 'bg-blue-500 text-white';
     }
   };
+
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/get-Notifications'); // Replace with your actual endpoint
+      if (response.data.success) {
+        console.log('Notifications:', response.data.notifications);
+        return response.data.notifications;
+      } else {
+        console.error('Failed to fetch notifications');
+        return [];
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      return [];
+    }
+  };
+
+  fetchNotifications();
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">

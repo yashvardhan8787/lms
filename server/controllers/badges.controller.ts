@@ -3,6 +3,9 @@ import Badge from '../models/badge.model';
 import {Course} from '../models/course.model';
 import User from '../models/user.model'; // Import the User model
 import sendMail from '../utils/sendMail';
+import ejs from "ejs";
+import path from "path";
+import ErrorHandler from '../utils/ErrorHandler';
 // Middleware function to check if the user is an admin
 const isAdmin = (req: Request, res: Response, next: Function) => {
   if (req.user && req.user.role === 'admin') {
@@ -65,31 +68,59 @@ export const getBadgeById = async (req: Request, res: Response) => {
 export const redeemRewards = async (req: Request, res: Response) => {
   try {
     const userId = req.body.userId; // Get userId from request body
-    
+
     if (!userId) {
-      return res.status(400).json({ message: 'User ID is required' });
+      return res.status(400).json({ message: "User ID is required" });
     }
-    
+
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Check if user has enough streaks to redeem rewards
     const requiredStreaks = 20;
     if (user.streaks < requiredStreaks) {
-      return res.status(400).json({ message: 'Insufficient streak points to redeem rewards.' });
+      return res.status(400).json({ message: "Insufficient streak points to redeem rewards." });
     }
 
     // Deduct streak points
     user.streaks -= requiredStreaks;
     await user.save();
 
-    // Optionally send an email or further actions here
+    // Hardcoded reward details
+    const rewardDetails = {
+      code: "AMZ50XDEAL",
+      expiryDate: "December 31, 2025",
+    };
 
-    res.status(200).json({ message: 'Reward redeemed successfully and email sent to user.' });
+    // Prepare email data
+    const mailData = {
+      reward: rewardDetails,
+    };
+
+    // Render the EJS template
+    const html = await ejs.renderFile(
+      path.join(__dirname, "../mails/rewards-confirmation.ejs"),
+      mailData
+    );
+
+    // Send reward email
+    try {
+      await sendMail({
+        email: user.email,
+        subject: "Congratulations on Your Reward!",
+        template: "rewards-confirmation.ejs",
+        data: mailData,
+      });
+    } catch (error: any) {
+      return (new ErrorHandler(error.message, 500));
+    }
+
+    res.status(200).json({ message: "Reward redeemed successfully and email sent to user." });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    res.status(500).json({ message: "Server error", error });
   }
 };
+

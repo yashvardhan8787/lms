@@ -19,6 +19,7 @@ const Dashboard = () => {
         setUser(res.data.user); // Assuming the user data is in res.data.user
         setLoading(false);
       } catch (err) {
+         setUser(JSON.parse(auth));
         setError(err.response?.data?.message || 'An error occurred');
         setLoading(false);
       }
@@ -41,7 +42,7 @@ const Dashboard = () => {
 
   // Loading or error display
   if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-600">{error}</p>; // Display error in red
+  if (!user && error) return <p className="text-red-600">{error}</p>; // Display error in red
 
   // Render AdminDashboard or UserDashboard based on role
   return (

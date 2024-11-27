@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const { logout } = useContext(AuthContext);
+  const { auth ,logout } = useContext(AuthContext);
   const userEmail = localStorage.getItem("userEmail");
   const navigate = useNavigate();
 
@@ -45,10 +45,10 @@ const Header = () => {
         <div className="flex items-center space-x-6">
           {loggedIn ? (
             <>
-              <Link to="/profile" className="flex items-center space-x-2">
+              <Link to="/adminDashboard/profile" className="flex items-center space-x-2">
                 <FaRegUserCircle className="h-6 w-6 text-gray-800 hover:text-[#FD8B51]" />
                 <span className="text-lg font-medium text-gray-800 hover:text-[#FD8B51] transition-colors duration-200">
-                  Profile
+                  {JSON.parse(auth).name }
                 </span>
               </Link>
               <button

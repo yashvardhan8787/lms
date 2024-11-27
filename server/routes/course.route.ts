@@ -86,13 +86,12 @@ import {
   createReview,
   replyToReview,
   deleteReview,
-  enrollInCourse
+  enrollInCourse,
 } from '../controllers/course.controller'; // Importing all controllers
 
 import { authorizeRoles, isAutheticated } from "../middleware/auth";// Assuming you have authentication middleware
 
 const router = express.Router();
-
 // Course Routes
 router.post('/create',
   //isAutheticated,authorizeRoles('admin'), 
@@ -121,7 +120,7 @@ router.post('/enroll', enrollInCourse);
 router.post('/quiz/create', createQuiz);              // Create a quiz
 router.get('/quiz/:id',
   //  isAutheticated,
-    getQuizById);                 // Get a quiz by ID
+    getQuizById); 
 router.delete('/quiz/:id',
    isAutheticated,
     deleteQuiz);               // Delete a quiz
@@ -135,6 +134,5 @@ router.post('/review/reply', replyToReview);          // Reply to a review
 router.delete('/review/:id', deleteReview);           // Delete a review
 router.get('/courses/:courseId/reviews', getAllReviews);   // For course reviews
 router.get('/lectures/:lectureId/reviews', getAllReviews); // For lecture reviews
-
 export default router;
 

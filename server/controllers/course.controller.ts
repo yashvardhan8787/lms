@@ -5,6 +5,7 @@ import { Quiz } from '../models/course.model';
 import { Review } from '../models/course.model';
 import userModel from '../models/user.model';
 import { UserProgress } from '../models/course.model';
+import NotificationModel from '../models/notification.Model';
 import mongoose from 'mongoose';
 // Create a new course
 export const createCourse = async (req: Request, res: Response) => {
@@ -399,6 +400,7 @@ export const enrollInCourse = async (req: Request, res: Response) => {
     if (!user || !course) {
       return res.status(404).json({ message: "User or Course not found" });
     }
+    
 
     // Check if the user is already enrolled in this course
     const alreadyEnrolled = user.courses.some(

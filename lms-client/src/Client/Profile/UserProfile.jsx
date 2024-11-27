@@ -28,10 +28,10 @@ const UserProfile = () => {
     fetchUserInfo();
   }, []);
 
-
   const handleUpdateProfile = (updatedData) => {
-    setUserData(updatedData);
-    setActiveForm("view");
+    console.log("Updated User Data:", updatedData);  // Log the updated data
+    setUserData(updatedData);  // Update the state
+    setActiveForm("view");  // Switch back to 'view' mode
   };
 
   const handleChangePassword = (passwordData) => {

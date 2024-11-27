@@ -299,7 +299,6 @@ export const updateUserInfo = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { name, email, avatar, about, title, badges, streaks} = req.body as IUpdateUserInfo;
-
       const userId = req.user?._id;
       const user = await userModel.findById(userId);
 

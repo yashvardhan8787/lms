@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import axios from "axios";
+
 const EditProfile = ({ userData, onUpdate, onCancel }) => {
   const [formData, setFormData] = useState({
-    name: userData?.name || '',
-    title: userData?.title || '',
-    about: userData?.about || '',
+    name: userData?.name || "",
+    title: userData?.title || "",
+    about: userData?.about || "",
   });
 
   const handleChange = (e) => {
@@ -13,11 +14,35 @@ const EditProfile = ({ userData, onUpdate, onCancel }) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onUpdate(formData);
-    toast.success("SuccessFully Profile Update")
-    
+  
+    const RequestBody = {
+      name: formData.name,
+      title: formData.title,
+      about: formData.about,
+    };
+  
+    try {
+      console.log("Checking this", RequestBody);
+      const { data } = await axios.put(
+        "http://localhost:8080/api/v1/update-user-info", // Replace with your API endpoint
+        RequestBody,
+        {
+          headers: {
+            "Content-Type": "application/json", // No need for multipart/form-data since no file is being sent
+          },
+          withCredentials: true, // Send credentials (cookies) along with the request
+        }
+      );
+  
+      console.log("Updated Data:", data);  // Log the updated data from backend
+      toast.success("Profile updated successfully!");
+      onUpdate(data.user);  // Optionally update the user data in the parent component
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || "Failed to update profile.");
+    }
   };
 
   return (

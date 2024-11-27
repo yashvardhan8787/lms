@@ -19,7 +19,7 @@ const LecturePage = () => {
   const [currentCourse, setCurrentCourse] = useState(null);
   const [activeTab, setActiveTab] = useState("description");
   const [userProgress, setUserProgress] = useState([]);
-  const userId = JSON.parse(auth)._id
+  const userId = JSON.parse(auth)?._id
   console.log(userId)
   // Fetch user progress
   useEffect(() => {

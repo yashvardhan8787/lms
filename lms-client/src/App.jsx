@@ -1,35 +1,27 @@
 import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { useEffect, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-import axios from "axios";
-// UI Components
+
+
 import Header from "./components/ui/Header";
 import Sidebar from "./components/ui/SideBar";
 import NotFoundErrorPage from "./components/NotFoundErrorPage";
-
 // Static Pages
-import HomePage from "./Client/HomePage";
 import About from "./Client/About";
 import FAQ from "./Client/FAQ";
 import Policy from "./Client/Policy";
 import Rewards from "./Client/Rewards";
-
 // Auth Pages
 import RegistrationPage from "./Client/Auth/RegistrationPage";
 import LoginPage from "./Client/Auth/LoginPage";
 import ForgetPasswordForm from "./Client/Auth/ForgetPasswordForm";
 import ResetPasswordForm from "./Client/Auth/ResetPasswordForm";
 import EmailConfirmationForm from "./components/EmailConfirmationForm";
-
 // User Pages
 import UserProfile from "./Client/Profile/UserProfile";
 import CourseDetail from "./Client/Courses/CourseDetail";
 import Courses from "./Client/Courses/Courses";
 import LecturePage from "./Client/lectures/LecturePage";
-
 // Admin Pages
 import AdminDashboard from "./Admin/AdminDashboard";
 import ManageUser from "./Admin/ManageUser";
@@ -38,16 +30,22 @@ import EditCourse from "./Admin/Courses/EditCourse";
 import AddLecuter from "./Admin/Courses/AddLecuter";
 import AddQuiz from "./Admin/Courses/AddQuiz";
 import AddBadge from "./Admin/Courses/AddBadge";
-
+import AdminHomePage from "./Admin/ui/AdminHomePage";
 // Private Route
 import PrivateRoute from "../src/components/PrivateRoute";
 import MyCourses from "./Client/Courses/MyCourses";
-
-import ChatBot from "./ChatBot/ChatBot";
 import HomePage2 from "./Client/HomePage2";
 import LoadingScreen from "./components/Loading";
 import CancelPage from "./components/CancelPage";
 import SuccessPage from "./components/SuccsessPage";
+<<<<<<< Updated upstream
+=======
+import NotificationPage from "./components/NotificationPage";
+import UserAnalytic from "./Admin/ui/UserAnalytic";
+import CourseAnalytic from "./Admin/ui/CourseAnalytic";
+import OrderAnalytic from "./Admin/ui/OrderAnalytic";
+import OrderPage from "./Admin/ui/OrderPage";
+>>>>>>> Stashed changes
 
 function MainLayout() {
   return (
@@ -69,8 +67,8 @@ function App() {
       {/* Main layout routes */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage2 />} />
-        <Route path="/:courseId/success" element={<SuccessPage/>} />
-        <Route path="/cancel" element={<CancelPage/>} />
+        <Route path="/:courseId/success" element={<SuccessPage />} />
+        <Route path="/cancel" element={<CancelPage />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/my-course" element={<MyCourses />} />
         <Route path="/courses/:courseId" element={<CourseDetail />} />
@@ -91,21 +89,26 @@ function App() {
       </Route>
 
       {/* Admin Dashboard route with PrivateRoute protection */}
-      <Route element={<PrivateRoute />}>
-        <Route path="/adminDashboard" element={<AdminDashboard />}>
-          <Route path="profile" element={<UserProfile />} />
-          <Route path="manage-users" element={<ManageUser />} />
-          <Route path="manage-courses" element={<ManageCourses />} />
-          <Route path="edit/:id" element={<EditCourse />} />
-          <Route path="add-lecture/:id" element={<AddLecuter />} />
-          <Route path="add-quiz/:courseId" element={<AddQuiz />} />
-          <Route path="add-badge/:id" element={<AddBadge />} />
-        </Route>
+
+      <Route path="/adminDashboard" element={<AdminDashboard />}>
+        <Route index element={<AdminHomePage />} />
+        <Route path="profile" element={<UserProfile />} />
+        <Route path="manage-users" element={<ManageUser />} />
+        <Route path="manage-courses" element={<ManageCourses />} />
+        <Route path="Orders" element={<OrderPage />} />
+        <Route path="UserAnalytics" element={<UserAnalytic />} />
+        <Route path="CourseAnalytics" element={<CourseAnalytic />} />
+        <Route path="OrderAnalytics" element={<OrderAnalytic />} />
+        <Route path="edit/:id" element={<EditCourse />} />
+        <Route path="add-lecture/:id" element={<AddLecuter />} />
+        <Route path="add-quiz/:courseId" element={<AddQuiz />} />
+        <Route path="add-badge/:id" element={<AddBadge />} />
       </Route>
 
       {/* Wildcard route for 404 Not Found */}
       <Route path="*" element={<NotFoundErrorPage />} />
-      <Route path="/loading" element={<LoadingScreen/>}/>
+      <Route path="/notifications" element={<NotificationPage />} />
+      <Route path="/loading" element={<LoadingScreen />} />
     </Routes>
   );
 }

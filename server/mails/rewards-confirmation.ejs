@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Rewards Confirmation</title>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #4f5ef1;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        color: #ffffff;
+        border-radius: 10px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        font-size: 25px;
+        font-weight: 600;
+      }
+      .content {
+        background-color: #fff;
+        color: #000;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .content h2 {
+        color: #23bd70;
+        font-size: 22px;
+        margin-bottom: 10px;
+      }
+      .footer {
+        margin-top: 20px;
+        text-align: center;
+        color: #ffffff;
+      }
+      .footer a {
+        color: #ffffff;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Congratulations on Redeeming Your Reward!</h1>
+        <p>You’ve successfully redeemed 20 streak points for an exciting reward.</p>
+      </div>
+      <div class="content">
+        <h2>Reward Details</h2>
+        <p><strong>Reward Name:</strong> Amazon Coupon</p>
+        <p><strong>Value:</strong> $50</p>
+        <p><strong>Code:</strong> <%= reward.code %></p>
+        <p><strong>Expires On:</strong> <%= reward.expiryDate %></p>
+      </div>
+      <div class="footer">
+        <p>For any issues, contact us at <a href="mailto:support@elearning.com">support@elearning.com</a></p>
+        <p>&copy; 2025 E-Learning. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>

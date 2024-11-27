@@ -7,7 +7,6 @@ import {
   loginUser,
   logoutUser,
   registrationUser,
-  socialAuth,
   updatePassword,
   updateUserProfile,
   updateUserInfo,
@@ -28,7 +27,6 @@ userRouter.get("/logout",isAutheticated, logoutUser);
 
 userRouter.get("/me", isAutheticated, getUserInfo);
 
-userRouter.post("/social-auth", socialAuth);
 
 userRouter.put("/update-user-info",isAutheticated, updateUserInfo);
 

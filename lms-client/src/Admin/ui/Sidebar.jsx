@@ -1,11 +1,24 @@
 import { Link } from "react-router-dom";
-import { FaHome, FaBookOpen } from "react-icons/fa";
+import { 
+  FaHome, 
+  FaUserCog, 
+  FaChalkboardTeacher, 
+  FaShoppingCart, 
+  FaChartBar, 
+  FaMoneyCheckAlt, 
+  FaUsers 
+} from "react-icons/fa";
 
 // Sidebar.js
 const Sidebar = () => {
   const navItems = [
-    { name: "Manage Users", path: "/adminDashboard/manage-users", icon: <FaHome /> },
-    { name: "Manage Courses", path: "/adminDashboard/manage-courses", icon: <FaBookOpen /> },
+    { name: "Home", path: "/adminDashboard", icon: <FaHome /> },
+    { name: "Manage Users", path: "/adminDashboard/manage-users", icon: <FaUserCog /> },
+    { name: "Manage Courses", path: "/adminDashboard/manage-courses", icon: <FaChalkboardTeacher /> },
+    { name: "Orders", path: "/adminDashboard/Orders", icon: <FaShoppingCart /> },
+    { name: "Course Analytics", path: "/adminDashboard/CourseAnalytics", icon: <FaChartBar /> },
+    { name: "Order Analytics", path: "/adminDashboard/OrderAnalytics", icon: <FaMoneyCheckAlt /> },
+    { name: "User Analytics", path: "/adminDashboard/UserAnalytics", icon: <FaUsers /> },
   ];
 
   return (
