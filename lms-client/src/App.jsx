@@ -38,14 +38,11 @@ import HomePage2 from "./Client/HomePage2";
 import LoadingScreen from "./components/Loading";
 import CancelPage from "./components/CancelPage";
 import SuccessPage from "./components/SuccsessPage";
-<<<<<<< Updated upstream
-=======
 import NotificationPage from "./components/NotificationPage";
 import UserAnalytic from "./Admin/ui/UserAnalytic";
 import CourseAnalytic from "./Admin/ui/CourseAnalytic";
 import OrderAnalytic from "./Admin/ui/OrderAnalytic";
 import OrderPage from "./Admin/ui/OrderPage";
->>>>>>> Stashed changes
 
 function MainLayout() {
   return (
