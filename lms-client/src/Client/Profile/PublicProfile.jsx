@@ -6,6 +6,7 @@ import { AiFillThunderbolt } from "react-icons/ai";
 import { LuCoins } from "react-icons/lu";
 import { CourseContext } from "../../contexts/CourseContext";
 import CourseListItem from "../../components/Cards/CourseListItem";
+import BadgeImg from "../Badges/BadgeImg";
 
 const PublicProfile = ({ userData }) => {
   const { courses, loading } = useContext(CourseContext);
@@ -28,7 +29,7 @@ const PublicProfile = ({ userData }) => {
           key={index}
           className="text-yellow-500 p-2 rounded-full bg-gray-100 shadow-sm"
         >
-          <GiAchievement className="inline-block mr-1" /> {badge}
+          <GiAchievement className="inline-block mr-1" /><BadgeImg badgeId={badge} />
         </span>
       ));
     }
@@ -83,6 +84,13 @@ const PublicProfile = ({ userData }) => {
           <h4 className="text-xl font-bold text-gray-700">Badges</h4>
           <div className="flex justify-center space-x-4 mt-2">{renderBadges()}</div>
         </div>
+      </div>
+
+      {/* Purchased Courses Section */}
+      <div className="mt-10">
+        <h1 className="text-3xl font-bold mb-6">Your Badge</h1>
+        
+
       </div>
 
       {/* Purchased Courses Section */}
