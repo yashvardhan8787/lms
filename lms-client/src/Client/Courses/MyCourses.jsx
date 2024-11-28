@@ -27,7 +27,7 @@ const MyCourses = () => {
       }
     };
     fetchUserInfo();
-  }, [navigate]);
+  }, [navigate,user]);
 
   useEffect(() => {
     if (user && user.courses && Array.isArray(courses)) {

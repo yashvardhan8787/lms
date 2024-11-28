@@ -14,12 +14,24 @@ const CourseDetail = () => {
     const { courseId } = useParams();
     const { courses, fetchLectures, loading } = useContext(CourseContext);
     const [course, setCourse] = useState(null);
+    const [userData, setUserData] = useState(null);
     const [lecture, setLecture] = useState("");
 
     useEffect(() => {
         const foundCourse = courses.find((c) => c._id === courseId);
         setCourse(foundCourse);
     }, [courseId, courses]);
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+          try {
+            const res = await getUserInfo();
+            setUserData(res?.data?.user);
+          } catch (err) {
+            setError(err.response?.data?.message || "An error occurred");
+          }
+        };
+        fetchUserInfo();
+      }, [userData]);
 
     if (loading || !course) return <LoadingScreen />; // Show loader if data is loading or course is not found
 
