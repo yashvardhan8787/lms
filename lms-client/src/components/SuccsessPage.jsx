@@ -19,7 +19,7 @@ const SuccessPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/create-order",
+        import.meta.env.VITE_BASE_API_URL+"create-order",
         reqBody,
         {
           withCredentials: true,

@@ -25,7 +25,7 @@ const Rewards = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/redeem-rewards",
+        import.meta.env.VITE_BASE_API_URL/"redeem-rewards",
         {
           userId: userid, // Replace with dynamic user ID
         },

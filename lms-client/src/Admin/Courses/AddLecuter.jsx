@@ -71,7 +71,7 @@ const AddLecture = () => {
       const thumbnailUrl = thumbnailFile ? await uploadFile(thumbnailFile, 'thumbnail') : '';
       const videoUrl = await uploadFile(videoFile, 'video');
 
-      const response = await axios.post(`http://localhost:8080/api/v1/${id}/lecture/add`, {
+      const response = await axios.post(import.meta.env.VITE_BASE_API_URL+`${id}/lecture/add`, {
         ...lectureData,
         thumbnailPicUrl: thumbnailUrl,
         videoUrl,

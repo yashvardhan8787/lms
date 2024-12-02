@@ -32,7 +32,7 @@ const LecturePage = () => {
     const fetchUserProgress = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v1/getprogress/${userId}/${courseId}`
+          import.meta.env.VITE_BASE_API_URL+`getprogress/${userId}/${courseId}`
         );
         setUserProgress(response.data.lectureProgress); // Assuming this is the progress structure
       } catch (error) {
@@ -72,7 +72,7 @@ const LecturePage = () => {
         );
         if (!progress || !progress.isCompleted) {
           // Update lecture progress in the backend
-          await axios.post("http://localhost:8080/api/v1/update-progress", {
+          await axios.post(import.meta.env.VITE_BASE_API_URL+"update-progress", {
             userId,
             courseId,
             lectureId: currentLecture._id,
@@ -98,7 +98,7 @@ const LecturePage = () => {
       case "quiz":
         return <QuizTab quizData={currentLecture.quizData} />;
       case "review":
-        return <ReviewTab reviews={currentLecture.reviews} />;
+        return <ReviewTab reviews={currentLecture._id} />;
       case "faq":
         return <Faq />;
       default:

@@ -65,7 +65,7 @@ const AddBadge = () => {
       }
 
       // Step 2: Send POST request to add badge using the Cloudinary URL
-      const response = await axios.post('http://localhost:8080/api/v1/add-badge-to-course', {
+      const response = await axios.post(import.meta.env.VITE_BASE_API_URL+'add-badge-to-course', {
         ...badgeData,
         badgeImageUrl: cloudinaryResponse.resourceUrl,
       }, {

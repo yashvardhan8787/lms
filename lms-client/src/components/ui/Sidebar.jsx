@@ -20,8 +20,10 @@ const Sidebar = () => {
   useEffect(() => {
     if (userInfo) {
       setLoggedIn(true);
+    }else{
+      setLoggedIn(false);
     }
-  }, [userInfo]);
+  }, [auth]);
 
   const toggleDropdown = (name) => {
     setDropdownState((prevState) => ({

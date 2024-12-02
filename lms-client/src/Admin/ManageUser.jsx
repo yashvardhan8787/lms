@@ -1,58 +1,8 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
+import React, { useContext} from "react";
+import { AdminContext } from "../contexts/AdminContext";
 const ManageUser = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get("http://localhost:8080/api/v1/get-users", {
-        withCredentials: true,
-      });
-      setUsers(response.data.users);
-    } catch (err) {
-      setError("Failed to fetch users");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDeleteUser = async (userId) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) return;
-    try {
-      await axios.delete(`http://localhost:8080/api/v1/delete-user/${userId}`, {
-        withCredentials: true,
-      });
-      setUsers(users.filter((user) => user._id !== userId));
-    } catch (err) {
-      setError("Failed to delete user");
-    }
-  };
-
-  const handleUpdateRole = async (email, userId, newRole) => {
-    try {
-      await axios.put(
-        `http://localhost:8080/api/v1/update-user`,
-        { email, role: newRole },
-        { withCredentials: true }
-      );
-      setUsers(
-        users.map((user) =>
-          user._id === userId ? { ...user, role: newRole } : user
-        )
-      );
-    } catch (err) {
-      console.log(error);
-      setError("Failed to update role");
-    }
-  };
+  const {users , error ,loading ,handleDeleteUser ,handleUpdateRole} = useContext(AdminContext)
 
   return (
     <div className="p-6 mx-auto bg-gray-50 rounded-lg shadow-xl max-w-7xl">
@@ -80,8 +30,8 @@ const ManageUser = () => {
               </tr>
             </thead>
             <tbody>
-              {users?.map((user) => (
-                <tr key={user._id} className="even:bg-gray-50">
+              {users?.map((user, index) => (
+                <tr key={index} className="even:bg-gray-50">
                   <td className="px-6 py-4 border-b">{user.name}</td>
                   <td className="px-6 py-4 border-b">{user.email}</td>
                   <td className="px-6 py-4 border-b">
@@ -105,8 +55,8 @@ const ManageUser = () => {
                     <div className="relative group">
                       {user.courses.length} Course(s)
                       <div className="absolute left-0 w-40 bg-gray-200 text-gray-700 text-sm p-2 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        {user.courses.map((course) => (
-                          <div key={course._id}>ID: {course.courseId}</div>
+                        {user.courses.map((course , index) => (
+                          <div key={index}>ID: {course.courseId}</div>
                         ))}
                       </div>
                     </div>

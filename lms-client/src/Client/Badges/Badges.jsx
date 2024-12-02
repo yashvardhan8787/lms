@@ -10,7 +10,7 @@ const Badges = ({ badgeId }) => {
     const fetchBadge = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:8080/api/v1/badge/${badgeId}`);
+        const response = await axios.get(import.meta.env.VITE_BASE_API_URL+`badge/${badgeId}`);
         setBadge(response.data.badge);
       } catch (error) {
         console.log(error);

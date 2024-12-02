@@ -6,6 +6,7 @@ const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
   const [activationToken, setActivationToken] = useState("");
   const [accessToken, setAccessToken] = useState("");
+  const [loading , setLoading] = useState(false);
 
   useEffect(() => {
     const savedAuth = localStorage.getItem('auth');
@@ -45,7 +46,8 @@ const AuthProvider = ({ children }) => {
     setActivationToken(data);
     localStorage.setItem('activationToken', data); // Persist activation token
   };
-
+  
+  
   return (
     <AuthContext.Provider value={{ auth, login, logout, setToken, activationToken, accessToken }}>
       {children}

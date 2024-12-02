@@ -23,7 +23,7 @@ const LoginPage = () => {
     setLoading(true); // Start loading
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/login",
+        import.meta.env.VITE_BASE_API_URL+"Login",
         { email, password },
         { withCredentials: true }
       );
@@ -31,11 +31,8 @@ const LoginPage = () => {
       setLoading(false); // Stop loading
       if (response?.status === 200 && response?.data?.success) {
         response.data.user.accessToken = response.data.accessToken;
-
-        console.log(response);
         // Store user email in local storage
         localStorage.setItem("userEmail", response.data.user.email || "");
-
         // Set login context and navigate
         login(JSON.stringify(response.data.user), response.data.accessToken);
         if (response.data.user.role === "admin") {
@@ -49,7 +46,6 @@ const LoginPage = () => {
       }
     } catch (err) {
       setLoading(false); // Stop loading
-      console.log(err);
       setError(
         err.response?.data?.message || "An error occurred. Please try again later."
       );

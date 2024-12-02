@@ -33,7 +33,7 @@ const EditCourse = () => {
     const fetchCourseData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:8080/api/v1/${id}`);
+        const response = await axios.get(import.meta.env.VITE_BASE_API_URL+`${id}`);
         setCourseData(response.data.course);
         setLoading(false);
       } catch (err) {
@@ -77,7 +77,7 @@ const EditCourse = () => {
       }
 
       // Step 2: Send updated course data to the server
-      const response = await axios.put(`http://localhost:8080/api/v1/update/${id}`, courseData, {
+      const response = await axios.put(import.meta.env.VITE_BASE_API_URL+`update/${id}`, courseData, {
         headers: {
           'Content-Type': 'application/json',
         },

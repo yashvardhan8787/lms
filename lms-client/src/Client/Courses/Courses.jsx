@@ -6,8 +6,6 @@ import LoadingScreen from "../../components/Loading";
 
 const Courses = () => {
   const { courses, loading } = useContext(CourseContext);
-  console.log(courses);
-
   // State to manage the search input
   const [searchTerm, setSearchTerm] = useState("");
 

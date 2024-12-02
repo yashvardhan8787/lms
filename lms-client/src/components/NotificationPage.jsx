@@ -25,7 +25,7 @@ const NotificationPage = () => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/v1/get-Notifications'); // Replace with your actual endpoint
+      const response = await axios.get(import.meta.env.VITE_BASE_API_URL+'get-Notifications'); // Replace with your actual endpoint
       if (response.data.success) {
         console.log('Notifications:', response.data.notifications);
         return response.data.notifications;

@@ -61,7 +61,7 @@ const AddQuiz = () => {
     setSuccess('');
 
     try {
-      const quizResponse = await axios.post('http://localhost:8080/api/v1/quiz/create', {
+      const quizResponse = await axios.post(import.meta.env.VITE_BASE_API_URL+'quiz/create', {
         questions: quizData.questions,
         totalQuestions: quizData.totalQuestions,
         passingScore: quizData.passingScore,
@@ -70,7 +70,7 @@ const AddQuiz = () => {
       if (quizResponse.data.success) {
         const quizId = quizResponse.data.quiz._id;
 
-        const lectureResponse = await axios.post(`http://localhost:8080/api/v1/${courseId}/lecture/add`, {
+        const lectureResponse = await axios.post(import.meta.env.VITE_BASE_API_URL+`${courseId}/lecture/add`, {
           title: quizData.title,
           description: quizData.description,
           thumbnailPicUrl: quizData.thumbnailPicUrl,

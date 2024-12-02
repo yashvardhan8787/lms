@@ -26,7 +26,7 @@ const EditProfile = ({ userData, onUpdate, onCancel }) => {
     try {
       console.log("Checking this", RequestBody);
       const { data } = await axios.put(
-        "http://localhost:8080/api/v1/update-user-info", // Replace with your API endpoint
+        import.meta.env.VITE_BASE_API_URL+"update-user-info", // Replace with your API endpoint
         RequestBody,
         {
           headers: {

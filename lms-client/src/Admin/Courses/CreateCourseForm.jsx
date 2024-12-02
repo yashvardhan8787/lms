@@ -87,7 +87,7 @@ const CreateCourseForm = () => {
       console.log("Course data to be submitted:", courseData); // Log the course data being sent
 
       // Send the API request to create a new course
-      const response = await fetch('http://localhost:8080/api/v1/create', {
+      const response = await fetch(import.meta.env.VITE_BASE_API_URL+'create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -5,6 +5,8 @@ const OrderPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ordersPerPage] = useState(12); // Adjust the number of orders per page as needed
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -24,6 +26,19 @@ const OrderPage = () => {
 
     fetchOrders();
   }, []);
+
+  // Calculate the indices for the current page
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+  const totalPages = Math.ceil(orders.length / ordersPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber > 0 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
 
   if (loading) {
     return (
@@ -63,7 +78,7 @@ const OrderPage = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {currentOrders.map((order) => (
               <tr key={order._id} className="hover:bg-gray-50">
                 <td className="border border-gray-300 px-4 py-2">{order._id}</td>
                 <td className="border border-gray-300 px-4 py-2">{order.userId}</td>
@@ -77,6 +92,29 @@ const OrderPage = () => {
             ))}
           </tbody>
         </table>
+        <div className="flex justify-between items-center mt-4">
+          <button
+            className={`px-4 py-2 text-white rounded-md ${
+              currentPage === 1 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+            }`}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className={`px-4 py-2 text-white rounded-md ${
+              currentPage === totalPages ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+            }`}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

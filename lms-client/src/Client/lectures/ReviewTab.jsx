@@ -6,7 +6,7 @@ const ReviewTab = ({ reviews }) => {
   return (
     <div className="">
       <div className="overflow-hidden">
-        <ReviewSection reviews={reviews} />
+        <ReviewSection lectureId={reviews} />
       </div>
     </div>
   );

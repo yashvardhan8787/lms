@@ -30,7 +30,7 @@ const Header = () => {
       }
     };
     fetchUserInfo();
-  }, [userData]);
+  }, [auth]);
 
   useEffect(() => {
     if (userEmail) {

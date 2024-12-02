@@ -7,6 +7,7 @@ const ReviewSection = ({ courseId, lectureId }) => {
   const [newReview, setNewReview] = useState('');
   const [rating, setRating] = useState(5);
   const [reply, setReply] = useState({ reviewId: '', comment: '' });
+
   const { auth } = useContext(AuthContext);
   const user = JSON.parse(auth);
 
@@ -32,6 +33,14 @@ const ReviewSection = ({ courseId, lectureId }) => {
   const createReview = async () => {
     if (!newReview.trim()) return;
     try {
+      if(lectureId){
+        await axios.post('http://localhost:8080/api/v1/review/create', {
+          userId: user._id,
+          comment: newReview,
+          rating,
+          lectureId,
+        });
+      }
       await axios.post('http://localhost:8080/api/v1/review/create', {
         userId: user._id,
         comment: newReview,
@@ -50,7 +59,7 @@ const ReviewSection = ({ courseId, lectureId }) => {
     if (!reply.comment.trim()) return;
 
     try {
-      await axios.post('http://localhost:8080/api/v1/review/reply', {
+      await axios.post(import.meta.env.VITE_BASE_API_URL+'review/reply', {
         reviewId: reply?.reviewId,
         userId: user?._id,
         comment: reply?.comment,
@@ -65,7 +74,7 @@ const ReviewSection = ({ courseId, lectureId }) => {
   // Delete a review
   const deleteReview = async (reviewId) => {
     try {
-      await axios.delete(`http://localhost:8080/api/v1/review/${reviewId}`);
+      await axios.delete(import.meta.env.VITE_BASE_API_URL+`review/${reviewId}`);
       fetchReviews();
     } catch (error) {
       console.error('Error deleting review:', error);
@@ -79,9 +88,9 @@ const ReviewSection = ({ courseId, lectureId }) => {
       {/* Display Reviews */}
       <div className="space-y-6">
         {reviews?.map((review) => (
-          <div key={review?._id} className="p-4 border border-gray-200 rounded-lg shadow-sm">
+          <div key={review?._id} className="p-4 border flex  border-gray-200 rounded-lg shadow-sm">
             <div className="flex justify-between items-center mb-2">
-              <p className="text-gray-600 font-semibold">{review?.user?.username || 'Anonymous'}</p>
+              <p className="text-gray-600 font-semibold">{review?.user?.username || '  Anonymous  '}:</p>
               {user?._id === review?.user?._id && (
                 <button
                   onClick={() => deleteReview(review?._id)}
@@ -91,8 +100,9 @@ const ReviewSection = ({ courseId, lectureId }) => {
                 </button>
               )}
             </div>
+            
             <p className="text-gray-800">{review?.comment}</p>
-            <p className="text-yellow-500 mt-1">Rating: {Array(review?.rating).fill("⭐")}</p>
+            <p className="text-yellow-500 mt-1  right-0">Rating: {Array(review?.rating).fill("⭐")}</p>
 
             {/* Display Replies */}
             {review?.commentReplies?.map((reply) => (
@@ -103,7 +113,7 @@ const ReviewSection = ({ courseId, lectureId }) => {
             ))}
 
             {/* Reply Input */}
-            <div className="mt-3 flex items-center space-x-2">
+            {/* <div className="mt-3 flex items-center space-x-2">
               <input
                 type="text"
                 placeholder="Reply to this review..."
@@ -117,7 +127,7 @@ const ReviewSection = ({ courseId, lectureId }) => {
               >
                 Reply
               </button>
-            </div>
+            </div> */}
           </div>
         ))}
       </div>

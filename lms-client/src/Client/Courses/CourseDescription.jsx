@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 // Load Stripe with your publishable key
 const stripePromise = loadStripe(
-  "pk_test_51QONozRqhHrvlkTmtKK3yb6ZyC3QxvoMJVuOmlJwyBM1d9qBeI0y0KR4uW7nMhNeKSZW7NMnrvuS3jMiPBRRijsL00Y6pczY0z"
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
 );
 
 const CourseDescription = ({ course }) => {
@@ -35,7 +35,7 @@ const CourseDescription = ({ course }) => {
     try {
       // Call the Payment API
       const response = await fetch(
-        "http://localhost:8080/api/v1/make-payment",
+        import.meta.env.VITE_BASE_API_URL+"make-payment",
         {
           method: "POST",
           headers: {

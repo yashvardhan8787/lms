@@ -10,7 +10,7 @@ const QuizSection = ({ quizId, lectureId, userId, courseId, onQuizPass }) => {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/quiz/${quizId}`);
+        const response = await fetch(import.meta.env.VITE_BASE_API_URL+`quiz/${quizId}`);
         const data = await response.json();
         if (data.success) {
           setQuiz(data.quiz);
@@ -33,7 +33,7 @@ const QuizSection = ({ quizId, lectureId, userId, courseId, onQuizPass }) => {
 
   const evaluateQuiz = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/v1/quiz/evaluate', {
+      const response = await fetch(import.meta.env.VITE_BASE_API_URL+'quiz/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quizId, answers }),
@@ -44,7 +44,7 @@ const QuizSection = ({ quizId, lectureId, userId, courseId, onQuizPass }) => {
 
         // Check if the user passed
         if (data.result.scorePercentage > 33.33) {
-          await fetch('http://localhost:8080/api/v1/update-progress', {
+          await fetch(import.meta.env.VITE_BASE_API_URL+'update-progress', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
