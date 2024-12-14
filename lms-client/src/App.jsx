@@ -47,16 +47,19 @@ import OrderPage from "./Admin/ui/OrderPage";
 function MainLayout() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Responsive Header */}
       <Header />
       <div className="flex flex-1">
+        {/* Sidebar with responsive visibility */}
         <Sidebar />
-        <main className="flex-1 transition-all duration-100 overflow-scroll">
+        <main className="flex-1 transition-all duration-100 overflow-scroll p-4 sm:p-6 scrollbar-hide">
           <Outlet />
         </main>
       </div>
     </div>
   );
 }
+
 
 function App() {
   return (

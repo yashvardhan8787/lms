@@ -17,11 +17,11 @@ const CourseCard = ({ course }) => {
         />
 
         <div className="p-4">
-          <h3 className="text-lg font-semibold text-gray-800 truncate">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 truncate">
             {course.name || "Untitled Course"}
           </h3>
 
-          <p className="text-sm text-gray-500 mt-2 line-clamp-3">
+          <p className="text-sm sm:text-base text-gray-500 mt-2 line-clamp-3">
             {course.description || "No description available."}
           </p>
 
@@ -40,30 +40,28 @@ const CourseCard = ({ course }) => {
           )}
 
           <div className="mt-4 space-y-1">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm sm:text-base text-gray-500">
               <span className="font-medium">Category:</span>{" "}
               {course.categories?.join(", ") || "Uncategorized"}
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm sm:text-base text-gray-500">
               <span className="font-medium">Level:</span>{" "}
               {course.level || "N/A"}
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm sm:text-base text-gray-500">
               <span className="font-medium">Lectures:</span>{" "}
               {course.totalLectures || 0}
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm sm:text-base text-gray-500">
               <span className="font-medium">Duration:</span>{" "}
               {course.totalDuration
-                ? `${Math.floor(course.totalDuration / 60)}h ${
-                    course.totalDuration % 60
-                  }m`
+                ? `${Math.floor(course.totalDuration / 60)}h ${course.totalDuration % 60}m`
                 : "N/A"}
             </p>
           </div>
 
           <div className="flex justify-between items-center mt-4">
-            <span className="text-lg font-bold text-purple-700">
+            <span className="text-lg sm:text-xl font-bold text-purple-700">
               ${course.price || "Free"}
             </span>
             <button className="bg-orange-400 rounded-2xl px-4 py-2 text-white text-sm sm:text-base md:text-lg hover:bg-orange-600 font-bold">

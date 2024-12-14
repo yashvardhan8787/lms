@@ -27,22 +27,22 @@ const Courses = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-100 max-h-screen h-[1000px] border rounded-3xl overflow-scroll scrollbar-hide">
+    <div className="p-6 bg-gray-100 max-h-screen overflow-y-auto scrollbar-hide">
       <div className="bg-gray-200 p-4 rounded-lg flex items-center mb-10">
-        <span className="text-gray-800 p-1 pr-10">
+        <span className="text-gray-800 p-1 pr-6">
           <FaSearch size="24px" />
         </span>
         <input
           type="text"
           placeholder="Search..."
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="bg-transparent flex-1 outline-none text-gray-700"
+          className="bg-transparent flex-1 outline-none text-gray-700 py-2 px-4 rounded-md focus:ring-2 focus:ring-[#5A4BA1]"
         />
       </div>
-      <h2 className="text-5xl text-black font-bold mb-16 text-center">
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl text-black font-bold mb-8 text-center">
         Courses
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6  scrollbar-hide">
         {filteredCourses.map((course, index) => (
           <CourseCard key={index} course={course} />
         ))}

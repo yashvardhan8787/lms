@@ -23,7 +23,7 @@ const LoginPage = () => {
     setLoading(true); // Start loading
     try {
       const response = await axios.post(
-        import.meta.env.VITE_BASE_API_URL+"Login",
+        import.meta.env.VITE_BASE_API_URL + "Login",
         { email, password },
         { withCredentials: true }
       );

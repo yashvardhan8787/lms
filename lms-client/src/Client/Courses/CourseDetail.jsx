@@ -11,41 +11,42 @@ import CourseRoadmap from './CourseRoadMap';
 import LoadingScreen from '../../components/Loading';
 
 const CourseDetail = () => {
-    const { courseId } = useParams();
-    const { courses, fetchLectures, loading } = useContext(CourseContext);
-    const [course, setCourse] = useState(null);
-    const [userData, setUserData] = useState(null);
-    const [lecture, setLecture] = useState("");
+  const { courseId } = useParams();
+  const { courses, fetchLectures, loading } = useContext(CourseContext);
+  const [course, setCourse] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [lecture, setLecture] = useState("");
 
-    useEffect(() => {
-        const foundCourse = courses.find((c) => c._id === courseId);
-        setCourse(foundCourse);
-    }, [courseId, courses]);
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-          try {
-            const res = await getUserInfo();
-            setUserData(res?.data?.user);
-          } catch (err) {
-            setError(err.response?.data?.message || "An error occurred");
-          }
-        };
-        fetchUserInfo();
-      }, [userData]);
+  useEffect(() => {
+    const foundCourse = courses.find((c) => c._id === courseId);
+    setCourse(foundCourse);
+  }, [courseId, courses]);
 
-    if (loading || !course) return <LoadingScreen />; // Show loader if data is loading or course is not found
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const res = await getUserInfo();
+        setUserData(res?.data?.user);
+      } catch (err) {
+        setError(err.response?.data?.message || "An error occurred");
+      }
+    };
+    fetchUserInfo();
+  }, [userData]);
 
-    return (
-        <div className="p-6 mx-auto bg-gray-100 max-h-screen h-[1000px] border rounded-3xl overflow-scroll scrollbar-hide">
-            <CourseHeader course={course} />
-            <CourseDescription course={course} />
-            <CourseCategories categories={course.categories} />
-            <CourseBenefits benefits={course.benefits} />
-            <CourseRoadmap roadmapPicUrl={course.roadmapPicUrl} />
-            <CourseLectures lectures={course.lectures} courseId={course._id} />
-            <ReviewSection courseId={course._id} />
-        </div>
-    );
+  if (loading || !course) return <LoadingScreen />; // Show loader if data is loading or course is not found
+
+  return (
+    <div className="p-6 mx-auto bg-gray-100 max-h-screen h-full border rounded-3xl overflow-y-auto scrollbar-hide">
+      <CourseHeader course={course} />
+      <CourseDescription course={course} />
+      <CourseCategories categories={course.categories} />
+      <CourseBenefits benefits={course.benefits} />
+      <CourseRoadmap roadmapPicUrl={course.roadmapPicUrl} />
+      <CourseLectures lectures={course.lectures} courseId={course._id} />
+      <ReviewSection courseId={course._id} />
+    </div>
+  );
 };
 
 export default CourseDetail;
