@@ -13,10 +13,10 @@ import { Link } from "react-router-dom";
 
 const HomePage2 = () => {
   return (
-    <div className="flex-1 p-6 space-y-6 bg-[#f8f4ff] min-h-screen border rounded-3xl overflow-scroll scrollbar-hide">
-      <div className="container mx-auto px-4 py-8 lg:py-16">
+    <div className="flex-1  space-y-6 bg-[#fcfcfb] min-h-screen border rounded-3xl overflow-scroll scrollbar-hide">
+      <div className="container mx-auto lg:py-16">
         {/* Main Section */}
-        <section className="relative bg-white p-6 lg:p-10 rounded-3xl shadow-lg overflow-hidden">
+        <section className="relative bg-white p-6 space-y-16 lg:p-10 rounded-3xl shadow-lg overflow-hidden">
           {/* Background Elements */}
           <div className="absolute inset-0 z-10 flex justify-between items-start">
             <img
@@ -53,7 +53,7 @@ const HomePage2 = () => {
             </h1>
 
             {/* Enhanced Subtitle */}
-            <p className="text-lg sm:text-2xl text-[#6F6598] font-medium mb-8 leading-relaxed">
+            <p className="text-lg p-6 sm:p-12 sm:text-2xl text-[#6F6598] font-medium mb-8 leading-relaxed">
               Explore, Learn, and Grow with Fun Activities!
             </p>
 
