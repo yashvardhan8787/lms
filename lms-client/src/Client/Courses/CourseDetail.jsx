@@ -7,7 +7,6 @@ import CourseCategories from './CourseCategories';
 import CourseBenefits from './CourseBenefits';
 import CourseLectures from './CourseLectures';
 import ReviewSection from './ReviewSection';
-import CourseRoadmap from './CourseRoadMap';
 import LoadingScreen from '../../components/Loading';
 
 const CourseDetail = () => {

@@ -30,7 +30,6 @@ import AddQuiz from "./Admin/Courses/AddQuiz";
 import AddBadge from "./Admin/Courses/AddBadge";
 import AdminHomePage from "./Admin/ui/AdminHomePage";
 // Private Route
-import PrivateRoute from "../src/components/PrivateRoute";
 import MyCourses from "./Client/Courses/MyCourses";
 import HomePage2 from "./Client/HomePage2";
 import LoadingScreen from "./components/Loading";
